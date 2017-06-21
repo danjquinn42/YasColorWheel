@@ -1,14 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
   const wheelTags = document.getElementsByTagName("colorwheel");
   for (i = 0; i < wheelTags.length; ++i) {
-    wheelTags[i].innerHTML = "<H1>WHEEL</H1>";
-    debugger
+    const fill = wheelTags[i].getAttribute("fill");
+    const wheel = new ColorWheel(fill)
+    wheelTags[i].innerHTML = wheel.render();
   };
 });
 
 class ColorWheel {
-  constructor() {
-
+  constructor(fill) {
+    this.fill = fill;
+  }
+  render(){
+    return (`
+      <img src=${this.fill}></img>
+    `)
   }
 }
 
