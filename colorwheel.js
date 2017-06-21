@@ -40,7 +40,13 @@ class ColorWheel {
   formatColorValues(color) {
     return `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`;
   }
-
+  //   toDegrees(angle) {
+  //     return angle * (180 / Math.PI);
+  //   }
+  //
+  //   distanceFromOrigin(x, y) {
+  //     return Math.sqrt(x*x + y*y);
+  //   }
 
   //   hueToX(hue, saturation) {
   //     saturation = saturation / 100;
@@ -130,13 +136,6 @@ class ColorWheel {
 //     hue = hue * Math.PI / 180;
 //     return ((Math.sin(hue) * saturation) + 1 ) / 2 * -100 + 100;
 //   }
-//
-//
-//
-//   HSLBackground(color){
-//     return { background: `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)` };
-//   }
-//
 //
 //   XYtoHueAndSaturation(x, y) {
 //     const hypotenuse =  this.distanceFromOrigin(x, y);
