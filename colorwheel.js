@@ -65,19 +65,22 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+const Wheel = __webpack_require__(1);
 
 document.addEventListener("DOMContentLoaded", () => {
   const wheelTags = document.getElementsByTagName("colorwheel");
   for (i = 0; i < wheelTags.length; ++i) {
-    const image = wheelTags[i].getAttribute("src");
-    const defaultColor = wheelTags[i].getAttribute("defaultColor");
-    const scale = wheelTags[i].style.width;
-    const markerList = wheelTags[i].innerHTML;
-    const wheel = new ColorWheel(image, scale, defaultColor)
-    wheelTags[i].innerHTML = wheel.render();
+    const wheel = Wheel.addToPage(wheelTags[i])
+    // wheelTags[i].innerHTML = wheel.render();
   };
 });
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
 
 // TODO getCurrentColor()
 //  returns {HEX: "#193843",
@@ -88,15 +91,34 @@ document.addEventListener("DOMContentLoaded", () => {
 // TODO slider for lightness
 // TODO set defaults if user does not pass in width or default color
 
-class ColorWheel {
-  constructor(image, scale, defaultColor) {
+const PolarCoordinates = __webpack_require__(3);
+
+
+class Wheel {
+  constructor(tag, image, color, scale) {
+    this.tag = tag;
     this.image = image;
+    this.color = color;
     this.scale = scale;
-    this.color = this.parseColor(defaultColor);
-    // this.polar = PolarCoordinates;
   }
 
-  parseColor(color){
+  static addToPage(wheelTag){
+    const image = (wheelTag.hasAttribute("src")) ?
+      wheelTag.getAttribute("src") : '../assets/HSL_Wheel.png';
+    let defaultColor = (wheelTag.hasAttribute("defaultColor")) ?
+      wheelTag.getAttribute("defaultColor") : "hsl(215, 69%, 28%)";
+    defaultColor = this.parseColor(defaultColor);
+    const scale = (wheelTag.hasAttribute("scale")) ?
+      wheelTag.getAttribute("scale") : "20%";
+
+    const wheel = new Wheel(wheelTag, image, defaultColor, scale);
+
+    wheel.render();
+    wheel.watchMouse();
+  }
+
+
+  static parseColor(color){
     const colorValues =  color.match(/(\d)\w+/g).map((number) => {
       return parseInt(number);
     });
@@ -109,31 +131,6 @@ class ColorWheel {
   formatColorValues(color) {
     return `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`;
   }
-  //   toDegrees(angle) {
-  //     return angle * (180 / Math.PI);
-  //   }
-  //
-  //   distanceFromOrigin(x, y) {
-  //     return Math.sqrt(x*x + y*y);
-  //   }
-
-  //   hueToX(hue, saturation) {
-  //     saturation = saturation / 100;
-  //     hue = hue * Math.PI / 180;
-  //     return ((Math.cos(hue) * saturation) + 1 ) / 2 * 100;
-  //   }
-  //   hueToY(hue, saturation) {
-  //     saturation = saturation / 100;
-  //     hue = hue * Math.PI / 180;
-  //     return ((Math.sin(hue) * saturation) + 1 ) / 2 * -100 + 100;
-  //   }
-  //   XYtoHueAndSaturation(x, y) {
-  //     const hypotenuse =  this.distanceFromOrigin(x, y);
-  //     const angle = this.toDegrees(Math.acos( x / hypotenuse));
-  //     const saturation = Math.min( hypotenuse * 100, 100 );
-  //     const hue = ( 0 > y ) ? angle : -(angle - 180) + 180;
-  //     return { hue: hue, saturation: saturation };
-  //   }
 
   marker(){
     return(`
@@ -143,8 +140,7 @@ class ColorWheel {
           background: ${this.formatColorValues(this.color)};
           border: 2px solid black;
           position: absolute;
-          ${this.unselectableCircle()}"
-        draggable="false";>
+          ${this.unselectableCircle()}">
       </div>
       `);
   }
@@ -166,9 +162,29 @@ class ColorWheel {
       -ms-user-select: none;
       user-select: none;`
   }
+  watchMouse(){
+    this.tag.addEventListener("mousemove", () => {
+      const diameter = event.target.offsetParent.clientWidth;
+
+      // console.log(diameter);
+      console.log(PolarCoordinates.fromXYCoordinates(event.pageX, event.pageY));
+    });
+  }
+
+  //   getCoordinates(color, event) {
+  //       const diameter = event.target.offsetParent.offsetParent.clientWidth;
+  //       let markerLeft = event.target.offsetParent.offsetLeft;
+  //       let markerTop = event.target.offsetParent.offsetTop;
+  //       const originOffset = -0.5;
+  //       const scaleFactor = 2;
+  //       markerLeft = (( markerLeft / diameter ) + originOffset) * scaleFactor;
+  //       markerTop = (( markerTop / diameter ) + originOffset) * scaleFactor;
+  //       return [markerLeft, markerTop];
+  //   }
 
   render(){
-    return (`
+
+    this.tag.innerHTML = (`
       <div
         style="
           position: relative;
@@ -190,10 +206,9 @@ class ColorWheel {
   }
 }
 
-// import { isEmpty } from 'lodash';
-//
-//
-//
+module.exports = Wheel;
+
+
 //   hueToX(hue, saturation) {
 //     saturation = saturation / 100;
 //     hue = hue * Math.PI / 180;
@@ -628,6 +643,85 @@ class ColorWheel {
 // }
 //
 // export default Create;
+
+
+/***/ }),
+/* 2 */,
+/* 3 */
+/***/ (function(module, exports) {
+
+
+class PolarCoordinates {
+  static degreesToRadians(degrees) {
+    return degrees * Math.PI / 180;
+  }
+
+  static radiansToDegrees(radians) {
+    return radians * (180 / Math.PI);
+  }
+
+  static radiansFromSidesOfTriangle(x, hypotenuse) {
+    return Math.acos(x / hypotenuse);
+  }
+
+  static hypotenuse(x, y) {
+    return Math.sqrt(x*x + y*y);
+  }
+
+  static toXYCoordinates(degrees, distanceFromOrigin) {
+    const radians = this.degreesToRadians(degrees)
+    const x = Math.cos(radians) * distanceFromOrigin;
+    const y = Math.sin(radians) * distanceFromOrigin;
+    return [x, y]
+  }
+
+  static fromXYCoordinates(x, y) {
+    const distanceFromOrigin = this.hypotenuse(x, y);
+    const angleInRadians = PolarCoordinates.radiansFromSidesOfTriangle(x, distanceFromOrigin);
+    let degrees = this.radiansToDegrees(angleInRadians);
+    degrees = ( y < 0 ) ? degrees : 360 - degrees;
+    return [degrees, distanceFromOrigin];
+  }
+}
+
+module.exports = PolarCoordinates;
+
+// class PolarCoordinates {
+//       //TODO verify output is in the form [0-360, 0-1]
+//
+//   degreesToRadians(degrees){
+//     return degrees * Math.PI / 180
+//   }
+//
+//   radiansToDegrees(radians){
+//     return radians * (180 / Math.PI);
+//   }
+//
+//   radiansFromSidesOfTriangle(x, hypotenuse){
+//     return Math.acos( x / hypotenuse);
+//   }
+//
+//   hypotenuse(x, y) {
+//     return Math.sqrt(x*x + y*y);
+//   }
+//
+//   toXYCoordinates(degrees, distanceFromOrigin) {
+//     const radians = degreesToRadians(degrees)
+//     const x = Math.cos(radians) * distanceFromOrigin;
+//     const y = Math.sin(radians) * distanceFromOrigin;
+//     return [x, y]
+//   }
+//
+//   fromXYCoordinates(x, y) {
+//     const distanceFromOrigin =  this.hypotenuse(x, y);
+//     const angleInRadians = radiansFromSidesOfTriangle(x, hypotenuse)
+//     let degrees = this.radiansToDegrees(angleInRadians);
+//     degrees = ( y < 0 ) ? degrees : 360 - degrees;
+//     return [degrees, distanceFromOrigin];
+//   }
+// }
+//
+// module.exports = PolarCoordinates;
 
 
 /***/ })

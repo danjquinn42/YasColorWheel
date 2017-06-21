@@ -1,5 +1,6 @@
+var webpack = require('webpack');
 module.exports = {
-  entry: "./scripts/wheel.js",
+  entry: "./scripts/main.js",
   output: {
     path: __dirname,
     filename: "colorwheel.js"
