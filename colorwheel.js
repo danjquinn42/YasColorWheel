@@ -2,19 +2,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const wheelTags = document.getElementsByTagName("colorwheel");
   for (i = 0; i < wheelTags.length; ++i) {
     const fill = wheelTags[i].getAttribute("fill");
-    const wheel = new ColorWheel(fill)
+    const scale = wheelTags[i].getAttribute("scale");
+    const markerList = wheelTags[i].innerHTML;
+    const wheel = new ColorWheel(fill, scale, markerList)
     wheelTags[i].innerHTML = wheel.render();
   };
 });
 
 class ColorWheel {
-  constructor(fill) {
+  constructor(fill, scale, markerList) {
     this.fill = fill;
+    this.scale = scale;
+    this.markerList = markerList;
   }
+
+  // getCurrentColor()
+  // setColor()
+
+  private
+
   render(){
     return (`
-      <img src=${this.fill}></img>
-    `)
+      <div
+        style="width: ${this.scale};
+          height: ${this.scale};
+          background-image: url(${this.fill});
+          background-size: contain;">
+      </div>
+    `);
   }
 }
 
