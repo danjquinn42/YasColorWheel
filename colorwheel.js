@@ -63,16 +63,12 @@ class ColorWheel {
   marker(){
     return(`
       <div style="
-          position: absolute;
           width: ${this.markerScale()};
           padding-top: ${this.markerScale()};
-          border-radius: 50%;
-          border: 2px solid black;
           background: ${this.formatColorValues(this.color)};
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;"
+          border: 2px solid black;
+          position: absolute;
+          ${this.unselectableCircle()}"
         draggable="false";>
       </div>
       `);
@@ -88,6 +84,14 @@ class ColorWheel {
     throw "Width of Wheel must be defined in pixels or percentage"
   }
 
+  unselectableCircle(){
+    return `border-radius: 50%;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;`
+  }
+
   render(){
     return (`
       <div
@@ -99,15 +103,10 @@ class ColorWheel {
         <img
           src="${this.image}"
           style="
-            drag-image: none;
             position: absolute;
-            border-radius: 50%;
             width: 100%;
             height: auto;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;"
+            ${this.unselectableCircle()}"
           draggable="false">
         </img>
         ${this.marker()}
