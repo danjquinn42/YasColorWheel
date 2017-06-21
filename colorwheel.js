@@ -648,28 +648,20 @@ module.exports = Wheel;
 /***/ }),
 /* 2 */,
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+const Degrees = __webpack_require__(5);
+const Radians = __webpack_require__(6);
 
 class PolarCoordinates {
-  static degreesToRadians(degrees) {
-    return degrees * Math.PI / 180;
-  }
-
-  static radiansToDegrees(radians) {
-    return radians * (180 / Math.PI);
-  }
-
-  static radiansFromSidesOfTriangle(x, hypotenuse) {
-    return Math.acos(x / hypotenuse);
-  }
 
   static hypotenuse(x, y) {
     return Math.sqrt(x*x + y*y);
   }
 
   static toXYCoordinates(degrees, distanceFromOrigin) {
-    const radians = this.degreesToRadians(degrees)
+    const angle = new Degrees(degrees);
+    const radians = angle.toRadians();
     const x = Math.cos(radians) * distanceFromOrigin;
     const y = Math.sin(radians) * distanceFromOrigin;
     return [x, y]
@@ -677,51 +669,49 @@ class PolarCoordinates {
 
   static fromXYCoordinates(x, y) {
     const distanceFromOrigin = this.hypotenuse(x, y);
-    const angleInRadians = PolarCoordinates.radiansFromSidesOfTriangle(x, distanceFromOrigin);
-    let degrees = this.radiansToDegrees(angleInRadians);
-    degrees = ( y < 0 ) ? degrees : 360 - degrees;
-    return [degrees, distanceFromOrigin];
+    let angle = new Radians(x, distanceFromOrigin);
+    angle = angle.toDegrees();
+    angle = ( y < 0 ) ? angle : 360 - angle;
+    return [angle, distanceFromOrigin];
   }
 }
 
 module.exports = PolarCoordinates;
 
-// class PolarCoordinates {
-//       //TODO verify output is in the form [0-360, 0-1]
-//
-//   degreesToRadians(degrees){
-//     return degrees * Math.PI / 180
-//   }
-//
-//   radiansToDegrees(radians){
-//     return radians * (180 / Math.PI);
-//   }
-//
-//   radiansFromSidesOfTriangle(x, hypotenuse){
-//     return Math.acos( x / hypotenuse);
-//   }
-//
-//   hypotenuse(x, y) {
-//     return Math.sqrt(x*x + y*y);
-//   }
-//
-//   toXYCoordinates(degrees, distanceFromOrigin) {
-//     const radians = degreesToRadians(degrees)
-//     const x = Math.cos(radians) * distanceFromOrigin;
-//     const y = Math.sin(radians) * distanceFromOrigin;
-//     return [x, y]
-//   }
-//
-//   fromXYCoordinates(x, y) {
-//     const distanceFromOrigin =  this.hypotenuse(x, y);
-//     const angleInRadians = radiansFromSidesOfTriangle(x, hypotenuse)
-//     let degrees = this.radiansToDegrees(angleInRadians);
-//     degrees = ( y < 0 ) ? degrees : 360 - degrees;
-//     return [degrees, distanceFromOrigin];
-//   }
-// }
-//
-// module.exports = PolarCoordinates;
+
+/***/ }),
+/* 4 */,
+/* 5 */
+/***/ (function(module, exports) {
+
+class Degrees {
+  constructor(value){
+    this.value = value;
+  }
+
+  toRadians() {
+    return this.value * Math.PI / 180;
+  }
+}
+
+module.exports = Degrees;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+class Radians {
+  constructor(x, hypotenuse){
+    this.value = Math.acos(x / hypotenuse);;
+  }
+
+  toDegrees() {
+    return this.value * (180 / Math.PI);
+  }
+}
+
+module.exports = Radians;
 
 
 /***/ })
