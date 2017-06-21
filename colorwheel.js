@@ -1,156 +1,122 @@
 document.addEventListener("DOMContentLoaded", () => {
   const wheelTags = document.getElementsByTagName("colorwheel");
   for (i = 0; i < wheelTags.length; ++i) {
-    const fill = wheelTags[i].getAttribute("fill");
-    const scale = wheelTags[i].getAttribute("scale");
+    const image = wheelTags[i].getAttribute("src");
+    const defaultColor = wheelTags[i].getAttribute("defaultColor");
+    const scale = wheelTags[i].style.width;
     const markerList = wheelTags[i].innerHTML;
-    const wheel = new ColorWheel(fill, scale, markerList)
+    const wheel = new ColorWheel(image, scale, defaultColor)
     wheelTags[i].innerHTML = wheel.render();
   };
+  // debugger
 });
 
+// TODO getCurrentColor()
+//  returns {HEX: "#193843",
+// HSL: "251,50,50",
+// RGB: "143,143,413",
+// }
+// TODO setColor(colorFormat, num or string [, num, num])
+// TODO slider for lightness
+// TODO set defaults if user does not pass in width or default color
+
 class ColorWheel {
-  constructor(fill, scale, markerList) {
-    this.fill = fill;
+  constructor(image, scale, defaultColor) {
+    this.image = image;
     this.scale = scale;
-    this.markerList = markerList;
+    this.color = this.parseColor(defaultColor);
   }
 
-  // getCurrentColor()
-  // setColor()
+  parseColor(color){
+    const colorValues =  color.match(/(\d)\w+/g).map((number) => {
+      return parseInt(number);
+    });
+    return { hue: colorValues[0],
+      saturation: colorValues[1],
+      lightness: colorValues[2],
+    };
+  }
 
-  private
+  formatColorValues(color) {
+    return `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`;
+  }
+
+
+  //   hueToX(hue, saturation) {
+  //     saturation = saturation / 100;
+  //     hue = hue * Math.PI / 180;
+  //     return ((Math.cos(hue) * saturation) + 1 ) / 2 * 100;
+  //   }
+  //   hueToY(hue, saturation) {
+  //     saturation = saturation / 100;
+  //     hue = hue * Math.PI / 180;
+  //     return ((Math.sin(hue) * saturation) + 1 ) / 2 * -100 + 100;
+  //   }
+  //   XYtoHueAndSaturation(x, y) {
+  //     const hypotenuse =  this.distanceFromOrigin(x, y);
+  //     const angle = this.toDegrees(Math.acos( x / hypotenuse));
+  //     const saturation = Math.min( hypotenuse * 100, 100 );
+  //     const hue = ( 0 > y ) ? angle : -(angle - 180) + 180;
+  //     return { hue: hue, saturation: saturation };
+  //   }
+
+  marker(){
+    return(`
+      <div style="
+          position: absolute;
+          width: ${this.markerScale()};
+          padding-top: ${this.markerScale()};
+          border-radius: 50%;
+          border: 2px solid black;
+          background: ${this.formatColorValues(this.color)};
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;"
+        draggable="false";>
+      </div>
+      `);
+  }
+
+  markerScale(){
+    const scaleType = this.scale.slice(-1)
+    if (scaleType === "x") {
+      return `${parseInt(this.scale.slice(0, -2))/12}px`;
+    } else if (scaleType === "%"){
+      return '6%';
+    }
+    throw "Width of Wheel must be defined in pixels or percentage"
+  }
 
   render(){
     return (`
       <div
-        style="width: ${this.scale};
-          height: ${this.scale};
-          background-image: url(${this.fill});
-          background-size: contain;">
+        style="
+          position: relative;
+          border-radius: 50%;
+          width: ${this.scale};
+          padding-top ${this.scale};">
+        <img
+          src="${this.image}"
+          style="
+            drag-image: none;
+            position: absolute;
+            border-radius: 50%;
+            width: 100%;
+            height: auto;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;"
+          draggable="false">
+        </img>
+        ${this.marker()}
       </div>
     `);
   }
 }
 
-// import React from 'react';
-// import { withRouter } from 'react-router';
 // import { isEmpty } from 'lodash';
-// import InputRange from 'react-input-range';
-//
-// class Create extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       theme: this.props.theme,
-//       selected: 2,
-//       color0hue: this.props.theme.color_swatches[0].hue,
-//       color0saturation: this.props.theme.color_swatches[0].saturation,
-//       color0lightness: this.props.theme.color_swatches[0].lightness,
-//       color1hue: this.props.theme.color_swatches[1].hue,
-//       color1saturation: this.props.theme.color_swatches[1].saturation,
-//       color1lightness: this.props.theme.color_swatches[1].lightness,
-//       color2hue: this.props.theme.color_swatches[2].hue,
-//       color2saturation: this.props.theme.color_swatches[2].saturation,
-//       color2lightness: this.props.theme.color_swatches[2].lightness,
-//       color3hue: this.props.theme.color_swatches[3].hue,
-//       color3saturation: this.props.theme.color_swatches[3].saturation,
-//       color3lightness: this.props.theme.color_swatches[3].lightness,
-//       color4hue: this.props.theme.color_swatches[4].hue,
-//       color4saturation: this.props.theme.color_swatches[4].saturation,
-//       color4lightness: this.props.theme.color_swatches[4].lightness
-//     };
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//     this.sliderList = this.sliderList.bind(this);
-//     this.marker = this.marker.bind(this);
-//     this.updateHue = this.updateHue.bind(this);
-//     this.updateSaturation = this.updateSaturation.bind(this);
-//     this.updateLightness = this.updateLightness.bind(this);
-//     this.HSLBackground = this.HSLBackground.bind(this);
-//     this.selectedClass = this.selectedClass.bind(this);
-//   }
-//
-//   color0() {
-//     return { hue: this.state.color0hue,
-//       saturation: this.state.color0saturation,
-//       lightness: this.state.color0lightness,
-//       ord: 0};
-//   }
-//
-//   color1() {
-//     return { hue: this.state.color1hue,
-//       saturation: this.state.color1saturation,
-//       lightness: this.state.color1lightness,
-//       ord: 1};
-//   }
-//
-//   color2() {
-//     return { hue: this.state.color2hue,
-//       saturation: this.state.color2saturation,
-//       lightness: this.state.color2lightness,
-//       ord: 2};
-//   }
-//
-//   color3() {
-//     return { hue: this.state.color3hue,
-//       saturation: this.state.color3saturation,
-//       lightness: this.state.color3lightness,
-//       ord: 3};
-//   }
-//
-//   color4() {
-//     return { hue: this.state.color4hue,
-//       saturation: this.state.color4saturation,
-//       lightness: this.state.color4lightness,
-//       ord: 4};
-//   }
-//
-//   componentDidMount() {
-//     if (this.props.params.themeId) {
-//     this.props.fetchTheme(this.props.params.themeId);
-//     }
-//   }
-//
-//
-//   componentWillReceiveProps(nextProps) {
-//     this.setState({
-//       theme: nextProps.theme,
-//       swatches: nextProps.theme.color_swatches,
-//       color0hue: nextProps.theme.color_swatches[0].hue,
-//       color0saturation: nextProps.theme.color_swatches[0].saturation,
-//       color0lightness: nextProps.theme.color_swatches[0].lightness,
-//       color1hue: nextProps.theme.color_swatches[1].hue,
-//       color1saturation: nextProps.theme.color_swatches[1].saturation,
-//       color1lightness: nextProps.theme.color_swatches[1].lightness,
-//       color2hue: nextProps.theme.color_swatches[2].hue,
-//       color2saturation: nextProps.theme.color_swatches[2].saturation,
-//       color2lightness: nextProps.theme.color_swatches[2].lightness,
-//       color3hue: nextProps.theme.color_swatches[3].hue,
-//       color3saturation: nextProps.theme.color_swatches[3].saturation,
-//       color3lightness: nextProps.theme.color_swatches[3].lightness,
-//       color4hue: nextProps.theme.color_swatches[4].hue,
-//       color4saturation: nextProps.theme.color_swatches[4].saturation,
-//       color4lightness: nextProps.theme.color_swatches[4].lightness
-//     });
-//   }
-//
-//
-//   handleSubmit(e) {
-//     e.preventDefault();
-//     const color_swatches =  [
-//         this.color0(),
-//         this.color1(),
-//         this.color2(),
-//         this.color3(),
-//         this.color4() ];
-//
-//     const theme = {
-//       title: "untitled theme",
-//       color_swatches: color_swatches
-//     };
-//     this.props.createTheme(theme).
-//       then((data) => this.props.router.push(`/theme/${data.id}`));
-//   }
 //
 //
 //
