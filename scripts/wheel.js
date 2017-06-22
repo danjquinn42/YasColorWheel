@@ -20,14 +20,13 @@ class Wheel {
 
   static addToPage(wheelTag){
     const image = (wheelTag.hasAttribute("src")) ?
-      wheelTag.getAttribute("src") : '../assets/HSL_Wheel.png';
-    let defaultColor = (wheelTag.hasAttribute("defaultColor")) ?
+      wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
+    let color = (wheelTag.hasAttribute("defaultColor")) ?
       wheelTag.getAttribute("defaultColor") : "hsl(215, 69%, 28%)";
-    defaultColor = this.parseColor(defaultColor);
-    const scale = (wheelTag.hasAttribute("scale")) ?
-      wheelTag.getAttribute("scale") : "20%";
-
-    const wheel = new Wheel(wheelTag, image, defaultColor, scale);
+    color = this.parseColor(color);
+    const scale = (wheelTag.style.width) ?
+      wheelTag.style.width : "20%";
+    const wheel = new Wheel(wheelTag, image, color, scale);
 
     wheel.render();
     wheel.watchMouse();
@@ -80,31 +79,34 @@ class Wheel {
   }
   watchMouse(){
     this.tag.addEventListener("mousemove", () => {
-      const diameter = event.target.offsetParent.clientWidth;
-
-      // console.log(diameter);
-      console.log(PolarCoordinates.fromXYCoordinates(event.pageX, event.pageY));
+      const colorWheel = event.target.offsetParent;
+      const radius = colorWheel.clientWidth / 2;
+      const coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
+      debugger;
+      const originX = colorWheel.offsetLeft + radius;
+      const originY = colorWheel.offsetTop + radius;
+      const origin = [originX, originY];
     });
   }
 
-  //   getCoordinates(color, event) {
-  //       const diameter = event.target.offsetParent.offsetParent.clientWidth;
-  //       let markerLeft = event.target.offsetParent.offsetLeft;
-  //       let markerTop = event.target.offsetParent.offsetTop;
-  //       const originOffset = -0.5;
-  //       const scaleFactor = 2;
-  //       markerLeft = (( markerLeft / diameter ) + originOffset) * scaleFactor;
-  //       markerTop = (( markerTop / diameter ) + originOffset) * scaleFactor;
-  //       return [markerLeft, markerTop];
-  //   }
+//   getCoordinates(color, event) {
+//       const diameter = event.target.offsetParent.offsetParent.clientWidth;
+//       let markerLeft = event.target.offsetParent.offsetLeft;
+//       let markerTop = event.target.offsetParent.offsetTop;
+//       const originOffset = -0.5;
+//       const scaleFactor = 2;
+//       markerLeft = (( markerLeft / diameter ) + originOffset) * scaleFactor;
+//       markerTop = (( markerTop / diameter ) + originOffset) * scaleFactor;
+//       return [markerLeft, markerTop];
+//   }
 
   render(){
-
     this.tag.innerHTML = (`
       <div
         style="
           position: relative;
           border-radius: 50%;
+          margin: 0 auto;
           width: ${this.scale};
           padding-top ${this.scale};">
         <img

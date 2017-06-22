@@ -3,6 +3,11 @@ const Radians = require("./radians.js");
 
 class PolarCoordinates {
 
+  constructor(angle, distanceFromOrigin){
+    this.angle = angle;
+    this.distanceFromOrigin = distanceFromOrigin;
+  }
+
   static hypotenuse(x, y) {
     return Math.sqrt(x*x + y*y);
   }
@@ -15,12 +20,12 @@ class PolarCoordinates {
     return [x, y]
   }
 
-  static fromXYCoordinates(x, y) {
+  static from(x, y) {
     const distanceFromOrigin = this.hypotenuse(x, y);
-    let angle = new Radians(x, distanceFromOrigin);
+    let angle = Radians.from(x, distanceFromOrigin);
     angle = angle.toDegrees();
-    angle = ( y < 0 ) ? angle : 360 - angle;
-    return [angle, distanceFromOrigin];
+    angle = ( y < 0 ) ? angle : angle.negated();
+    return new PolarCoordinates(angle, distanceFromOrigin);
   }
 }
 

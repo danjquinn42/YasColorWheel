@@ -1,10 +1,15 @@
+const Degrees = require("./degrees.js")
 class Radians {
-  constructor(x, hypotenuse){
-    this.value = Math.acos(x / hypotenuse);;
+  constructor(value){
+    this.value = value;
+  }
+
+  static from(x, hypotenuse){
+    return new Radians(Math.acos(x / hypotenuse));
   }
 
   toDegrees() {
-    return this.value * (180 / Math.PI);
+    return new Degrees(this.value * (180 / Math.PI));
   }
 }
 
