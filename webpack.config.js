@@ -4,6 +4,11 @@ module.exports = {
   output: {
     path: __dirname,
     filename: "colorwheel.js"
-	},
-	devtool: "source-map"
+  },
+  module: {
+  loaders: [
+    { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+  ]
+},
+  devtool: "source-map"
 };

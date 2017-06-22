@@ -60,26 +60,80 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Wheel = __webpack_require__(1);
+"use strict";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const wheelTags = document.getElementsByTagName("colorwheel");
-  for (i = 0; i < wheelTags.length; ++i) {
-    const wheel = Wheel.addToPage(wheelTags[i]);
-  };
-});
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Degrees = function () {
+  function Degrees(value) {
+    _classCallCheck(this, Degrees);
+
+    this.value = (value + 360) % 360;
+  }
+
+  _createClass(Degrees, [{
+    key: "toRadians",
+    value: function toRadians() {
+      return this.value * Math.PI / 180;
+    }
+  }, {
+    key: "plus",
+    value: function plus(operand) {
+      return new Degrees(this.value + operand.value);
+    }
+  }, {
+    key: "negated",
+    value: function negated() {
+      return new Degrees(-this.value);
+    }
+  }, {
+    key: "toString",
+    value: function toString() {
+      return this.value + "\u02DA";
+    }
+  }]);
+
+  return Degrees;
+}();
+
+module.exports = Degrees;
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Wheel = __webpack_require__(2);
+
+document.addEventListener("DOMContentLoaded", function () {
+  var wheelTags = document.getElementsByTagName("colorwheel");
+  for (i = 0; i < wheelTags.length; ++i) {
+    var wheel = Wheel.addToPage(wheelTags[i]);
+  };
+});
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // TODO getCurrentColor()
 //  returns {HEX: "#193843",
@@ -90,125 +144,103 @@ document.addEventListener("DOMContentLoaded", () => {
 // TODO slider for lightness
 // TODO set defaults if user does not pass in width or default color
 
-const PolarCoordinates = __webpack_require__(3);
+var PolarCoordinates = __webpack_require__(3);
 
+var Wheel = function () {
+  function Wheel(tag, image, color, scale) {
+    _classCallCheck(this, Wheel);
 
-class Wheel {
-  constructor(tag, image, color, scale) {
     this.tag = tag;
     this.image = image;
     this.color = color;
     this.scale = scale;
   }
 
-  static addToPage(wheelTag){
-    const image = (wheelTag.hasAttribute("src")) ?
-      wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
-    let color = (wheelTag.hasAttribute("defaultColor")) ?
-      wheelTag.getAttribute("defaultColor") : "hsl(215, 69%, 28%)";
-    color = this.parseColor(color);
-    const scale = (wheelTag.style.width) ?
-      wheelTag.style.width : "20%";
-    const wheel = new Wheel(wheelTag, image, color, scale);
-
-    wheel.render();
-    wheel.watchMouse();
-  }
-
-
-  static parseColor(color){
-    const colorValues =  color.match(/(\d)\w+/g).map((number) => {
-      return parseInt(number);
-    });
-    return { hue: colorValues[0],
-      saturation: colorValues[1],
-      lightness: colorValues[2],
-    };
-  }
-
-  formatColorValues(color) {
-    return `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`;
-  }
-
-  marker(){
-    return(`
-      <div style="
-          width: ${this.markerScale()};
-          padding-top: ${this.markerScale()};
-          background: ${this.formatColorValues(this.color)};
-          border: 2px solid black;
-          position: absolute;
-          ${this.unselectableCircle()}">
-      </div>
-      `);
-  }
-
-  markerScale(){
-    const scaleType = this.scale.slice(-1)
-    if (scaleType === "x") {
-      return `${parseInt(this.scale.slice(0, -2))/12}px`;
-    } else if (scaleType === "%"){
-      return '6%';
+  _createClass(Wheel, [{
+    key: "formatColorValues",
+    value: function formatColorValues(color) {
+      return "hsl(" + color.hue + ", " + color.saturation + "%, " + color.lightness + "%)";
     }
-    throw "Width of Wheel must be defined in pixels or percentage"
-  }
+  }, {
+    key: "marker",
+    value: function marker() {
+      return "\n      <div style=\"\n          width: " + this.markerScale() + ";\n          padding-top: " + this.markerScale() + ";\n          background: " + this.formatColorValues(this.color) + ";\n          border: 2px solid black;\n          position: absolute;\n          " + this.unselectableCircle() + "\">\n      </div>\n      ";
+    }
+  }, {
+    key: "markerScale",
+    value: function markerScale() {
+      var scaleType = this.scale.slice(-1);
+      if (scaleType === "x") {
+        return parseInt(this.scale.slice(0, -2)) / 12 + "px";
+      } else if (scaleType === "%") {
+        return '6%';
+      }
+      throw "Width of Wheel must be defined in pixels or percentage";
+    }
+  }, {
+    key: "unselectableCircle",
+    value: function unselectableCircle() {
+      return "border-radius: 50%;\n      -webkit-user-select: none;\n      -moz-user-select: none;\n      -ms-user-select: none;\n      user-select: none;";
+    }
+  }, {
+    key: "watchMouse",
+    value: function watchMouse() {
+      this.tag.addEventListener("mousemove", function () {
+        var colorWheel = event.target.offsetParent;
+        var radius = colorWheel.clientWidth / 2;
+        var coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
+        debugger;
+        var originX = colorWheel.offsetLeft + radius;
+        var originY = colorWheel.offsetTop + radius;
+        var origin = [originX, originY];
+      });
+    }
 
-  unselectableCircle(){
-    return `border-radius: 50%;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;`
-  }
-  watchMouse(){
-    this.tag.addEventListener("mousemove", () => {
-      const colorWheel = event.target.offsetParent;
-      const radius = colorWheel.clientWidth / 2;
-      const coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
-      debugger;
-      const originX = colorWheel.offsetLeft + radius;
-      const originY = colorWheel.offsetTop + radius;
-      const origin = [originX, originY];
-    });
-  }
+    //   getCoordinates(color, event) {
+    //       const diameter = event.target.offsetParent.offsetParent.clientWidth;
+    //       let markerLeft = event.target.offsetParent.offsetLeft;
+    //       let markerTop = event.target.offsetParent.offsetTop;
+    //       const originOffset = -0.5;
+    //       const scaleFactor = 2;
+    //       markerLeft = (( markerLeft / diameter ) + originOffset) * scaleFactor;
+    //       markerTop = (( markerTop / diameter ) + originOffset) * scaleFactor;
+    //       return [markerLeft, markerTop];
+    //   }
 
-//   getCoordinates(color, event) {
-//       const diameter = event.target.offsetParent.offsetParent.clientWidth;
-//       let markerLeft = event.target.offsetParent.offsetLeft;
-//       let markerTop = event.target.offsetParent.offsetTop;
-//       const originOffset = -0.5;
-//       const scaleFactor = 2;
-//       markerLeft = (( markerLeft / diameter ) + originOffset) * scaleFactor;
-//       markerTop = (( markerTop / diameter ) + originOffset) * scaleFactor;
-//       return [markerLeft, markerTop];
-//   }
+  }, {
+    key: "render",
+    value: function render() {
+      this.tag.innerHTML = "\n      <div\n        style=\"\n          position: relative;\n          border-radius: 50%;\n          margin: 0 auto;\n          width: " + this.scale + ";\n          padding-top " + this.scale + ";\">\n        <img\n          src=\"" + this.image + "\"\n          style=\"\n            position: absolute;\n            width: 100%;\n            height: auto;\n            " + this.unselectableCircle() + "\"\n          draggable=\"false\">\n        </img>\n        " + this.marker() + "\n      </div>\n    ";
+    }
+  }], [{
+    key: "addToPage",
+    value: function addToPage(wheelTag) {
+      var image = wheelTag.hasAttribute("src") ? wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
+      var color = wheelTag.hasAttribute("defaultColor") ? wheelTag.getAttribute("defaultColor") : "hsl(215, 69%, 28%)";
+      color = this.parseColor(color);
+      var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
+      var wheel = new Wheel(wheelTag, image, color, scale);
 
-  render(){
-    this.tag.innerHTML = (`
-      <div
-        style="
-          position: relative;
-          border-radius: 50%;
-          margin: 0 auto;
-          width: ${this.scale};
-          padding-top ${this.scale};">
-        <img
-          src="${this.image}"
-          style="
-            position: absolute;
-            width: 100%;
-            height: auto;
-            ${this.unselectableCircle()}"
-          draggable="false">
-        </img>
-        ${this.marker()}
-      </div>
-    `);
-  }
-}
+      wheel.render();
+      wheel.watchMouse();
+    }
+  }, {
+    key: "parseColor",
+    value: function parseColor(color) {
+      var colorValues = color.match(/(\d)\w+/g).map(function (number) {
+        return parseInt(number);
+      });
+      return { hue: colorValues[0],
+        saturation: colorValues[1],
+        lightness: colorValues[2]
+      };
+    }
+  }]);
+
+  return Wheel;
+}();
 
 module.exports = Wheel;
-
 
 //   hueToX(hue, saturation) {
 //     saturation = saturation / 100;
@@ -645,97 +677,94 @@ module.exports = Wheel;
 //
 // export default Create;
 
-
 /***/ }),
-/* 2 */,
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Degrees = __webpack_require__(5);
-const Radians = __webpack_require__(6);
+"use strict";
 
-class PolarCoordinates {
 
-  constructor(angle, distanceFromOrigin){
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Degrees = __webpack_require__(0);
+var Radians = __webpack_require__(4);
+
+var PolarCoordinates = function () {
+  function PolarCoordinates(angle, distanceFromOrigin) {
+    _classCallCheck(this, PolarCoordinates);
+
     this.angle = angle;
     this.distanceFromOrigin = distanceFromOrigin;
   }
 
-  static hypotenuse(x, y) {
-    return Math.sqrt(x*x + y*y);
-  }
+  _createClass(PolarCoordinates, null, [{
+    key: "hypotenuse",
+    value: function hypotenuse(x, y) {
+      return Math.sqrt(x * x + y * y);
+    }
+  }, {
+    key: "toXYCoordinates",
+    value: function toXYCoordinates(degrees, distanceFromOrigin) {
+      var angle = new Degrees(degrees);
+      var radians = angle.toRadians();
+      var x = Math.cos(radians) * distanceFromOrigin;
+      var y = Math.sin(radians) * distanceFromOrigin;
+      return [x, y];
+    }
+  }, {
+    key: "from",
+    value: function from(x, y) {
+      var distanceFromOrigin = this.hypotenuse(x, y);
+      var angle = Radians.from(x, distanceFromOrigin);
+      angle = angle.toDegrees();
+      angle = y < 0 ? angle : angle.negated();
+      return new PolarCoordinates(angle, distanceFromOrigin);
+    }
+  }]);
 
-  static toXYCoordinates(degrees, distanceFromOrigin) {
-    const angle = new Degrees(degrees);
-    const radians = angle.toRadians();
-    const x = Math.cos(radians) * distanceFromOrigin;
-    const y = Math.sin(radians) * distanceFromOrigin;
-    return [x, y]
-  }
-
-  static from(x, y) {
-    const distanceFromOrigin = this.hypotenuse(x, y);
-    let angle = Radians.from(x, distanceFromOrigin);
-    angle = angle.toDegrees();
-    angle = ( y < 0 ) ? angle : angle.negated();
-    return new PolarCoordinates(angle, distanceFromOrigin);
-  }
-}
+  return PolarCoordinates;
+}();
 
 module.exports = PolarCoordinates;
 
-
 /***/ }),
-/* 4 */,
-/* 5 */
-/***/ (function(module, exports) {
-
-class Degrees {
-  constructor(value){
-    this.value = (value + 360) % 360;
-  }
-
-  toRadians() {
-    return this.value * Math.PI / 180;
-  }
-
-  plus(operand){
-    return new Degrees(this.value + operand.value);
-  }
-
-  negated() {
-    return new Degrees(-this.value);
-  }
-
-  toString() {
-    return `${this.value}˚`;
-  }
-}
-
-module.exports = Degrees;
-
-
-/***/ }),
-/* 6 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Degrees = __webpack_require__(5)
-class Radians {
-  constructor(value){
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Degrees = __webpack_require__(0);
+
+var Radians = function () {
+  function Radians(value) {
+    _classCallCheck(this, Radians);
+
     this.value = value;
   }
 
-  static from(x, hypotenuse){
-    return new Radians(Math.acos(x / hypotenuse));
-  }
+  _createClass(Radians, [{
+    key: "toDegrees",
+    value: function toDegrees() {
+      return new Degrees(this.value * (180 / Math.PI));
+    }
+  }], [{
+    key: "from",
+    value: function from(x, hypotenuse) {
+      return new Radians(Math.acos(x / hypotenuse));
+    }
+  }]);
 
-  toDegrees() {
-    return new Degrees(this.value * (180 / Math.PI));
-  }
-}
+  return Radians;
+}();
 
 module.exports = Radians;
-
 
 /***/ })
 /******/ ]);

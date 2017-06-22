@@ -10,7 +10,7 @@
 const PolarCoordinates = require('./math/polarcoordinates.js');
 
 
-class Wheel {
+class Wheel{
   constructor(tag, image, color, scale) {
     this.tag = tag;
     this.image = image;

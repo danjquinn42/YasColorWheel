@@ -1,0 +1,33 @@
+{
+  "name": "colorwheel",
+  "version": "1.0.0",
+  "description": "A ready-to-use color-picker",
+  "main": "./colorwheel.js",
+  "dependencies": {
+    "webpack": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+    "babel-preset-env": "^1.5.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danjquinn42/YasColorWheel.git"
+  },
+  "keywords": [
+    "color",
+    "color-picker",
+    "colorwheel"
+  ],
+  "author": "Dan Quinn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danjquinn42/YasColorWheel/issues"
+  },
+  "homepage": "https://github.com/danjquinn42/YasColorWheel#readme"
+}
