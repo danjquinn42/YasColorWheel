@@ -1,17 +1,23 @@
 class Marker {
   constructor(color, wheelScale){
     this.color = color;
-    this.scale = this.scale(wheelScale);
+    this.wheelScale = wheelScale;
   }
 
-  print(){
+  position(){
+    return this.color.toXYCoordinates;
+  }
+
+  insert(){
     return(`
       <div style="
-          width: ${this.scale};
-          padding-top: ${this.scale};
+          top: 20%;
+          left: 20%;
+          width: ${this.scale()};
+          padding-top: ${this.scale()};
           background: ${this.color.toString()};
           border: 2px solid black;
-          position: absolute;
+          position: relative;
           border-radius: 50%;
           -webkit-user-select: none;
           -moz-user-select: none;
@@ -21,10 +27,10 @@ class Marker {
       `);
   }
 
-  scale(wheelScale){
-    const scaleType = wheelScale.slice(-1)
+  scale(){
+    const scaleType = this.wheelScale.slice(-1)
     if (scaleType === "x") {
-      return `${parseInt(wheelScale.slice(0, -2))/13}px`;
+      return `${parseInt(this.wheelScale.slice(0, -2))/13}px`;
     } else if (scaleType === "%"){
       return '6%';
     }

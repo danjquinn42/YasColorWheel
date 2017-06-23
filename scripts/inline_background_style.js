@@ -1,5 +1,6 @@
 const inlineBackgroundStyle = function (lightness) {
-  return `background:
+  return `
+  background:
     radial-gradient(
       circle at 50% 50%,
       hsla(0, 0%, ${lightness}%, 1),
