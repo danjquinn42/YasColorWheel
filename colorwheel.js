@@ -74,27 +74,39 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Degrees = function () {
-  function Degrees(value) {
-    _classCallCheck(this, Degrees);
+var Radians = __webpack_require__(4);
+
+var Degree = function () {
+  function Degree(value) {
+    _classCallCheck(this, Degree);
 
     this.value = (value + 360) % 360;
   }
 
-  _createClass(Degrees, [{
+  _createClass(Degree, [{
     key: "toRadians",
     value: function toRadians() {
-      return this.value * Math.PI / 180;
+      return new Radians(this.value * Math.PI / 180);
     }
   }, {
     key: "plus",
-    value: function plus(operand) {
-      return new Degrees(this.value + operand.value);
+    value: function plus(degree) {
+      return new Degree(this.value + degree.value);
+    }
+  }, {
+    key: "minus",
+    value: function minus(degree) {
+      return new Degree(this.value - degree.value);
     }
   }, {
     key: "negated",
     value: function negated() {
-      return new Degrees(-this.value);
+      return new Degree(-this.value);
+    }
+  }, {
+    key: "equals",
+    value: function equals(degree) {
+      return this.value === degree.value;
     }
   }, {
     key: "toString",
@@ -103,10 +115,10 @@ var Degrees = function () {
     }
   }]);
 
-  return Degrees;
+  return Degree;
 }();
 
-module.exports = Degrees;
+module.exports = Degree;
 
 /***/ }),
 /* 1 */
@@ -119,7 +131,7 @@ var Wheel = __webpack_require__(2);
 
 document.addEventListener("DOMContentLoaded", function () {
   var wheelTags = document.getElementsByTagName("colorwheel");
-  for (i = 0; i < wheelTags.length; ++i) {
+  for (var i = 0; i < wheelTags.length; ++i) {
     var wheel = Wheel.addToPage(wheelTags[i]);
   };
 });
@@ -189,7 +201,6 @@ var Wheel = function () {
         var colorWheel = event.target.offsetParent;
         var radius = colorWheel.clientWidth / 2;
         var coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
-        debugger;
         var originX = colorWheel.offsetLeft + radius;
         var originY = colorWheel.offsetTop + radius;
         var origin = [originX, originY];
@@ -210,7 +221,7 @@ var Wheel = function () {
   }, {
     key: "render",
     value: function render() {
-      this.tag.innerHTML = "\n      <div\n        style=\"\n          position: relative;\n          border-radius: 50%;\n          margin: 0 auto;\n          width: " + this.scale + ";\n          padding-top " + this.scale + ";\">\n        <img\n          src=\"" + this.image + "\"\n          style=\"\n            position: absolute;\n            width: 100%;\n            height: auto;\n            " + this.unselectableCircle() + "\"\n          draggable=\"false\">\n        </img>\n        " + this.marker() + "\n      </div>\n    ";
+      this.tag.innerHTML = "\n      <div\n        style=\"\n          position: relative;\n          border-radius: 50%;\n          width: " + this.scale + ";\n          padding-top " + this.scale + ";\">\n        <img\n          src=\"" + this.image + "\"\n          style=\"\n            position: absolute;\n            width: 100%;\n            height: auto;\n            " + this.unselectableCircle() + "\"\n          draggable=\"false\">\n        </img>\n        " + this.marker() + "\n      </div>\n    ";
     }
   }], [{
     key: "addToPage",
@@ -256,13 +267,13 @@ module.exports = Wheel;
 //
 //   XYtoHueAndSaturation(x, y) {
 //     const hypotenuse =  this.distanceFromOrigin(x, y);
-//     const angle = this.toDegrees(Math.acos( x / hypotenuse));
+//     const angle = this.toDegree(Math.acos( x / hypotenuse));
 //     const saturation = Math.min( hypotenuse * 100, 100 );
 //     const hue = ( 0 > y ) ? angle : -(angle - 180) + 180;
 //     return { hue: hue, saturation: saturation };
 //   }
 //
-//   toDegrees(angle) {
+//   toDegree(angle) {
 //     return angle * (180 / Math.PI);
 //   }
 //
@@ -688,7 +699,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Degrees = __webpack_require__(0);
+var Degree = __webpack_require__(0);
 var Radians = __webpack_require__(4);
 
 var PolarCoordinates = function () {
@@ -707,7 +718,7 @@ var PolarCoordinates = function () {
   }, {
     key: "toXYCoordinates",
     value: function toXYCoordinates(degrees, distanceFromOrigin) {
-      var angle = new Degrees(degrees);
+      var angle = new Degree(degrees);
       var radians = angle.toRadians();
       var x = Math.cos(radians) * distanceFromOrigin;
       var y = Math.sin(radians) * distanceFromOrigin;
@@ -718,7 +729,7 @@ var PolarCoordinates = function () {
     value: function from(x, y) {
       var distanceFromOrigin = this.hypotenuse(x, y);
       var angle = Radians.from(x, distanceFromOrigin);
-      angle = angle.toDegrees();
+      angle = angle.toDegree();
       angle = y < 0 ? angle : angle.negated();
       return new PolarCoordinates(angle, distanceFromOrigin);
     }
@@ -740,7 +751,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Degrees = __webpack_require__(0);
+var Degree = __webpack_require__(0);
 
 var Radians = function () {
   function Radians(value) {
@@ -750,9 +761,14 @@ var Radians = function () {
   }
 
   _createClass(Radians, [{
-    key: "toDegrees",
-    value: function toDegrees() {
-      return new Degrees(this.value * (180 / Math.PI));
+    key: "toDegree",
+    value: function toDegree() {
+      return new Degree(this.value * (180 / Math.PI));
+    }
+  }, {
+    key: "equals",
+    value: function equals(rad) {
+      return this.value === rad.value;
     }
   }], [{
     key: "from",
