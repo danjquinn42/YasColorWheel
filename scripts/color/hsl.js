@@ -1,9 +1,7 @@
 //TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
 
-const parsingException
-
 class HSL {
-  constructor(hue, saturation, lighness){
+  constructor(h, s, l){
     this.h = h;
     this.s = s;
     this.l = l;
@@ -22,4 +20,4 @@ class HSL {
   }
 }
 
-  export defualt HSL;
+export default HSL;

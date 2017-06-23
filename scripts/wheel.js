@@ -22,9 +22,9 @@ class Wheel{
   static addToPage(wheelTag){
     const image = (wheelTag.hasAttribute("src")) ?
       wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
-    let colorString = (wheelTag.hasAttribute("defaultColor")) ?
+    const colorString = (wheelTag.hasAttribute("defaultColor")) ?
       wheelTag.getAttribute("defaultColor") : "hsl(215, 50%, 50%)";
-    color = HSL.parseColor(colorString);
+    const color = HSL.parse(colorString);
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
     const wheel = new Wheel(wheelTag, image, color, scale);
@@ -39,7 +39,7 @@ class Wheel{
       <div style="
           width: ${markerScale};
           padding-top: ${markerScale};
-          background: ${this.formatColorValues(this.color)};
+          background: ${this.color.toString(this.color)};
           border: 2px solid black;
           position: absolute;
           ${this.unselectableCircle()}">

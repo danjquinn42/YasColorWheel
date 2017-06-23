@@ -190,7 +190,7 @@ var Wheel = function () {
     key: 'marker',
     value: function marker() {
       var markerScale = this.markerScale();
-      return '\n      <div style="\n          width: ' + markerScale + ';\n          padding-top: ' + markerScale + ';\n          background: ' + this.formatColorValues(this.color) + ';\n          border: 2px solid black;\n          position: absolute;\n          ' + this.unselectableCircle() + '">\n      </div>\n      ';
+      return '\n      <div style="\n          width: ' + markerScale + ';\n          padding-top: ' + markerScale + ';\n          background: ' + this.color.toString(this.color) + ';\n          border: 2px solid black;\n          position: absolute;\n          ' + this.unselectableCircle() + '">\n      </div>\n      ';
     }
   }, {
     key: 'markerScale',
@@ -230,7 +230,7 @@ var Wheel = function () {
     value: function addToPage(wheelTag) {
       var image = wheelTag.hasAttribute("src") ? wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
       var colorString = wheelTag.hasAttribute("defaultColor") ? wheelTag.getAttribute("defaultColor") : "hsl(215, 50%, 50%)";
-      color = _hsl2.default.parseColor(colorString);
+      var color = _hsl2.default.parse(colorString);
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
       var wheel = new Wheel(wheelTag, image, color, scale);
 
@@ -371,9 +371,59 @@ exports.default = inlineBackgroundStyle;
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: Unexpected token (5:0)\n\n\u001b[0m \u001b[90m 3 | \u001b[39m\u001b[36mconst\u001b[39m parsingException\n \u001b[90m 4 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 | \u001b[39m\u001b[36mclass\u001b[39m \u001b[33mHSL\u001b[39m {\n \u001b[90m   | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 | \u001b[39m  constructor(hue\u001b[33m,\u001b[39m saturation\u001b[33m,\u001b[39m lighness){\n \u001b[90m 7 | \u001b[39m    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mh \u001b[33m=\u001b[39m h\u001b[33m;\u001b[39m\n \u001b[90m 8 | \u001b[39m    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39ms \u001b[33m=\u001b[39m s\u001b[33m;\u001b[39m\u001b[0m\n");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+//TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
+
+var HSL = function () {
+  function HSL(h, s, l) {
+    _classCallCheck(this, HSL);
+
+    this.h = h;
+    this.s = s;
+    this.l = l;
+  }
+
+  // TODO should throw an exception if string isn't properly formed.
+
+
+  _createClass(HSL, [{
+    key: "toString",
+    value: function toString() {
+      return "hsl(" + this.h + "," + this.s + "%," + this.l + "%)";
+    }
+  }], [{
+    key: "parse",
+    value: function parse(string) {
+      var _string$match$map = string.match(/(\d)\w+/g).map(function (number) {
+        return parseInt(number);
+      }),
+          _string$match$map2 = _slicedToArray(_string$match$map, 3),
+          h = _string$match$map2[0],
+          s = _string$match$map2[1],
+          l = _string$match$map2[2];
+
+      return new HSL(h, s, l);
+    }
+  }]);
+
+  return HSL;
+}();
+
+exports.default = HSL;
 
 /***/ })
 /******/ ]);
