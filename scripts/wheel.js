@@ -8,6 +8,7 @@
 // TODO set defaults if user does not pass in width or default color
 
 const PolarCoordinates = require('./math/polarcoordinates.js');
+const inlineBackgroundStyle = require('./inline_background_style');
 
 
 class Wheel{
@@ -88,34 +89,22 @@ class Wheel{
     });
   }
 
-//   getCoordinates(color, event) {
-//       const diameter = event.target.offsetParent.offsetParent.clientWidth;
-//       let markerLeft = event.target.offsetParent.offsetLeft;
-//       let markerTop = event.target.offsetParent.offsetTop;
-//       const originOffset = -0.5;
-//       const scaleFactor = 2;
-//       markerLeft = (( markerLeft / diameter ) + originOffset) * scaleFactor;
-//       markerTop = (( markerTop / diameter ) + originOffset) * scaleFactor;
-//       return [markerLeft, markerTop];
-//   }
-
   render(){
     this.tag.innerHTML = (`
       <div
         style="
           position: relative;
           border-radius: 50%;
-          width: ${this.scale};
-          padding-top ${this.scale};">
-        <img
-          src="${this.image}"
-          style="
-            position: absolute;
-            width: 100%;
-            height: auto;
-            ${this.unselectableCircle()}"
-          draggable="false">
-        </img>
+          width: ${this.scale};">
+          <div
+            style="
+              position: absolute;
+              display: inline-block;
+              width: 100%;
+              padding-top: ${this.scale};
+              ${inlineBackgroundStyle(50)};
+              border-radius: 50%;"
+            ></div>
         ${this.marker()}
       </div>
     `);
@@ -139,13 +128,13 @@ module.exports = Wheel;
 //
 //   XYtoHueAndSaturation(x, y) {
 //     const hypotenuse =  this.distanceFromOrigin(x, y);
-//     const angle = this.toDegree(Math.acos( x / hypotenuse));
+//     const angle = this.toDegrees(Math.acos( x / hypotenuse));
 //     const saturation = Math.min( hypotenuse * 100, 100 );
 //     const hue = ( 0 > y ) ? angle : -(angle - 180) + 180;
 //     return { hue: hue, saturation: saturation };
 //   }
 //
-//   toDegree(angle) {
+//   toDegrees(angle) {
 //     return angle * (180 / Math.PI);
 //   }
 //
