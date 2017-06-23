@@ -12,22 +12,19 @@ import inlineBackgroundStyle from './inline_background_style';
 import HSL from './color/hsl.js';
 
 class Wheel{
-  constructor(tag, image, color, scale) {
+  constructor(tag, color, scale) {
     this.tag = tag;
-    this.image = image;
     this.color = color;
     this.scale = scale;
   }
 
   static addToPage(wheelTag){
-    const image = (wheelTag.hasAttribute("src")) ?
-      wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
     const colorString = (wheelTag.hasAttribute("defaultColor")) ?
       wheelTag.getAttribute("defaultColor") : "hsl(215, 50%, 50%)";
     const color = HSL.parse(colorString);
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
-    const wheel = new Wheel(wheelTag, image, color, scale);
+    const wheel = new Wheel(wheelTag, color, scale);
 
     wheel.render();
     wheel.watchMouse();

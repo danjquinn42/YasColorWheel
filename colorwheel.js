@@ -177,11 +177,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Wheel = function () {
-  function Wheel(tag, image, color, scale) {
+  function Wheel(tag, color, scale) {
     _classCallCheck(this, Wheel);
 
     this.tag = tag;
-    this.image = image;
     this.color = color;
     this.scale = scale;
   }
@@ -228,11 +227,10 @@ var Wheel = function () {
   }], [{
     key: 'addToPage',
     value: function addToPage(wheelTag) {
-      var image = wheelTag.hasAttribute("src") ? wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
       var colorString = wheelTag.hasAttribute("defaultColor") ? wheelTag.getAttribute("defaultColor") : "hsl(215, 50%, 50%)";
       var color = _hsl2.default.parse(colorString);
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
-      var wheel = new Wheel(wheelTag, image, color, scale);
+      var wheel = new Wheel(wheelTag, color, scale);
 
       wheel.render();
       wheel.watchMouse();
