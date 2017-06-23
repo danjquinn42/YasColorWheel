@@ -1,5 +1,5 @@
-const Degrees = require("./degrees.js");
-const Radians = require("./radians.js");
+import Degrees from "./degrees.js";
+import Radians from "./radians.js";
 
 class PolarCoordinates {
 

@@ -8,7 +8,7 @@
 // TODO set defaults if user does not pass in width or default color
 
 const PolarCoordinates = require('./math/polarcoordinates.js');
-const inlineBackgroundStyle = require('./inline_background_style');
+import inlineBackgroundStyle from './inline_background_style';
 
 
 class Wheel{
@@ -23,7 +23,7 @@ class Wheel{
     const image = (wheelTag.hasAttribute("src")) ?
       wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
     let color = (wheelTag.hasAttribute("defaultColor")) ?
-      wheelTag.getAttribute("defaultColor") : "hsl(215, 69%, 28%)";
+      wheelTag.getAttribute("defaultColor") : "hsl(215, 50%, 50%)";
     color = this.parseColor(color);
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
@@ -49,10 +49,11 @@ class Wheel{
   }
 
   marker(){
+    const markerScale = this.markerScale();
     return(`
       <div style="
-          width: ${this.markerScale()};
-          padding-top: ${this.markerScale()};
+          width: ${markerScale};
+          padding-top: ${markerScale};
           background: ${this.formatColorValues(this.color)};
           border: 2px solid black;
           position: absolute;
@@ -95,12 +96,14 @@ class Wheel{
         style="
           position: relative;
           border-radius: 50%;
-          width: ${this.scale};">
+          width: ${this.scale};
+          padding-top: ${this.scale}%;">
           <div
             style="
               position: absolute;
               display: inline-block;
               width: 100%;
+              height: 100%;
               padding-top: ${this.scale};
               ${inlineBackgroundStyle(50)};
               border-radius: 50%;"
@@ -114,35 +117,7 @@ class Wheel{
 module.exports = Wheel;
 
 
-//   hueToX(hue, saturation) {
-//     saturation = saturation / 100;
-//     hue = hue * Math.PI / 180;
-//     return ((Math.cos(hue) * saturation) + 1 ) / 2 * 100;
-//   }
-//
-//   hueToY(hue, saturation) {
-//     saturation = saturation / 100;
-//     hue = hue * Math.PI / 180;
-//     return ((Math.sin(hue) * saturation) + 1 ) / 2 * -100 + 100;
-//   }
-//
-//   XYtoHueAndSaturation(x, y) {
-//     const hypotenuse =  this.distanceFromOrigin(x, y);
-//     const angle = this.toDegrees(Math.acos( x / hypotenuse));
-//     const saturation = Math.min( hypotenuse * 100, 100 );
-//     const hue = ( 0 > y ) ? angle : -(angle - 180) + 180;
-//     return { hue: hue, saturation: saturation };
-//   }
-//
-//   toDegrees(angle) {
-//     return angle * (180 / Math.PI);
-//   }
-//
-//   distanceFromOrigin(x, y) {
-//     return Math.sqrt(x*x + y*y);
-//   }
-//
-//
+
 //   getCoordinates(color, event) {
 //       const diameter = event.target.offsetParent.offsetParent.clientWidth;
 //       let markerLeft = event.target.offsetParent.offsetLeft;

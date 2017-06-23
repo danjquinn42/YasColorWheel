@@ -70,11 +70,19 @@
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _radians = __webpack_require__(4);
 
-var Radians = __webpack_require__(4);
+var _radians2 = _interopRequireDefault(_radians);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Degrees = function () {
   function Degrees(value) {
@@ -86,7 +94,7 @@ var Degrees = function () {
   _createClass(Degrees, [{
     key: "toRadians",
     value: function toRadians() {
-      return new Radians(this.value * Math.PI / 180);
+      return new _radians2.default(this.value * Math.PI / 180);
     }
   }, {
     key: "plus",
@@ -118,7 +126,7 @@ var Degrees = function () {
   return Degrees;
 }();
 
-module.exports = Degrees;
+exports.default = Degrees;
 
 /***/ }),
 /* 1 */
@@ -145,6 +153,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _inline_background_style = __webpack_require__(5);
+
+var _inline_background_style2 = _interopRequireDefault(_inline_background_style);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // TODO getCurrentColor()
@@ -157,7 +171,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // TODO set defaults if user does not pass in width or default color
 
 var PolarCoordinates = __webpack_require__(3);
-var inlineBackgroundStyle = __webpack_require__(5);
 
 var Wheel = function () {
   function Wheel(tag, image, color, scale) {
@@ -177,7 +190,8 @@ var Wheel = function () {
   }, {
     key: 'marker',
     value: function marker() {
-      return '\n      <div style="\n          width: ' + this.markerScale() + ';\n          padding-top: ' + this.markerScale() + ';\n          background: ' + this.formatColorValues(this.color) + ';\n          border: 2px solid black;\n          position: absolute;\n          ' + this.unselectableCircle() + '">\n      </div>\n      ';
+      var markerScale = this.markerScale();
+      return '\n      <div style="\n          width: ' + markerScale + ';\n          padding-top: ' + markerScale + ';\n          background: ' + this.formatColorValues(this.color) + ';\n          border: 2px solid black;\n          position: absolute;\n          ' + this.unselectableCircle() + '">\n      </div>\n      ';
     }
   }, {
     key: 'markerScale',
@@ -210,13 +224,13 @@ var Wheel = function () {
   }, {
     key: 'render',
     value: function render() {
-      this.tag.innerHTML = '\n      <div\n        style="\n          position: relative;\n          border-radius: 50%;\n          width: ' + this.scale + ';">\n          <div\n            style="\n              position: absolute;\n              display: inline-block;\n              width: 100%;\n              padding-top: ' + this.scale + ';\n              ' + inlineBackgroundStyle(50) + ';\n              border-radius: 50%;"\n            ></div>\n        ' + this.marker() + '\n      </div>\n    ';
+      this.tag.innerHTML = '\n      <div\n        style="\n          position: relative;\n          border-radius: 50%;\n          width: ' + this.scale + ';\n          padding-top: ' + this.scale + '%;">\n          <div\n            style="\n              position: absolute;\n              display: inline-block;\n              width: 100%;\n              height: 100%;\n              padding-top: ' + this.scale + ';\n              ' + (0, _inline_background_style2.default)(50) + ';\n              border-radius: 50%;"\n            ></div>\n        ' + this.marker() + '\n      </div>\n    ';
     }
   }], [{
     key: 'addToPage',
     value: function addToPage(wheelTag) {
       var image = wheelTag.hasAttribute("src") ? wheelTag.getAttribute("src") : './assets/HSL_Wheel.png';
-      var color = wheelTag.hasAttribute("defaultColor") ? wheelTag.getAttribute("defaultColor") : "hsl(215, 69%, 28%)";
+      var color = wheelTag.hasAttribute("defaultColor") ? wheelTag.getAttribute("defaultColor") : "hsl(215, 50%, 50%)";
       color = this.parseColor(color);
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
       var wheel = new Wheel(wheelTag, image, color, scale);
@@ -242,35 +256,6 @@ var Wheel = function () {
 
 module.exports = Wheel;
 
-//   hueToX(hue, saturation) {
-//     saturation = saturation / 100;
-//     hue = hue * Math.PI / 180;
-//     return ((Math.cos(hue) * saturation) + 1 ) / 2 * 100;
-//   }
-//
-//   hueToY(hue, saturation) {
-//     saturation = saturation / 100;
-//     hue = hue * Math.PI / 180;
-//     return ((Math.sin(hue) * saturation) + 1 ) / 2 * -100 + 100;
-//   }
-//
-//   XYtoHueAndSaturation(x, y) {
-//     const hypotenuse =  this.distanceFromOrigin(x, y);
-//     const angle = this.toDegrees(Math.acos( x / hypotenuse));
-//     const saturation = Math.min( hypotenuse * 100, 100 );
-//     const hue = ( 0 > y ) ? angle : -(angle - 180) + 180;
-//     return { hue: hue, saturation: saturation };
-//   }
-//
-//   toDegrees(angle) {
-//     return angle * (180 / Math.PI);
-//   }
-//
-//   distanceFromOrigin(x, y) {
-//     return Math.sqrt(x*x + y*y);
-//   }
-//
-//
 //   getCoordinates(color, event) {
 //       const diameter = event.target.offsetParent.offsetParent.clientWidth;
 //       let markerLeft = event.target.offsetParent.offsetLeft;
@@ -686,10 +671,17 @@ module.exports = Wheel;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _degrees = __webpack_require__(0);
 
-var Degrees = __webpack_require__(0);
-var Radians = __webpack_require__(4);
+var _degrees2 = _interopRequireDefault(_degrees);
+
+var _radians = __webpack_require__(4);
+
+var _radians2 = _interopRequireDefault(_radians);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var PolarCoordinates = function () {
   function PolarCoordinates(angle, distanceFromOrigin) {
@@ -707,7 +699,7 @@ var PolarCoordinates = function () {
   }, {
     key: "toXYCoordinates",
     value: function toXYCoordinates(degrees, distanceFromOrigin) {
-      var angle = new Degrees(degrees);
+      var angle = new _degrees2.default(degrees);
       var radians = angle.toRadians();
       var x = Math.cos(radians) * distanceFromOrigin;
       var y = Math.sin(radians) * distanceFromOrigin;
@@ -717,7 +709,7 @@ var PolarCoordinates = function () {
     key: "from",
     value: function from(x, y) {
       var distanceFromOrigin = this.hypotenuse(x, y);
-      var angle = Radians.from(x, distanceFromOrigin);
+      var angle = _radians2.default.from(x, distanceFromOrigin);
       angle = angle.toDegrees();
       angle = y < 0 ? angle : angle.negated();
       return new PolarCoordinates(angle, distanceFromOrigin);
@@ -736,11 +728,19 @@ module.exports = PolarCoordinates;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _degrees = __webpack_require__(0);
 
-var Degrees = __webpack_require__(0);
+var _degrees2 = _interopRequireDefault(_degrees);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Radians = function () {
   function Radians(value) {
@@ -752,7 +752,7 @@ var Radians = function () {
   _createClass(Radians, [{
     key: "toDegrees",
     value: function toDegrees() {
-      return new Degrees(this.value * (180 / Math.PI));
+      return new _degrees2.default(this.value * (180 / Math.PI));
     }
   }, {
     key: "equals",
@@ -769,7 +769,7 @@ var Radians = function () {
   return Radians;
 }();
 
-module.exports = Radians;
+exports.default = Radians;
 
 /***/ }),
 /* 5 */
@@ -778,11 +778,14 @@ module.exports = Radians;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var inlineBackgroundStyle = function inlineBackgroundStyle(lightness) {
-  return "background:\n    radial-gradient(\n      circle at 50% 50%,\n      hsla(0, 0%, " + lightness + "%, 1),\n      hsla(0, 0%, " + lightness + "%, .8),\n      hsla(0, 0%, " + lightness + "%, .6),\n      hsla(0, 0%, " + lightness + "%, .4),\n      hsla(0, 0%, " + lightness + "%, .2),\n      hsla(0, 0%, " + lightness + "%, .01) 80%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .6),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 75%,\n      hsla(30, 100%, " + lightness + "%, 1),\n      hsla(30, 100%, " + lightness + "%, .7),\n      hsla(30, 100%, " + lightness + "%, .4),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, 1),\n      hsla(60, 100%, " + lightness + "%, .7),\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, 1),\n      hsla(90, 100%, " + lightness + "%, .7),\n      hsla(90, 100%, " + lightness + "%, .4),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 93%,\n      hsla(120, 100%, " + lightness + "%, 1),\n      hsla(120, 100%, " + lightness + "%, .7),\n      hsla(120, 100%, " + lightness + "%, .4),\n      hsla(120, 100%, " + lightness + "%, .2),\n      hsla(120, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 75%,\n      hsla(150, 100%, " + lightness + "%, 1),\n      hsla(150, 100%, " + lightness + "%, .7),\n      hsla(150, 100%, " + lightness + "%, .4),\n      hsla(150, 100%, " + lightness + "%, .2),\n      hsla(150, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, 1),\n      hsla(180, 100%, " + lightness + "%, .7),\n      hsla(180, 100%, " + lightness + "%, .4),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 25%,\n      hsla(210, 100%, " + lightness + "%, 1),\n      hsla(210, 100%, " + lightness + "%, .7),\n      hsla(210, 100%, " + lightness + "%, .4),\n      hsla(210, 100%, " + lightness + "%, .2),\n      hsla(210, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 7%,\n      hsla(240, 100%, " + lightness + "%, 1),\n      hsla(240, 100%, " + lightness + "%, .7),\n      hsla(240, 100%, " + lightness + "%, .4),\n      hsla(240, 100%, " + lightness + "%, .2),\n      hsla(240, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 0%,\n      hsla(270, 100%, " + lightness + "%, 1),\n      hsla(270, 100%, " + lightness + "%, .7),\n      hsla(270, 100%, " + lightness + "%, .4),\n      hsla(270, 100%, " + lightness + "%, .2),\n      hsla(270, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 7%,\n      hsla(300, 100%, " + lightness + "%, 1),\n      hsla(300, 100%, " + lightness + "%, .7),\n      hsla(300, 100%, " + lightness + "%, .4),\n      hsla(300, 100%, " + lightness + "%, .2),\n      hsla(300, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 25%,\n      hsla(330, 100%, " + lightness + "%, 1),\n      hsla(330, 100%, " + lightness + "%, .7),\n      hsla(330, 100%, " + lightness + "%, .4),\n      hsla(330, 100%, " + lightness + "%, .2),\n      hsla(330, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .7),\n      hsla(0, 100%, " + lightness + "%, .4),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%);";
+  return "background:\n    radial-gradient(\n      circle at 50% 50%,\n      hsla(0, 0%, " + lightness + "%, 1),\n      hsla(0, 0%, " + lightness + "%, .8),\n      hsla(0, 0%, " + lightness + "%, .6),\n      hsla(0, 0%, " + lightness + "%, .4),\n      hsla(0, 0%, " + lightness + "%, .2),\n      hsla(0, 0%, " + lightness + "%, 0) 80%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .6),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 75%,\n      hsla(30, 100%, " + lightness + "%, 1),\n      hsla(30, 100%, " + lightness + "%, .7),\n      hsla(30, 100%, " + lightness + "%, .4),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, 1),\n      hsla(60, 100%, " + lightness + "%, .7),\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, 1),\n      hsla(90, 100%, " + lightness + "%, .7),\n      hsla(90, 100%, " + lightness + "%, .4),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 93%,\n      hsla(120, 100%, " + lightness + "%, 1),\n      hsla(120, 100%, " + lightness + "%, .7),\n      hsla(120, 100%, " + lightness + "%, .4),\n      hsla(120, 100%, " + lightness + "%, .2),\n      hsla(120, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 75%,\n      hsla(150, 100%, " + lightness + "%, 1),\n      hsla(150, 100%, " + lightness + "%, .7),\n      hsla(150, 100%, " + lightness + "%, .4),\n      hsla(150, 100%, " + lightness + "%, .2),\n      hsla(150, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, 1),\n      hsla(180, 100%, " + lightness + "%, .7),\n      hsla(180, 100%, " + lightness + "%, .4),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 25%,\n      hsla(210, 100%, " + lightness + "%, 1),\n      hsla(210, 100%, " + lightness + "%, .7),\n      hsla(210, 100%, " + lightness + "%, .4),\n      hsla(210, 100%, " + lightness + "%, .2),\n      hsla(210, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 7%,\n      hsla(240, 100%, " + lightness + "%, 1),\n      hsla(240, 100%, " + lightness + "%, .7),\n      hsla(240, 100%, " + lightness + "%, .4),\n      hsla(240, 100%, " + lightness + "%, .2),\n      hsla(240, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 0%,\n      hsla(270, 100%, " + lightness + "%, 1),\n      hsla(270, 100%, " + lightness + "%, .7),\n      hsla(270, 100%, " + lightness + "%, .4),\n      hsla(270, 100%, " + lightness + "%, .2),\n      hsla(270, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 7%,\n      hsla(300, 100%, " + lightness + "%, 1),\n      hsla(300, 100%, " + lightness + "%, .7),\n      hsla(300, 100%, " + lightness + "%, .4),\n      hsla(300, 100%, " + lightness + "%, .2),\n      hsla(300, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 25%,\n      hsla(330, 100%, " + lightness + "%, 1),\n      hsla(330, 100%, " + lightness + "%, .7),\n      hsla(330, 100%, " + lightness + "%, .4),\n      hsla(330, 100%, " + lightness + "%, .2),\n      hsla(330, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .7),\n      hsla(0, 100%, " + lightness + "%, .4),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%);";
 };
 
-module.exports = inlineBackgroundStyle;
+exports.default = inlineBackgroundStyle;
 
 /***/ })
 /******/ ]);

@@ -7,7 +7,7 @@ const inlineBackgroundStyle = function (lightness) {
       hsla(0, 0%, ${lightness}%, .6),
       hsla(0, 0%, ${lightness}%, .4),
       hsla(0, 0%, ${lightness}%, .2),
-      hsla(0, 0%, ${lightness}%, .01) 80%),
+      hsla(0, 0%, ${lightness}%, 0) 80%),
     radial-gradient(
       ellipse at 100% 50%,
       hsla(0, 100%, ${lightness}%, 1),
@@ -100,4 +100,4 @@ const inlineBackgroundStyle = function (lightness) {
       hsla(0, 100%, ${lightness}%, .0) 40%);`;
 }
 
-module.exports = inlineBackgroundStyle;
+export default inlineBackgroundStyle;

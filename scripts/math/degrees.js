@@ -1,4 +1,4 @@
-const Radians = require("./radians.js")
+import Radians from "./radians.js";
 
 class Degrees {
   constructor(value){
@@ -30,4 +30,4 @@ class Degrees {
   }
 }
 
-module.exports = Degrees;
+export default Degrees;
