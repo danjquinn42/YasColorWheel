@@ -10,6 +10,7 @@
 import PolarCoordinates from './math/polarcoordinates.js';
 import inlineBackgroundStyle from './inline_background_style';
 import HSL from './color/hsl.js';
+import Marker from './color/marker.js';
 
 class Wheel{
   constructor(tag, color, scale) {
@@ -27,52 +28,22 @@ class Wheel{
     const wheel = new Wheel(wheelTag, color, scale);
 
     wheel.render();
-    wheel.watchMouse();
   }
 
-  marker(){
-    const markerScale = this.markerScale();
-    return(`
-      <div style="
-          width: ${markerScale};
-          padding-top: ${markerScale};
-          background: ${this.color.toString(this.color)};
-          border: 2px solid black;
-          position: absolute;
-          ${this.unselectableCircle()}">
-      </div>
-      `);
-  }
-
-  markerScale(){
-    const scaleType = this.scale.slice(-1)
-    if (scaleType === "x") {
-      return `${parseInt(this.scale.slice(0, -2))/12}px`;
-    } else if (scaleType === "%"){
-      return '6%';
-    }
-    throw "Width of Wheel must be defined in pixels or percentage"
-  }
-
-  unselectableCircle(){
-    return `border-radius: 50%;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;`
-  }
-  watchMouse(){
-    this.tag.addEventListener("mousemove", () => {
-      const colorWheel = event.target.offsetParent;
-      const radius = colorWheel.clientWidth / 2;
-      const coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
-      const originX = colorWheel.offsetLeft + radius;
-      const originY = colorWheel.offsetTop + radius;
-      const origin = [originX, originY];
-    });
-  }
+  // watchMouse(){
+  //   this.tag.addEventListener("mousemove", () => {
+  //     const colorWheel = event.target.offsetParent;
+  //     const radius = colorWheel.clientWidth / 2;
+  //     const coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
+  //     const originX = colorWheel.offsetLeft + radius;
+  //     const originY = colorWheel.offsetTop + radius;
+  //     const origin = [originX, originY];
+  //   });
+  // }
 
   render(){
+    const marker = new Marker(this.color, this.scale);
+
     this.tag.innerHTML = (`
       <div
         style="
@@ -90,7 +61,7 @@ class Wheel{
               ${inlineBackgroundStyle(50)};
               border-radius: 50%;"
             ></div>
-        ${this.marker()}
+        ${marker.print()}
       </div>
     `);
   }

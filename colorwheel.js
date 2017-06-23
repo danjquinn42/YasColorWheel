@@ -172,6 +172,10 @@ var _hsl = __webpack_require__(6);
 
 var _hsl2 = _interopRequireDefault(_hsl);
 
+var _marker = __webpack_require__(7);
+
+var _marker2 = _interopRequireDefault(_marker);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -186,43 +190,24 @@ var Wheel = function () {
   }
 
   _createClass(Wheel, [{
-    key: 'marker',
-    value: function marker() {
-      var markerScale = this.markerScale();
-      return '\n      <div style="\n          width: ' + markerScale + ';\n          padding-top: ' + markerScale + ';\n          background: ' + this.color.toString(this.color) + ';\n          border: 2px solid black;\n          position: absolute;\n          ' + this.unselectableCircle() + '">\n      </div>\n      ';
-    }
-  }, {
-    key: 'markerScale',
-    value: function markerScale() {
-      var scaleType = this.scale.slice(-1);
-      if (scaleType === "x") {
-        return parseInt(this.scale.slice(0, -2)) / 12 + 'px';
-      } else if (scaleType === "%") {
-        return '6%';
-      }
-      throw "Width of Wheel must be defined in pixels or percentage";
-    }
-  }, {
-    key: 'unselectableCircle',
-    value: function unselectableCircle() {
-      return 'border-radius: 50%;\n      -webkit-user-select: none;\n      -moz-user-select: none;\n      -ms-user-select: none;\n      user-select: none;';
-    }
-  }, {
-    key: 'watchMouse',
-    value: function watchMouse() {
-      this.tag.addEventListener("mousemove", function () {
-        var colorWheel = event.target.offsetParent;
-        var radius = colorWheel.clientWidth / 2;
-        var coord = _polarcoordinates2.default.from(event.pageX - radius, event.pageY + radius);
-        var originX = colorWheel.offsetLeft + radius;
-        var originY = colorWheel.offsetTop + radius;
-        var origin = [originX, originY];
-      });
-    }
-  }, {
     key: 'render',
+
+
+    // watchMouse(){
+    //   this.tag.addEventListener("mousemove", () => {
+    //     const colorWheel = event.target.offsetParent;
+    //     const radius = colorWheel.clientWidth / 2;
+    //     const coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
+    //     const originX = colorWheel.offsetLeft + radius;
+    //     const originY = colorWheel.offsetTop + radius;
+    //     const origin = [originX, originY];
+    //   });
+    // }
+
     value: function render() {
-      this.tag.innerHTML = '\n      <div\n        style="\n          position: relative;\n          border-radius: 50%;\n          width: ' + this.scale + ';\n          padding-top: ' + this.scale + '%;">\n          <div\n            style="\n              position: absolute;\n              display: inline-block;\n              width: 100%;\n              height: 100%;\n              padding-top: ' + this.scale + ';\n              ' + (0, _inline_background_style2.default)(50) + ';\n              border-radius: 50%;"\n            ></div>\n        ' + this.marker() + '\n      </div>\n    ';
+      var marker = new _marker2.default(this.color, this.scale);
+
+      this.tag.innerHTML = '\n      <div\n        style="\n          position: relative;\n          border-radius: 50%;\n          width: ' + this.scale + ';\n          padding-top: ' + this.scale + '%;">\n          <div\n            style="\n              position: absolute;\n              display: inline-block;\n              width: 100%;\n              height: 100%;\n              padding-top: ' + this.scale + ';\n              ' + (0, _inline_background_style2.default)(50) + ';\n              border-radius: 50%;"\n            ></div>\n        ' + marker.print() + '\n      </div>\n    ';
     }
   }], [{
     key: 'addToPage',
@@ -233,7 +218,6 @@ var Wheel = function () {
       var wheel = new Wheel(wheelTag, color, scale);
 
       wheel.render();
-      wheel.watchMouse();
     }
   }]);
 
@@ -422,6 +406,51 @@ var HSL = function () {
 }();
 
 exports.default = HSL;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Marker = function () {
+  function Marker(color, wheelScale) {
+    _classCallCheck(this, Marker);
+
+    this.color = color;
+    this.scale = this.scale(wheelScale);
+  }
+
+  _createClass(Marker, [{
+    key: "print",
+    value: function print() {
+      return "\n      <div style=\"\n          width: " + this.scale + ";\n          padding-top: " + this.scale + ";\n          background: " + this.color.toString() + ";\n          border: 2px solid black;\n          position: absolute;\n          border-radius: 50%;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\">\n      </div>\n      ";
+    }
+  }, {
+    key: "scale",
+    value: function scale(wheelScale) {
+      var scaleType = wheelScale.slice(-1);
+      if (scaleType === "x") {
+        return parseInt(wheelScale.slice(0, -2)) / 13 + "px";
+      } else if (scaleType === "%") {
+        return '6%';
+      }
+    }
+  }]);
+
+  return Marker;
+}();
+
+exports.default = Marker;
 
 /***/ })
 /******/ ]);
