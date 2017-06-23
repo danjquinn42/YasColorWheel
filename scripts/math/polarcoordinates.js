@@ -5,7 +5,7 @@ class PolarCoordinates {
 
   constructor(angle, distanceFromOrigin){
     this.angle = angle;
-    this.distanceFromOrigin = distanceFromOrigin;
+    this.distanceFromOrigin = distanceFromOrigin; // value from 0-1//
   }
 
   static hypotenuse(x, y) {
