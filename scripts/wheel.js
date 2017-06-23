@@ -43,26 +43,22 @@ class Wheel{
 
   render(){
     const marker = new Marker(this.color, this.scale);
-
+    this.tag.style = `
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      width: ${this.scale};
+      height: ${this.scale};`
     this.tag.innerHTML = (`
-      <div
-        style="
-          position: relative;
-          border-radius: 50%;
-          width: ${this.scale};
-          padding-top: ${this.scale}%;">
           <div
             style="
               position: absolute;
-              display: inline-block;
               width: 100%;
               height: 100%;
-              padding-top: ${this.scale};
               ${inlineBackgroundStyle(50)};
               border-radius: 50%;"
             ></div>
-        ${marker.print()}
-      </div>
+        ${marker.insert()}
     `);
   }
 }
