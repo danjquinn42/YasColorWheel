@@ -1,14 +1,25 @@
-//TODO create hex and rgb classes which have convertToHSL
-//     and add convertToRGB and convertToHex methods to HSL class
+//TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
 
-class HSL extends Color {
+const parsingException
+
+class HSL {
   constructor(hue, saturation, lighness){
-    this.hue = hue;
-    this.saturation = saturation;
-    this.lightness = lightness;
+    this.h = h;
+    this.s = s;
+    this.l = l;
   }
 
-  
+  // TODO should throw an exception if string isn't properly formed.
+  static parse(string){
+    const [h, s, l] = string.match(/(\d)\w+/g).map((number) => {
+      return parseInt(number)
+    });
+    return new HSL(h, s, l);
+  };
+
+  toString(){
+    return `hsl(${this.h},${this.s}%,${this.l}%)`;
+  }
 }
 
-export defualt Color;
+  export defualt HSL;
