@@ -1,4 +1,4 @@
-const Degree = require("./degrees.js");
+const Degrees = require("./degrees.js");
 const Radians = require("./radians.js");
 
 class PolarCoordinates {
@@ -13,7 +13,7 @@ class PolarCoordinates {
   }
 
   static toXYCoordinates(degrees, distanceFromOrigin) {
-    const angle = new Degree(degrees);
+    const angle = new Degrees(degrees);
     const radians = angle.toRadians();
     const x = Math.cos(radians) * distanceFromOrigin;
     const y = Math.sin(radians) * distanceFromOrigin;
@@ -23,7 +23,7 @@ class PolarCoordinates {
   static from(x, y) {
     const distanceFromOrigin = this.hypotenuse(x, y);
     let angle = Radians.from(x, distanceFromOrigin);
-    angle = angle.toDegree();
+    angle = angle.toDegrees();
     angle = ( y < 0 ) ? angle : angle.negated();
     return new PolarCoordinates(angle, distanceFromOrigin);
   }

@@ -1,6 +1,6 @@
 const Radians = require("./radians.js")
 
-class Degree {
+class Degrees {
   constructor(value){
     this.value = (value + 360) % 360;
   }
@@ -10,15 +10,15 @@ class Degree {
   }
 
   plus(degree){
-    return new Degree(this.value + degree.value);
+    return new Degrees(this.value + degree.value);
   }
 
   minus(degree){
-    return new Degree(this.value - degree.value);
+    return new Degrees(this.value - degree.value);
   }
 
   negated() {
-    return new Degree(-this.value);
+    return new Degrees(-this.value);
   }
 
   equals(degree) {
@@ -30,4 +30,4 @@ class Degree {
   }
 }
 
-module.exports = Degree;
+module.exports = Degrees;
