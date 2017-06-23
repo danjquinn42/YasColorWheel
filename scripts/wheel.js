@@ -82,7 +82,6 @@ class Wheel{
       const colorWheel = event.target.offsetParent;
       const radius = colorWheel.clientWidth / 2;
       const coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
-      debugger;
       const originX = colorWheel.offsetLeft + radius;
       const originY = colorWheel.offsetTop + radius;
       const origin = [originX, originY];
@@ -106,7 +105,6 @@ class Wheel{
         style="
           position: relative;
           border-radius: 50%;
-          margin: 0 auto;
           width: ${this.scale};
           padding-top ${this.scale};">
         <img
@@ -141,13 +139,13 @@ module.exports = Wheel;
 //
 //   XYtoHueAndSaturation(x, y) {
 //     const hypotenuse =  this.distanceFromOrigin(x, y);
-//     const angle = this.toDegrees(Math.acos( x / hypotenuse));
+//     const angle = this.toDegree(Math.acos( x / hypotenuse));
 //     const saturation = Math.min( hypotenuse * 100, 100 );
 //     const hue = ( 0 > y ) ? angle : -(angle - 180) + 180;
 //     return { hue: hue, saturation: saturation };
 //   }
 //
-//   toDegrees(angle) {
+//   toDegree(angle) {
 //     return angle * (180 / Math.PI);
 //   }
 //

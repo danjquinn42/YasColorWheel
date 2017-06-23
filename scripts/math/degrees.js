@@ -1,18 +1,28 @@
-class Degrees {
+const Radians = require("./radians.js")
+
+class Degree {
   constructor(value){
     this.value = (value + 360) % 360;
   }
 
   toRadians() {
-    return this.value * Math.PI / 180;
+    return new Radians (this.value * Math.PI / 180);
   }
 
-  plus(operand){
-    return new Degrees(this.value + operand.value);
+  plus(degree){
+    return new Degree(this.value + degree.value);
+  }
+
+  minus(degree){
+    return new Degree(this.value - degree.value);
   }
 
   negated() {
-    return new Degrees(-this.value);
+    return new Degree(-this.value);
+  }
+
+  equals(degree) {
+    return this.value === degree.value;
   }
 
   toString() {
@@ -20,4 +30,4 @@ class Degrees {
   }
 }
 
-module.exports = Degrees;
+module.exports = Degree;
