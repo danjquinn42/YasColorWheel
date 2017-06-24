@@ -449,25 +449,26 @@ var colorPicker = function () {
   }
 
   _createClass(colorPicker, [{
-    key: "getColor",
-    value: function getColor() {
-      return this.color;
+    key: "listenForColorChange",
+    value: function listenForColorChange() {
+      var _this = this;
+
+      this.tag.addEventListener("colorChange", function () {
+        _this.color = color;
+      });
     }
   }, {
     key: "setColor",
     value: function setColor(newColor) {
-      this.color = newColor;
+      var colorChange = new CustomEvent("colorChange", { "color": this.color });
+      dispatchEvent(colorChange);
     }
   }, {
     key: "initialize",
     value: function initialize() {
       var wheels = this.tag.getElementsByTagName("colorwheel");
-      var hueSliders = this.tag.getElementsByTagName("hue-slider");
-      var saturationSliders = this.tag.getElementsByTagName("saturation-slider");
-      var lightnessSliders = this.tag.getElementsByTagName("lightness-slider");
       this.placeWheels(wheels);
-      // this.placeHueSliders(wheels)
-      // this.placeWheels(wheels)
+      this.listenForColorChange();
     }
   }, {
     key: "placeWheels",
@@ -646,6 +647,9 @@ var Marker = function () {
   }
 
   _createClass(Marker, [{
+    key: 'setColor',
+    value: function setColor() {}
+  }, {
     key: 'insert',
     value: function insert() {
       var position = this.color.toXYCoordinates();

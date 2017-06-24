@@ -4,6 +4,10 @@ class Marker {
     this.wheelScale = wheelScale;
   }
 
+  setColor(){
+    
+  }
+
 
   insert(){
     const position = this.color.toXYCoordinates();

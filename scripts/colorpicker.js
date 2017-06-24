@@ -6,25 +6,22 @@ class colorPicker {
     this.color = color;
   }
 
-  getColor(){
-    return this.color;
+  listenForColorChange(){
+    this.tag.addEventListener("colorChange", () => {
+      this.color = color;
+    })
   }
 
   setColor(newColor){
-    this.color = newColor;
+    const colorChange =
+      new CustomEvent("colorChange", { "color": this.color });
+    dispatchEvent(colorChange);
   }
 
   initialize(){
     const wheels = this.tag.getElementsByTagName("colorwheel");
-    const hueSliders =
-      this.tag.getElementsByTagName("hue-slider");
-    const saturationSliders =
-      this.tag.getElementsByTagName("saturation-slider");
-    const lightnessSliders =
-      this.tag.getElementsByTagName("lightness-slider");
     this.placeWheels(wheels)
-    // this.placeHueSliders(wheels)
-    // this.placeWheels(wheels)
+    this.listenForColorChange();
   }
 
   placeWheels(wheels){
