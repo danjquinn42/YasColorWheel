@@ -10,6 +10,21 @@ const inlineBackgroundStyle = function (lightness) {
       hsla(0, 0%, ${lightness}%, .2),
       hsla(0, 0%, ${lightness}%, 0) 80%),
     radial-gradient(
+      ellipse at 0% 50%,
+      hsla(180, 100%, ${lightness}%, .5),
+      hsla(180, 100%, ${lightness}%, .2),
+      hsla(180, 100%, ${lightness}%, .0) 20%),
+    radial-gradient(
+      ellipse at 50% 100%,
+      hsla(90, 100%, ${lightness}%, .6),
+      hsla(90, 100%, ${lightness}%, .2),
+      hsla(90, 100%, ${lightness}%, .0) 20%),
+    radial-gradient(
+      ellipse at 75% 93%,
+      hsla(60, 100%, ${lightness}%, .4),
+      hsla(60, 100%, ${lightness}%, .2),
+      hsla(60, 100%, ${lightness}%, .0) 20%),
+    radial-gradient(
       ellipse at 100% 50%,
       hsla(0, 100%, ${lightness}%, 1),
       hsla(0, 100%, ${lightness}%, .6),
