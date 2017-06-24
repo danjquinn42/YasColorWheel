@@ -15,6 +15,7 @@ class PolarCoordinates {
     const y = this.angle.sin() * this.distanceFromOrigin;
     return new CartesianCoordinates(x, y);
   }
+
 }
 
 module.exports = PolarCoordinates;

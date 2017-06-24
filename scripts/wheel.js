@@ -30,16 +30,7 @@ class Wheel{
     wheel.render();
   }
 
-  // watchMouse(){
-  //   this.tag.addEventListener("mousemove", () => {
-  //     const colorWheel = event.target.offsetParent;
-  //     const radius = colorWheel.clientWidth / 2;
-  //     const coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
-  //     const originX = colorWheel.offsetLeft + radius;
-  //     const originY = colorWheel.offsetTop + radius;
-  //     const origin = [originX, originY];
-  //   });
-  // }
+
 
   render(){
     const marker = new Marker(this.color, this.scale);

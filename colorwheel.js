@@ -271,19 +271,6 @@ var Wheel = function () {
 
   _createClass(Wheel, [{
     key: 'render',
-
-
-    // watchMouse(){
-    //   this.tag.addEventListener("mousemove", () => {
-    //     const colorWheel = event.target.offsetParent;
-    //     const radius = colorWheel.clientWidth / 2;
-    //     const coord = PolarCoordinates.from(event.pageX - radius, event.pageY + radius);
-    //     const originX = colorWheel.offsetLeft + radius;
-    //     const originY = colorWheel.offsetTop + radius;
-    //     const origin = [originX, originY];
-    //   });
-    // }
-
     value: function render() {
       var marker = new Marker(this.color, this.scale);
       this.tag.style = '\n      position: absolute;\n      border-radius: 50%;\n      background: white;\n      width: ' + this.scale + ';\n      height: ' + this.scale + ';';
@@ -402,14 +389,13 @@ var Marker = function () {
   }
 
   _createClass(Marker, [{
-    key: "position",
-    value: function position() {
-      return this.color.toXYCoordinates;
-    }
-  }, {
     key: "insert",
     value: function insert() {
-      return "\n      <div style=\"\n          top: 20%;\n          left: 20%;\n          width: " + this.scale() + ";\n          padding-top: " + this.scale() + ";\n          background: " + this.color.toString() + ";\n          border: 2px solid black;\n          position: relative;\n          border-radius: 50%;\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\">\n      </div>\n      ";
+      var position = this.color.toXYCoordinates();
+      position.x = position.x * 50 + 50;
+      position.y = position.y * 50 + 50;
+
+      return "\n      <div style=\"\n        position: relative;\n        left: " + position.x + "%;\n        top: " + position.y + "%;\n        width: " + this.scale() + ";\n        padding-top: " + this.scale() + ";\n        background: " + this.color.toString() + ";\n        border: 2px solid black;\n        border-radius: 50%;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none;\">\n      </div>\n      ";
     }
   }, {
     key: "scale",

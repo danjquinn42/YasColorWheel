@@ -4,7 +4,6 @@ class CartesianCoordinates {
     this.y = y;
   }
 
-
   hypotenuse() {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }

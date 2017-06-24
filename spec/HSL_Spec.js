@@ -4,13 +4,13 @@ describe("HSL", function() {
 
   beforeEach(function() {
     blue = new HSL(230, 83, 40);
-    red = new HSL(0, 80, 50);
+    red = new HSL(0, 100, 50);
   });
 
   describe("toString", function(){
     it("should return css formatted color value", function(){
       expect(blue.toString()).toEqual("hsl(230,83%,40%)");
-      expect(red.toString()).toEqual("hsl(0,80%,50%)");
+      expect(red.toString()).toEqual("hsl(0,100%,50%)");
     });
   });
 
@@ -25,6 +25,8 @@ describe("HSL", function() {
     it("should return x and y values between -1 and 1", function(){
       expect(blue.toXYCoordinates().x).toBeCloseTo(-0.53351, 3);
       expect(blue.toXYCoordinates().y).toBeCloseTo(-0.63581, 3);
+      expect(red.toXYCoordinates().x).toBeCloseTo(1, 3);
+      expect(red.toXYCoordinates().y).toBeCloseTo(0, 3);
     });
   });
 });

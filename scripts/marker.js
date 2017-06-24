@@ -4,25 +4,26 @@ class Marker {
     this.wheelScale = wheelScale;
   }
 
-  position(){
-    return this.color.toXYCoordinates;
-  }
 
   insert(){
+    const position = this.color.toXYCoordinates();
+    position.x = position.x * 50 + 50;
+    position.y = position.y * 50 + 50;
+
     return(`
       <div style="
-          top: 20%;
-          left: 20%;
-          width: ${this.scale()};
-          padding-top: ${this.scale()};
-          background: ${this.color.toString()};
-          border: 2px solid black;
-          position: relative;
-          border-radius: 50%;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;">
+        position: relative;
+        left: ${position.x}%;
+        top: ${position.y}%;
+        width: ${this.scale()};
+        padding-top: ${this.scale()};
+        background: ${this.color.toString()};
+        border: 2px solid black;
+        border-radius: 50%;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;">
       </div>
       `);
   }
