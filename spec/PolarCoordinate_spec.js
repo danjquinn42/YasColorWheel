@@ -1,5 +1,5 @@
 import PolarCoordinates from "../scripts/math/polarcoordinates.js";
-const Radians = require("../scripts/math/radians.js");
+import Radians from "../scripts/math/radians.js";
 
 describe("Polar Coodinates", function() {
   beforeEach(function() {

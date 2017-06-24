@@ -29,4 +29,4 @@ class HSL {
   }
 }
 
-module.exports =  HSL;
+export default HSL;

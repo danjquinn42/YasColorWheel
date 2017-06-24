@@ -118,4 +118,4 @@ const inlineBackgroundStyle = function (lightness) {
       hsla(0, 100%, ${lightness}%, .0) 40%);`;
 }
 
-module.exports =  inlineBackgroundStyle;
+export default inlineBackgroundStyle;

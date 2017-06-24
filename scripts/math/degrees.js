@@ -1,4 +1,4 @@
-const Radians = require("./radians.js");
+import Radians from "./radians.js";
 
 class Degrees {
   constructor(value){

@@ -1,7 +1,7 @@
 import Degrees from "./degrees.js";
-const Radians = require("./radians.js");
-const HSL = require("../color/hsl.js");
-const CartesianCoordinates = require("./cartesiancoordinates.js");
+import Radians from "./radians.js";
+import HSL from "../color/hsl.js";
+import CartesianCoordinates from "./cartesiancoordinates.js";
 
 
 class PolarCoordinates {
@@ -25,4 +25,3 @@ class PolarCoordinates {
 }
 
 export default PolarCoordinates;
-// module.exports = PolarCoordinates;

@@ -26,4 +26,4 @@ class Radians {
   }
 }
 
-module.exports =  Radians;
+export default Radians;

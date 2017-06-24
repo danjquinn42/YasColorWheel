@@ -1,4 +1,4 @@
-const Degrees = require("../scripts/math/degrees.js");
+import Degrees from "../scripts/math/degrees.js";
 const DegreesEquality = function(first, second) {
   if(typeof first === "Degrees" && typeof second === "Degrees") {
     return first.equals(second);

@@ -1,8 +1,8 @@
 import PolarCoordinates from './math/polarcoordinates.js';
-const CartesianCoordinates = require('./math/cartesiancoordinates.js');
-const inlineBackgroundStyle = require('./inline_background_style');
-const HSL = require('./color/hsl.js');
-const Marker = require('./marker.js');
+import CartesianCoordinates from './math/cartesiancoordinates.js';
+import inlineBackgroundStyle from './inline_background_style';
+import HSL from './color/hsl.js';
+import Marker from './marker.js';
 
 class Wheel{
   constructor(tag, color, scale) {
@@ -24,17 +24,12 @@ class Wheel{
 
   clickAndDragMarker(){
     this.scrim.addEventListener("mousedown", () => {
-
       const drag = this.colorFromMousePosition.bind(this);
-
       this.colorFromMousePosition(event);
-
       this.scrim.addEventListener("mousemove",
         drag,
         false);
-
       const that = this;
-
       document.addEventListener("mouseup", () => {
         this.scrim.removeEventListener("mousemove",
         drag,
@@ -51,10 +46,34 @@ class Wheel{
     this.updateMarkerPosition();
   }
 
+  // origin() {
+  //   const offset = cumulativeOffset();
+  //   const x = offset.top + radius();
+  //   const y = offset.left + radius();
+  //   return { x: x, y: y };
+  // }
+  //
+  // cumulativeOffset() {
+  //   let top = 0;
+  //   let left = 0;
+  //   let element = this.scrim;
+  //   while (element) {
+  //       top += element.offsetTop  || 0;
+  //       left += element.offsetLeft || 0;
+  //       element = element.offsetParent;
+  //   }
+  //
+  //   return { top: top, left: left };
+  // }
+
+  radius(){
+    return this.innerWheel.clientWidth / 2;
+  }
+
+
   coordinateFromMousePosition(offset){
-    const radius = this.innerWheel.clientWidth / 2;
     let coordinate = offset;
-    coordinate = (coordinate / radius) - 1;
+    coordinate = (coordinate / this.radius()) - 1;
     if (coordinate > 1) {
       return 1;
     }else if (coordinate < -1) {

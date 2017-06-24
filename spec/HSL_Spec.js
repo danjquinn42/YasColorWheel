@@ -1,4 +1,4 @@
-const HSL = require("../scripts/color/hsl.js");
+import HSL from "../scripts/color/hsl.js";
 
 describe("HSL", function() {
 

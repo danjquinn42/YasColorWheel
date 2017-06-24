@@ -1,4 +1,4 @@
-const Radians = require("./radians.js");
+import Radians from "./radians.js";
 import PolarCoordinates from "./polarcoordinates.js";
 
 class CartesianCoordinates {
@@ -23,4 +23,4 @@ class CartesianCoordinates {
   }
 }
 
-module.exports = CartesianCoordinates;
+export default CartesianCoordinates;
