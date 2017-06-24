@@ -17,6 +17,7 @@
     "jasmine": "^2.6.0"
   },
   "scripts": {
+    "build": "rimraf dist && webpack --config webpack.config.js --display-error-details --colors --progress",
     "test": "babel-node spec/run.js"
   },
   "repository": {
