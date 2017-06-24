@@ -352,7 +352,7 @@ var HSL = function () {
     key: "toXYCoordinates",
     value: function toXYCoordinates() {
       var angle = new Degrees(this.h);
-      var distanceFromOrigin = this.l / 100;
+      var distanceFromOrigin = this.s / 100;
       var position = new PolarCoordinates(angle, distanceFromOrigin);
       return position.toCartesianCoordinates();
     }

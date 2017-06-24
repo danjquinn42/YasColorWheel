@@ -1,10 +1,10 @@
-const PolarCoordinates = require("../scripts/math/cartesiancoordinates.js");
+const PolarCoordinates = require("../scripts/math/polarcoordinates.js");
 const Radians = require("../scripts/math/radians.js");
 
 describe("Polar Coodinates", function() {
   beforeEach(function() {
     angle = new Radians(4.01426)
-    position = new PolarCoordinates(angle, .415)
+    position = new PolarCoordinates(angle, .83)
   });
 
   describe("toCartesianCoordinates", function() {

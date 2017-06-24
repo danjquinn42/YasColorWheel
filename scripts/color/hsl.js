@@ -19,7 +19,7 @@ class HSL {
 
   toXYCoordinates(){
     const angle = new Degrees(this.h)
-    const distanceFromOrigin = this.l / 100;
+    const distanceFromOrigin = this.s / 100;
     const position = new PolarCoordinates(angle, distanceFromOrigin);
     return position.toCartesianCoordinates();
   }
