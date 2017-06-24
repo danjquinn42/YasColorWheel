@@ -7,8 +7,8 @@ class Marker {
 
   insert(){
     const position = this.color.toXYCoordinates();
-    position.x = (position.x * 50 + 50);
-    position.y = (position.y * 50 + 50);
+    position.x = (position.x * 50 + 46);
+    position.y = (position.y * 50 + 46);
 
 
     return(`
@@ -21,7 +21,7 @@ class Marker {
         padding-top: ${this.scale()}${this.scaleType()};
         background: ${this.color.toString()};
         border: 2px solid black;
-        border-radius: 0 50% 50%;
+        border-radius: 50%;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
