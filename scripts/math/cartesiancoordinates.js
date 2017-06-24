@@ -1,4 +1,5 @@
-const PolarCoordinates = require("./polarcoordinates.js").default;
+const Radians = require("./radians.js");
+import PolarCoordinates from "./polarcoordinates.js";
 
 class CartesianCoordinates {
   constructor(x, y) {
@@ -12,9 +13,8 @@ class CartesianCoordinates {
   }
 
   toPolarCoordinates(){
-    const distanceFromOrigin = this.hypotenuse;
-    const angle = Math.atan(this.y / this.x);
-    debugger;
+    const distanceFromOrigin = this.hypotenuse();
+    const angle = new Radians(Math.atan2(this.y, this.x));
     return new PolarCoordinates(angle, distanceFromOrigin);
   }
 

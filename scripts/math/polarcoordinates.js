@@ -1,6 +1,8 @@
-const Degrees = require("./degrees.js");
+import Degrees from "./degrees.js";
 const Radians = require("./radians.js");
+const HSL = require("../color/hsl.js");
 const CartesianCoordinates = require("./cartesiancoordinates.js");
+
 
 class PolarCoordinates {
   constructor(angle, distanceFromOrigin){
@@ -9,9 +11,9 @@ class PolarCoordinates {
   }
 
   toColor(lightness) {
-    const hue = this.angle.toDegrees;
-    const saturation = this.distanceFromOrigin;
-    return new Color(hue, saturation, lightness);
+    const hue = this.angle.toDegrees().value;
+    const saturation = this.distanceFromOrigin * 100;
+    return new HSL(hue, saturation, lightness);
   }
 
   toCartesianCoordinates() {
@@ -22,4 +24,5 @@ class PolarCoordinates {
 
 }
 
-module.exports = PolarCoordinates;
+export default PolarCoordinates;
+// module.exports = PolarCoordinates;

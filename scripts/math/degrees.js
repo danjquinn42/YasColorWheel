@@ -38,4 +38,4 @@ class Degrees {
   }
 }
 
-module.exports =  Degrees;
+export default Degrees;
