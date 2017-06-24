@@ -11,7 +11,7 @@ class HSL {
 
   // TODO should throw an exception if string isn't properly formed.
   static parse(string){
-    const [h, s, l] = string.match(/(\d)\w+/g).map((number) => {
+    const [h, s, l] = string.match(/\d+/g).map((number) => {
       return parseInt(number)
     });
     return new HSL(h, s, l);

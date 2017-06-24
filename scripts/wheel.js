@@ -1,12 +1,3 @@
-// TODO getCurrentColor()
-//  returns {HEX: "#193843",
-// HSL: "251,50,50",
-// RGB: "143,143,413",
-// }
-// TODO setColor(colorFormat, num or string [, num, num])
-// TODO slider for lightness
-// TODO set defaults if user does not pass in width or default color
-
 const PolarCoordinates = require('./math/polarcoordinates.js');
 const inlineBackgroundStyle = require('./inline_background_style');
 const HSL = require('./color/hsl.js');
@@ -21,16 +12,21 @@ class Wheel{
 
   static addToPage(wheelTag){
     const colorString = (wheelTag.hasAttribute("defaultColor")) ?
-      wheelTag.getAttribute("defaultColor") : "hsl(215, 100%, 50%)";
+      wheelTag.getAttribute("defaultColor") : "hsl(60, 50%, 50%)";
     const color = HSL.parse(colorString);
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
     const wheel = new Wheel(wheelTag, color, scale);
 
     wheel.render();
+    wheel.watchMouse();
   }
 
-
+  watchMouse(){
+    this.tag.addEventListener("mousedown", ()=> {
+      const e = event;
+    });
+  }
 
   render(){
     const marker = new Marker(this.color, this.scale);
@@ -39,11 +35,12 @@ class Wheel{
       border-radius: 50%;
       background: white;
       width: ${this.scale};
-      height: ${this.scale};`
+      padding-top: ${this.scale};`
     this.tag.innerHTML = (`
           <div
             style="
               position: absolute;
+              margin-top: -100%;
               width: 100%;
               height: 100%;
               ${inlineBackgroundStyle(50)};

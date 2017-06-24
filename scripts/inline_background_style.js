@@ -46,14 +46,14 @@ const inlineBackgroundStyle = function (lightness) {
     radial-gradient(
       ellipse at 7% 75%,
       hsla(150, 100%, ${lightness}%, 1),
-      hsla(150, 100%, ${lightness}%, .7),
-      hsla(150, 100%, ${lightness}%, .4),
+      hsla(150, 100%, ${lightness}%, .6),
+      hsla(150, 100%, ${lightness}%, .3),
       hsla(150, 100%, ${lightness}%, .2),
       hsla(150, 100%, ${lightness}%, .0) 40%),
     radial-gradient(
       ellipse at 0% 50%,
       hsla(180, 100%, ${lightness}%, 1),
-      hsla(180, 100%, ${lightness}%, .7),
+      hsla(180, 100%, ${lightness}%, .8),
       hsla(180, 100%, ${lightness}%, .4),
       hsla(180, 100%, ${lightness}%, .2),
       hsla(180, 100%, ${lightness}%, .0) 40%),
