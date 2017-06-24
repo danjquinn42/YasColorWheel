@@ -154,6 +154,13 @@ var PolarCoordinates = function () {
   }
 
   _createClass(PolarCoordinates, [{
+    key: "toColor",
+    value: function toColor(lightness) {
+      var hue = this.angle.toDegrees;
+      var saturation = this.distanceFromOrigin;
+      return new Color(hue, saturation, lightness);
+    }
+  }, {
     key: "toCartesianCoordinates",
     value: function toCartesianCoordinates() {
       var x = this.angle.cos() * this.distanceFromOrigin;
@@ -247,6 +254,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var PolarCoordinates = __webpack_require__(1);
+var CartesianCoordinates = __webpack_require__(9);
 var inlineBackgroundStyle = __webpack_require__(5);
 var HSL = __webpack_require__(6);
 var Marker = __webpack_require__(8);
@@ -263,8 +271,19 @@ var Wheel = function () {
   _createClass(Wheel, [{
     key: 'watchMouse',
     value: function watchMouse() {
-      this.tag.addEventListener("mousedown", function () {
-        var e = event;
+      var _this = this;
+
+      this.tag.addEventListener("click", function () {
+        var radius = event.target.clientWidth / 2;
+        var x = event.offsetX;
+        var y = event.offsetY;
+        x = radius;
+        y = radius;
+        x = 1;
+        y = 1;
+        var position = new CartesianCoordinates(x, y);
+        _this.color = position.toColor(_this.color.l);
+        _this.render();
       });
     }
   }, {
@@ -440,6 +459,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var PolarCoordinates = __webpack_require__(1).default;
+
 var CartesianCoordinates = function () {
   function CartesianCoordinates(x, y) {
     _classCallCheck(this, CartesianCoordinates);
@@ -449,6 +470,20 @@ var CartesianCoordinates = function () {
   }
 
   _createClass(CartesianCoordinates, [{
+    key: "toColor",
+    value: function toColor(lightness) {
+      var position = this.toPolarCoordinates();
+      return position.toColor(lightness);
+    }
+  }, {
+    key: "toPolarCoordinates",
+    value: function toPolarCoordinates() {
+      var distanceFromOrigin = this.hypotenuse;
+      var angle = Math.atan(this.y / this.x);
+      debugger;
+      return new PolarCoordinates(angle, distanceFromOrigin);
+    }
+  }, {
     key: "hypotenuse",
     value: function hypotenuse() {
       return Math.sqrt(this.x * this.x + this.y * this.y);

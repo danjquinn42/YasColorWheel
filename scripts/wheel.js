@@ -1,4 +1,5 @@
 const PolarCoordinates = require('./math/polarcoordinates.js');
+const CartesianCoordinates = require('./math/cartesiancoordinates.js');
 const inlineBackgroundStyle = require('./inline_background_style');
 const HSL = require('./color/hsl.js');
 const Marker = require('./marker.js');
@@ -23,8 +24,17 @@ class Wheel{
   }
 
   watchMouse(){
-    this.tag.addEventListener("mousedown", ()=> {
-      const e = event;
+    this.tag.addEventListener("click", ()=> {
+      const radius = event.target.clientWidth / 2;
+      let x = event.offsetX;
+      let y = event.offsetY;
+      x = radius;
+      y = radius;
+      x = 1;
+      y = 1;
+      const position = new CartesianCoordinates(x, y);
+      this.color = position.toColor(this.color.l);
+      this.render()
     });
   }
 
