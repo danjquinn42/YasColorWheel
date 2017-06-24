@@ -12,7 +12,8 @@ class Marker {
 
 
     return(`
-      <div style="
+      <div id="marker"
+        style="
         position: absolute;
         left: ${position.x}%;
         top: ${position.y}%;

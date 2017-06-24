@@ -60,34 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _colorpicker = __webpack_require__(501);
-
-var _colorpicker2 = _interopRequireDefault(_colorpicker);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-document.addEventListener("DOMContentLoaded", function () {
-  var colorPickers = document.getElementsByTagName("color-picker");
-  for (var i = 0; i < colorPickers.length; ++i) {
-    var picker = new _colorpicker2.default(colorPickers[i]);
-    picker.initialize();
-  };
-});
-
-/***/ }),
-
-/***/ 1:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -99,7 +76,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _degrees = __webpack_require__(2);
+var _degrees = __webpack_require__(1);
 
 var _degrees2 = _interopRequireDefault(_degrees);
 
@@ -107,8 +84,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Radians = __webpack_require__(3);
-var HSL = __webpack_require__(7);
+var Radians = __webpack_require__(2);
+var HSL = __webpack_require__(3);
 var CartesianCoordinates = __webpack_require__(4);
 
 var PolarCoordinates = function () {
@@ -142,8 +119,7 @@ exports.default = PolarCoordinates;
 // module.exports = PolarCoordinates;
 
 /***/ }),
-
-/***/ 2:
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -157,7 +133,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Radians = __webpack_require__(3);
+var Radians = __webpack_require__(2);
 
 var Degrees = function () {
   function Degrees(value) {
@@ -214,8 +190,7 @@ var Degrees = function () {
 exports.default = Degrees;
 
 /***/ }),
-
-/***/ 3:
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -223,7 +198,7 @@ exports.default = Degrees;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _degrees = __webpack_require__(2);
+var _degrees = __webpack_require__(1);
 
 var _degrees2 = _interopRequireDefault(_degrees);
 
@@ -273,16 +248,22 @@ var Radians = function () {
 module.exports = Radians;
 
 /***/ }),
-
-/***/ 4:
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _polarcoordinates = __webpack_require__(1);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
+
+
+var _degrees = __webpack_require__(1);
+
+var _degrees2 = _interopRequireDefault(_degrees);
+
+var _polarcoordinates = __webpack_require__(0);
 
 var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
 
@@ -290,7 +271,69 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Radians = __webpack_require__(3);
+var HSL = function () {
+  function HSL(h, s, l) {
+    _classCallCheck(this, HSL);
+
+    this.h = h;
+    this.s = s;
+    this.l = l;
+  }
+
+  // TODO should throw an exception if string isn't properly formed.
+
+
+  _createClass(HSL, [{
+    key: "toXYCoordinates",
+    value: function toXYCoordinates() {
+      var angle = new _degrees2.default(this.h);
+      var distanceFromOrigin = this.s / 100;
+      var position = new _polarcoordinates2.default(angle, distanceFromOrigin);
+      return position.toCartesianCoordinates();
+    }
+  }, {
+    key: "toString",
+    value: function toString() {
+      return "hsl(" + this.h + "," + this.s + "%," + this.l + "%)";
+    }
+  }], [{
+    key: "parse",
+    value: function parse(string) {
+      var _string$match$map = string.match(/\d+/g).map(function (number) {
+        return parseInt(number);
+      }),
+          _string$match$map2 = _slicedToArray(_string$match$map, 3),
+          h = _string$match$map2[0],
+          s = _string$match$map2[1],
+          l = _string$match$map2[2];
+
+      return new HSL(h, s, l);
+    }
+  }]);
+
+  return HSL;
+}();
+
+module.exports = HSL;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _polarcoordinates = __webpack_require__(0);
+
+var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Radians = __webpack_require__(2);
 
 var CartesianCoordinates = function () {
   function CartesianCoordinates(x, y) {
@@ -326,92 +369,28 @@ var CartesianCoordinates = function () {
 module.exports = CartesianCoordinates;
 
 /***/ }),
-
-/***/ 5:
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _colorpicker = __webpack_require__(6);
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _polarcoordinates = __webpack_require__(1);
-
-var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
+var _colorpicker2 = _interopRequireDefault(_colorpicker);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var CartesianCoordinates = __webpack_require__(4);
-var inlineBackgroundStyle = __webpack_require__(6);
-var HSL = __webpack_require__(7);
-var Marker = __webpack_require__(8);
-
-var Wheel = function () {
-  function Wheel(tag, color, scale) {
-    _classCallCheck(this, Wheel);
-
-    this.tag = tag;
-    this.color = color;
-    this.scale = scale;
-  }
-
-  _createClass(Wheel, [{
-    key: 'moveMarkerToMousePosition',
-    value: function moveMarkerToMousePosition() {
-      var _this = this;
-
-      this.innerWheel.addEventListener("click", function () {
-        var radius = event.target.clientWidth / 2;
-        var x = event.offsetX;
-        var y = event.offsetY;
-        x = x / radius - 1;
-        y = y / radius - 1;
-        var position = new CartesianCoordinates(x, y);
-        _this.color = position.toColor(_this.color.l);
-        _this.updateMarkerPosition();
-      });
-    }
-  }, {
-    key: 'updateMarkerPosition',
-    value: function updateMarkerPosition() {
-      var marker = new Marker(this.color, this.scale);
-      this.innerWheel.innerHTML = marker.insert();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var marker = new Marker(this.color, this.scale);
-      this.tag.style = '\n      position: absolute;\n      border-radius: 50%;\n      background: white;\n      width: ' + this.scale + ';\n      padding-top: ' + this.scale + ';';
-      this.tag.innerHTML = '\n      <div>\n          <div\n            id="inner-wheel"\n            style="\n              position: absolute;\n              margin-top: -100%;\n              width: 100%;\n              height: 100%;\n              ' + inlineBackgroundStyle(50) + ';\n              border-radius: 50%;">\n        ' + marker.insert() + '\n        </div>\n      </div>\n        ';
-      this.innerWheel = this.tag.firstElementChild.firstElementChild;
-      this.slider = this.tag.lastChild;
-    }
-  }], [{
-    key: 'addToPage',
-    value: function addToPage(wheelTag, cssColor) {
-      var color = HSL.parse(cssColor);
-      var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
-      var wheel = new Wheel(wheelTag, color, scale);
-
-      wheel.render();
-      wheel.moveMarkerToMousePosition();
-    }
-  }]);
-
-  return Wheel;
-}();
-
-exports.default = Wheel;
+document.addEventListener("DOMContentLoaded", function () {
+  var colorPickers = document.getElementsByTagName("color-picker");
+  for (var i = 0; i < colorPickers.length; ++i) {
+    var picker = new _colorpicker2.default(colorPickers[i]);
+    picker.initialize();
+  };
+});
 
 /***/ }),
-
-/***/ 501:
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -423,7 +402,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _wheel = __webpack_require__(5);
+var _wheel = __webpack_require__(7);
 
 var _wheel2 = _interopRequireDefault(_wheel);
 
@@ -479,8 +458,117 @@ var colorPicker = function () {
 exports.default = colorPicker;
 
 /***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 6:
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _polarcoordinates = __webpack_require__(0);
+
+var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CartesianCoordinates = __webpack_require__(4);
+var inlineBackgroundStyle = __webpack_require__(8);
+var HSL = __webpack_require__(3);
+var Marker = __webpack_require__(9);
+
+var Wheel = function () {
+  function Wheel(tag, color, scale) {
+    _classCallCheck(this, Wheel);
+
+    this.tag = tag;
+    this.color = color;
+    this.scale = scale;
+    this.mousePosition;
+  }
+
+  _createClass(Wheel, [{
+    key: 'clickAndDragMarker',
+    value: function clickAndDragMarker() {
+      var _this = this;
+
+      this.scrim.addEventListener("mousedown", function () {
+
+        var drag = _this.colorFromMousePosition.bind(_this);
+
+        _this.colorFromMousePosition(event);
+
+        _this.scrim.addEventListener("mousemove", drag, false);
+
+        var that = _this;
+
+        document.addEventListener("mouseup", function () {
+          _this.scrim.removeEventListener("mousemove", drag, false);
+        });
+      });
+    }
+  }, {
+    key: 'colorFromMousePosition',
+    value: function colorFromMousePosition(event) {
+      var x = this.coordinateFromMousePosition(event.offsetX);
+      var y = this.coordinateFromMousePosition(event.offsetY);
+      var position = new CartesianCoordinates(x, y);
+      this.color = position.toColor(this.color.l);
+      this.updateMarkerPosition();
+    }
+  }, {
+    key: 'coordinateFromMousePosition',
+    value: function coordinateFromMousePosition(offset) {
+      var radius = this.innerWheel.clientWidth / 2;
+      var coordinate = offset;
+      coordinate = coordinate / radius - 1;
+      if (coordinate > 1) {
+        return 1;
+      } else if (coordinate < -1) {
+        return -1;
+      }
+      return coordinate;
+    }
+  }, {
+    key: 'updateMarkerPosition',
+    value: function updateMarkerPosition() {
+      var marker = new Marker(this.color, this.scale);
+      this.innerWheel.innerHTML = marker.insert();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var marker = new Marker(this.color, this.scale);
+      this.tag.style = '\n      position: absolute;\n      border-radius: 50%;\n      background: white;\n      width: ' + this.scale + ';\n      padding-top: ' + this.scale + ';';
+      this.tag.innerHTML = '\n      <div>\n          <div\n            style="\n              position: absolute;\n              margin-top: -100%;\n              width: 100%;\n              height: 100%;\n              ' + inlineBackgroundStyle(50) + ';\n              border-radius: 50%;">\n            ' + marker.insert() + '\n          </div>\n\n        <div\n          style="\n            position: absolute;\n            margin-top: -100%;\n            width: 100%;\n            height: 100%;\n            border-radius: 50%;">\n        </div>\n        ';
+      this.innerWheel = this.tag.firstElementChild.firstElementChild;
+      this.scrim = this.tag.lastChild;
+    }
+  }], [{
+    key: 'addToPage',
+    value: function addToPage(wheelTag, cssColor) {
+      var color = HSL.parse(cssColor);
+      var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
+      var wheel = new Wheel(wheelTag, color, scale);
+
+      wheel.render();
+      wheel.clickAndDragMarker();
+    }
+  }]);
+
+  return Wheel;
+}();
+
+exports.default = Wheel;
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -493,78 +581,7 @@ var inlineBackgroundStyle = function inlineBackgroundStyle(lightness) {
 module.exports = inlineBackgroundStyle;
 
 /***/ }),
-
-/***/ 7:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
-
-
-var _degrees = __webpack_require__(2);
-
-var _degrees2 = _interopRequireDefault(_degrees);
-
-var _polarcoordinates = __webpack_require__(1);
-
-var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var HSL = function () {
-  function HSL(h, s, l) {
-    _classCallCheck(this, HSL);
-
-    this.h = h;
-    this.s = s;
-    this.l = l;
-  }
-
-  // TODO should throw an exception if string isn't properly formed.
-
-
-  _createClass(HSL, [{
-    key: "toXYCoordinates",
-    value: function toXYCoordinates() {
-      var angle = new _degrees2.default(this.h);
-      var distanceFromOrigin = this.s / 100;
-      var position = new _polarcoordinates2.default(angle, distanceFromOrigin);
-      return position.toCartesianCoordinates();
-    }
-  }, {
-    key: "toString",
-    value: function toString() {
-      return "hsl(" + this.h + "," + this.s + "%," + this.l + "%)";
-    }
-  }], [{
-    key: "parse",
-    value: function parse(string) {
-      var _string$match$map = string.match(/\d+/g).map(function (number) {
-        return parseInt(number);
-      }),
-          _string$match$map2 = _slicedToArray(_string$match$map, 3),
-          h = _string$match$map2[0],
-          s = _string$match$map2[1],
-          l = _string$match$map2[2];
-
-      return new HSL(h, s, l);
-    }
-  }]);
-
-  return HSL;
-}();
-
-module.exports = HSL;
-
-/***/ }),
-
-/***/ 8:
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -589,7 +606,7 @@ var Marker = function () {
       position.x = position.x * 50 + 50;
       position.y = position.y * 50 + 50;
 
-      return '\n      <div style="\n        position: absolute;\n        left: ' + position.x + '%;\n        top: ' + position.y + '%;\n        width: ' + this.scale() + this.scaleType() + ';\n        padding-top: ' + this.scale() + this.scaleType() + ';\n        background: ' + this.color.toString() + ';\n        border: 2px solid black;\n        border-radius: 0 50% 50%;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none;">\n      </div>\n      ';
+      return '\n      <div id="marker"\n        style="\n        position: absolute;\n        left: ' + position.x + '%;\n        top: ' + position.y + '%;\n        width: ' + this.scale() + this.scaleType() + ';\n        padding-top: ' + this.scale() + this.scaleType() + ';\n        background: ' + this.color.toString() + ';\n        border: 2px solid black;\n        border-radius: 0 50% 50%;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none;">\n      </div>\n      ';
     }
   }, {
     key: 'percentSize',
@@ -625,6 +642,5 @@ var Marker = function () {
 module.exports = Marker;
 
 /***/ })
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=colorwheel.js.map

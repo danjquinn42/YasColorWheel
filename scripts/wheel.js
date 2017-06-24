@@ -9,6 +9,7 @@ class Wheel{
     this.tag = tag;
     this.color = color;
     this.scale = scale;
+    this.mousePosition;
   }
 
   static addToPage(wheelTag, cssColor){
@@ -18,20 +19,48 @@ class Wheel{
     const wheel = new Wheel(wheelTag, color, scale);
 
     wheel.render();
-    wheel.moveMarkerToMousePosition();
+    wheel.clickAndDragMarker();
   }
 
-  moveMarkerToMousePosition(){
-    this.innerWheel.addEventListener("click", ()=> {
-      const radius = event.target.clientWidth / 2;
-      let x = event.offsetX;
-      let y = event.offsetY;
-      x = (x / radius) - 1;
-      y = (y / radius) - 1;
-      const position = new CartesianCoordinates(x, y);
-      this.color = position.toColor(this.color.l);
-      this.updateMarkerPosition();
+  clickAndDragMarker(){
+    this.scrim.addEventListener("mousedown", () => {
+
+      const drag = this.colorFromMousePosition.bind(this);
+
+      this.colorFromMousePosition(event);
+
+      this.scrim.addEventListener("mousemove",
+        drag,
+        false);
+
+      const that = this;
+
+      document.addEventListener("mouseup", () => {
+        this.scrim.removeEventListener("mousemove",
+        drag,
+        false);
+      });
     });
+  }
+
+  colorFromMousePosition(event){
+    let x = this.coordinateFromMousePosition(event.offsetX);
+    let y = this.coordinateFromMousePosition(event.offsetY);
+    const position = new CartesianCoordinates(x, y);
+    this.color = position.toColor(this.color.l);
+    this.updateMarkerPosition();
+  }
+
+  coordinateFromMousePosition(offset){
+    const radius = this.innerWheel.clientWidth / 2;
+    let coordinate = offset;
+    coordinate = (coordinate / radius) - 1;
+    if (coordinate > 1) {
+      return 1;
+    }else if (coordinate < -1) {
+      return -1;
+    }
+    return coordinate;
   }
 
   updateMarkerPosition(){
@@ -50,7 +79,6 @@ class Wheel{
     this.tag.innerHTML = (`
       <div>
           <div
-            id="inner-wheel"
             style="
               position: absolute;
               margin-top: -100%;
@@ -58,12 +86,20 @@ class Wheel{
               height: 100%;
               ${inlineBackgroundStyle(50)};
               border-radius: 50%;">
-        ${marker.insert()}
+            ${marker.insert()}
+          </div>
+
+        <div
+          style="
+            position: absolute;
+            margin-top: -100%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;">
         </div>
-      </div>
         `);
     this.innerWheel = this.tag.firstElementChild.firstElementChild;
-    this.slider = this.tag.lastChild;
+    this.scrim = this.tag.lastChild;
   }
 }
 
