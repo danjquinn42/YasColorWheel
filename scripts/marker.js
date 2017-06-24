@@ -37,4 +37,4 @@ class Marker {
   }
 }
 
-export default Marker;
+module.exports =  Marker;

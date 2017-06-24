@@ -7,10 +7,10 @@
 // TODO slider for lightness
 // TODO set defaults if user does not pass in width or default color
 
-import PolarCoordinates from './math/polarcoordinates.js';
-import inlineBackgroundStyle from './inline_background_style';
-import HSL from './color/hsl.js';
-import Marker from './color/marker.js';
+const PolarCoordinates = require('./math/polarcoordinates.js');
+const inlineBackgroundStyle = require('./inline_background_style');
+const HSL = require('./color/hsl.js');
+const Marker = require('./marker.js');
 
 class Wheel{
   constructor(tag, color, scale) {

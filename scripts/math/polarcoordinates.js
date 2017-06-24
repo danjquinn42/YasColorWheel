@@ -1,5 +1,5 @@
-import Degrees from "./degrees.js";
-import Radians from "./radians.js";
+const Degrees = require("./degrees.js");
+const Radians = require("./radians.js");
 
 class PolarCoordinates {
 
@@ -12,7 +12,7 @@ class PolarCoordinates {
     return Math.sqrt(x*x + y*y);
   }
 
-  static toXYCoordinates(degrees, distanceFromOrigin) {
+  toXYCoordinates(degrees, distanceFromOrigin) {
     const angle = new Degrees(degrees);
     const radians = angle.toRadians();
     const x = Math.cos(radians) * distanceFromOrigin;
