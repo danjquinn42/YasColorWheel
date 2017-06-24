@@ -1,7 +1,7 @@
 import PolarCoordinates from './math/polarcoordinates.js';
 import CartesianCoordinates from './math/cartesiancoordinates.js';
-import inlineBackgroundStyle from './background_style';
 import HSL from './color/hsl.js';
+import InnerWheelStyle from './inner_wheel_style.js';
 import Marker from './marker.js';
 
 class Wheel{
@@ -50,7 +50,7 @@ class Wheel{
   origin() {
     const offset = this.totalOffset();
     const x = offset.left + this.radius();
-    const y = offset.top - this.radius();
+    const y = offset.top + this.radius();
     return { x: x, y: y };
   }
 
@@ -76,39 +76,21 @@ class Wheel{
   }
 
   render(){
-    const marker = new Marker(this.color, this.scale);
     this.tag.style = `
-      position: absolute;
-      border-radius: 50%;
-      background: white;
-      width: ${this.scale};
-      padding-top: ${this.scale};`
-    this.tag.innerHTML = (`
-      <div>
-          <div
-            draggable="true;"
-            style="
-              position: absolute;
-              margin-top: -100%;
-              width: 100%;
-              height: 100%;
-              ${inlineBackgroundStyle(50)};
-              border-radius: 50%;">
-            ${marker.insert()}
-          </div>
+      position: absolute; border-radius: 50%; background: white;
+      width: ${this.scale}; padding-top: ${this.scale}`;
 
-        <div
-          draggable="false";
-          style="
-            position: absolute;
-            margin-top: -100%;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;">
-        </div>
-        `);
-    this.innerWheel = this.tag.firstElementChild.firstElementChild;
-    this.scrim = this.tag.lastChild;
+    this.innerWheel = document.createElement("div");
+    this.innerWheel.style = InnerWheelStyle(50);
+    const marker = new Marker(this.color, this.scale);
+    this.innerWheel.innerHTML = marker.insert();
+    this.tag.appendChild(this.innerWheel);
+
+    this.scrim = document.createElement("div");
+    this.scrim.style = `
+      position: absolute; margin-top: -100%; width: 100%;
+      height: 100%; border-radius: 50%;`
+    this.tag.appendChild(this.scrim);
   }
 }
 

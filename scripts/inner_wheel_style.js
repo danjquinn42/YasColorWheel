@@ -1,5 +1,11 @@
-const inlineBackgroundStyle = function (lightness) {
+const InnerWheelStyle = function (lightness) {
   return `
+  position: absolute;
+  margin-top: -100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+
   background:
     radial-gradient(
       circle at 50% 50%,
@@ -118,4 +124,4 @@ const inlineBackgroundStyle = function (lightness) {
       hsla(0, 100%, ${lightness}%, .0) 40%);`;
 }
 
-export default inlineBackgroundStyle;
+export default InnerWheelStyle;
