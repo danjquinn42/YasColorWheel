@@ -21,6 +21,7 @@ const inlineBackgroundStyle = function (lightness) {
       hsla(30, 100%, ${lightness}%, .7),
       hsla(30, 100%, ${lightness}%, .4),
       hsla(30, 100%, ${lightness}%, .2),
+      hsla(30, 100%, ${lightness}%, .2),
       hsla(30, 100%, ${lightness}%, .0) 40%),
     radial-gradient(
       ellipse at 75% 93%,
@@ -39,14 +40,15 @@ const inlineBackgroundStyle = function (lightness) {
     radial-gradient(
       ellipse at 25% 93%,
       hsla(120, 100%, ${lightness}%, 1),
-      hsla(120, 100%, ${lightness}%, .7),
+      hsla(120, 100%, ${lightness}%, .6),
       hsla(120, 100%, ${lightness}%, .4),
       hsla(120, 100%, ${lightness}%, .2),
       hsla(120, 100%, ${lightness}%, .0) 40%),
     radial-gradient(
       ellipse at 7% 75%,
       hsla(150, 100%, ${lightness}%, 1),
-      hsla(150, 100%, ${lightness}%, .6),
+      hsla(150, 100%, ${lightness}%, .8),
+      hsla(150, 100%, ${lightness}%, .5),
       hsla(150, 100%, ${lightness}%, .3),
       hsla(150, 100%, ${lightness}%, .2),
       hsla(150, 100%, ${lightness}%, .0) 40%),
@@ -67,7 +69,7 @@ const inlineBackgroundStyle = function (lightness) {
     radial-gradient(
       ellipse at 25% 7%,
       hsla(240, 100%, ${lightness}%, 1),
-      hsla(240, 100%, ${lightness}%, .7),
+      hsla(240, 100%, ${lightness}%, .8),
       hsla(240, 100%, ${lightness}%, .4),
       hsla(240, 100%, ${lightness}%, .2),
       hsla(240, 100%, ${lightness}%, .0) 40%),
