@@ -20,7 +20,7 @@ class Marker {
         width: ${this.scale()}${this.scaleType()};
         padding-top: ${this.scale()}${this.scaleType()};
         background: ${this.color.toString()};
-        border: 2px solid black;
+        border: 1px solid black;
         border-radius: 50%;
         -webkit-user-select: none;
         -moz-user-select: none;

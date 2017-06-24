@@ -669,7 +669,7 @@ var Marker = function () {
       position.x = position.x * 50 + 46;
       position.y = position.y * 50 + 46;
 
-      return '\n      <div id="marker"\n        style="\n        position: absolute;\n        left: ' + position.x + '%;\n        top: ' + position.y + '%;\n        width: ' + this.scale() + this.scaleType() + ';\n        padding-top: ' + this.scale() + this.scaleType() + ';\n        background: ' + this.color.toString() + ';\n        border: 2px solid black;\n        border-radius: 50%;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none;">\n      </div>\n      ';
+      return '\n      <div id="marker"\n        style="\n        position: absolute;\n        left: ' + position.x + '%;\n        top: ' + position.y + '%;\n        width: ' + this.scale() + this.scaleType() + ';\n        padding-top: ' + this.scale() + this.scaleType() + ';\n        background: ' + this.color.toString() + ';\n        border: 1px solid black;\n        border-radius: 50%;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none;">\n      </div>\n      ';
     }
   }, {
     key: 'percentSize',
