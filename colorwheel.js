@@ -538,7 +538,7 @@ var Wheel = function () {
     value: function clickAndDragMarker() {
       var _this = this;
 
-      this.scrim.addEventListener("mousedown", function () {
+      this.scrim.addEventListener("mousedown", function (event) {
         var drag = _this.colorFromMousePosition.bind(_this);
         _this.colorFromMousePosition(event);
         document.addEventListener("mousemove", drag, false);
@@ -593,16 +593,16 @@ var Wheel = function () {
   }, {
     key: 'render',
     value: function render() {
-      this.tag.style = '\n      position: absolute; border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale;
+      this.tag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
 
       this.innerWheel = document.createElement("div");
-      this.innerWheel.style = (0, _inner_wheel_style2.default)(50);
+      this.innerWheel.setAttribute("style", (0, _inner_wheel_style2.default)(50));
       var marker = new _marker2.default(this.color, this.scale);
       this.innerWheel.innerHTML = marker.insert();
       this.tag.appendChild(this.innerWheel);
 
       this.scrim = document.createElement("div");
-      this.scrim.style = '\n      position: absolute; margin-top: -100%; width: 100%;\n      height: 100%; border-radius: 50%;';
+      this.scrim.setAttribute("style", 'position: absolute;\n      margin-top: -100%; width: 100%;\n      height: 100%; border-radius: 50%;');
       this.tag.appendChild(this.scrim);
     }
   }], [{

@@ -23,7 +23,7 @@ class Wheel{
   }
 
   clickAndDragMarker(){
-    this.scrim.addEventListener("mousedown", () => {
+    this.scrim.addEventListener("mousedown", (event) => {
       const drag = this.colorFromMousePosition.bind(this);
       this.colorFromMousePosition(event);
       document.addEventListener("mousemove",
@@ -76,20 +76,20 @@ class Wheel{
   }
 
   render(){
-    this.tag.style = `
-      position: absolute; border-radius: 50%; background: white;
-      width: ${this.scale}; padding-top: ${this.scale}`;
+    this.tag.setAttribute("style", ` position: absolute;
+      border-radius: 50%; background: white;
+      width: ${this.scale}; padding-top: ${this.scale}`);
 
     this.innerWheel = document.createElement("div");
-    this.innerWheel.style = InnerWheelStyle(50);
+    this.innerWheel.setAttribute("style", InnerWheelStyle(50));
     const marker = new Marker(this.color, this.scale);
     this.innerWheel.innerHTML = marker.insert();
     this.tag.appendChild(this.innerWheel);
 
     this.scrim = document.createElement("div");
-    this.scrim.style = `
-      position: absolute; margin-top: -100%; width: 100%;
-      height: 100%; border-radius: 50%;`
+    this.scrim.setAttribute("style", `position: absolute;
+      margin-top: -100%; width: 100%;
+      height: 100%; border-radius: 50%;`);
     this.tag.appendChild(this.scrim);
   }
 }
