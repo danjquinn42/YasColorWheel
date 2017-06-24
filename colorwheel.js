@@ -89,6 +89,16 @@ var Degrees = function () {
       return new Radians(this.value * Math.PI / 180);
     }
   }, {
+    key: "cos",
+    value: function cos() {
+      return this.toRadians().cos();
+    }
+  }, {
+    key: "sin",
+    value: function sin() {
+      return this.toRadians().sin();
+    }
+  }, {
     key: "plus",
     value: function plus(degree) {
       return new Degrees(this.value + degree.value);
@@ -133,37 +143,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Degrees = __webpack_require__(0);
 var Radians = __webpack_require__(2);
+var CartesianCoordinates = __webpack_require__(9);
 
 var PolarCoordinates = function () {
   function PolarCoordinates(angle, distanceFromOrigin) {
     _classCallCheck(this, PolarCoordinates);
 
     this.angle = angle;
-    this.distanceFromOrigin = distanceFromOrigin; // value from 0-1//
+    this.distanceFromOrigin = distanceFromOrigin;
   }
 
   _createClass(PolarCoordinates, [{
-    key: "toXYCoordinates",
-    value: function toXYCoordinates(degrees, distanceFromOrigin) {
-      var angle = new Degrees(degrees);
-      var radians = angle.toRadians();
-      var x = Math.cos(radians) * distanceFromOrigin;
-      var y = Math.sin(radians) * distanceFromOrigin;
-      return [x, y];
-    }
-  }], [{
-    key: "hypotenuse",
-    value: function hypotenuse(x, y) {
-      return Math.sqrt(x * x + y * y);
-    }
-  }, {
-    key: "from",
-    value: function from(x, y) {
-      var distanceFromOrigin = this.hypotenuse(x, y);
-      var angle = Radians.from(x, distanceFromOrigin);
-      angle = angle.toDegrees();
-      angle = y < 0 ? angle : angle.negated();
-      return new PolarCoordinates(angle, distanceFromOrigin);
+    key: "toCartesianCoordinates",
+    value: function toCartesianCoordinates() {
+      var x = this.angle.cos() * this.distanceFromOrigin;
+      var y = this.angle.sin() * this.distanceFromOrigin;
+      return new CartesianCoordinates(x, y);
     }
   }]);
 
@@ -196,6 +191,16 @@ var Radians = function () {
     key: "toDegrees",
     value: function toDegrees() {
       return new Degrees(this.value * (180 / Math.PI));
+    }
+  }, {
+    key: "cos",
+    value: function cos() {
+      return Math.cos(this.value);
+    }
+  }, {
+    key: "sin",
+    value: function sin() {
+      return Math.sin(this.value);
     }
   }, {
     key: "equals",
@@ -346,10 +351,10 @@ var HSL = function () {
   _createClass(HSL, [{
     key: "toXYCoordinates",
     value: function toXYCoordinates() {
-      var angle = new Degrees(this.h).toRadians();
+      var angle = new Degrees(this.h);
       var distanceFromOrigin = this.l / 100;
       var position = new PolarCoordinates(angle, distanceFromOrigin);
-      return position.toXYCoordinates();
+      return position.toCartesianCoordinates();
     }
   }, {
     key: "toString",
@@ -422,6 +427,37 @@ var Marker = function () {
 }();
 
 module.exports = Marker;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CartesianCoordinates = function () {
+  function CartesianCoordinates(x, y) {
+    _classCallCheck(this, CartesianCoordinates);
+
+    this.x = x;
+    this.y = y;
+  }
+
+  _createClass(CartesianCoordinates, [{
+    key: "hypotenuse",
+    value: function hypotenuse() {
+      return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+  }]);
+
+  return CartesianCoordinates;
+}();
+
+module.exports = CartesianCoordinates;
 
 /***/ })
 /******/ ]);

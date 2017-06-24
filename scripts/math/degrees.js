@@ -9,6 +9,14 @@ class Degrees {
     return new Radians (this.value * Math.PI / 180);
   }
 
+  cos(){
+    return this.toRadians().cos();
+  }
+
+  sin(){
+    return this.toRadians().sin();
+  }
+
   plus(degree){
     return new Degrees(this.value + degree.value);
   }

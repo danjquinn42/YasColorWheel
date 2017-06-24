@@ -18,10 +18,10 @@ class HSL {
   };
 
   toXYCoordinates(){
-    const angle = new Degrees(this.h).toRadians();
+    const angle = new Degrees(this.h)
     const distanceFromOrigin = this.l / 100;
     const position = new PolarCoordinates(angle, distanceFromOrigin);
-    return position.toXYCoordinates();
+    return position.toCartesianCoordinates();
   }
 
   toString(){
