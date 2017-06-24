@@ -11,35 +11,23 @@ class Wheel{
     this.scale = scale;
   }
 
-  getColor(){
-    return this.color;
-  }
-
-  setColor(newColor){
-    this.color = newColor;
-  }
-
-  static addToPage(wheelTag){
-    const colorString = (wheelTag.hasAttribute("defaultColor")) ?
-      wheelTag.getAttribute("defaultColor") : "hsl(60, 50%, 50%)";
-    const color = HSL.parse(colorString);
+  static addToPage(wheelTag, cssColor){
+    const color = HSL.parse(cssColor);
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
     const wheel = new Wheel(wheelTag, color, scale);
 
     wheel.render();
-    wheel.watchMouse();
+    wheel.moveMarkerToMousePosition();
   }
 
-  watchMouse(){
+  moveMarkerToMousePosition(){
     this.innerWheel.addEventListener("click", ()=> {
       const radius = event.target.clientWidth / 2;
       let x = event.offsetX;
       let y = event.offsetY;
-      x /= radius;
-      y /= radius;
-      x -= 1;
-      y -= 1;
+      x = (x / radius) - 1;
+      y = (y / radius) - 1;
       const position = new CartesianCoordinates(x, y);
       this.color = position.toColor(this.color.l);
       this.updateMarkerPosition();
@@ -79,4 +67,4 @@ class Wheel{
   }
 }
 
-module.exports = Wheel;
+export default Wheel;
