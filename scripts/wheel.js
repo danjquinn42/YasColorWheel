@@ -24,6 +24,7 @@ class Wheel{
 
   clickAndDragMarker(){
     this.scrim.addEventListener("mousedown", (event) => {
+      event.preventDefault();
       const drag = this.colorFromMousePosition.bind(this);
       this.colorFromMousePosition(event);
       document.addEventListener("mousemove",

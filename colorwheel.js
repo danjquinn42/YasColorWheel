@@ -539,6 +539,7 @@ var Wheel = function () {
       var _this = this;
 
       this.scrim.addEventListener("mousedown", function (event) {
+        event.preventDefault();
         var drag = _this.colorFromMousePosition.bind(_this);
         _this.colorFromMousePosition(event);
         document.addEventListener("mousemove", drag, false);
