@@ -1,4 +1,4 @@
-const PolarCoordinates = require('./math/polarcoordinates.js');
+import PolarCoordinates from './math/polarcoordinates.js';
 const CartesianCoordinates = require('./math/cartesiancoordinates.js');
 const inlineBackgroundStyle = require('./inline_background_style');
 const HSL = require('./color/hsl.js');
@@ -9,6 +9,14 @@ class Wheel{
     this.tag = tag;
     this.color = color;
     this.scale = scale;
+  }
+
+  getColor(){
+    return this.color;
+  }
+
+  setColor(newColor){
+    this.color = newColor;
   }
 
   static addToPage(wheelTag){
@@ -24,18 +32,23 @@ class Wheel{
   }
 
   watchMouse(){
-    this.tag.addEventListener("click", ()=> {
+    this.innerWheel.addEventListener("click", ()=> {
       const radius = event.target.clientWidth / 2;
       let x = event.offsetX;
       let y = event.offsetY;
-      x = radius;
-      y = radius;
-      x = 1;
-      y = 1;
+      x /= radius;
+      y /= radius;
+      x -= 1;
+      y -= 1;
       const position = new CartesianCoordinates(x, y);
       this.color = position.toColor(this.color.l);
-      this.render()
+      this.updateMarkerPosition();
     });
+  }
+
+  updateMarkerPosition(){
+    const marker = new Marker(this.color, this.scale);
+    this.innerWheel.innerHTML = marker.insert();
   }
 
   render(){
@@ -47,17 +60,22 @@ class Wheel{
       width: ${this.scale};
       padding-top: ${this.scale};`
     this.tag.innerHTML = (`
+      <div>
           <div
+            id="inner-wheel"
             style="
               position: absolute;
               margin-top: -100%;
               width: 100%;
               height: 100%;
               ${inlineBackgroundStyle(50)};
-              border-radius: 50%;"
-            ></div>
+              border-radius: 50%;">
         ${marker.insert()}
-    `);
+        </div>
+      </div>
+        `);
+    this.innerWheel = this.tag.firstElementChild.firstElementChild;
+    this.slider = this.tag.lastChild;
   }
 }
 

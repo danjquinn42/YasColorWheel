@@ -1,6 +1,6 @@
 //TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
-const Degrees = require("../math/degrees.js");
-const PolarCoordinates = require("../math/polarcoordinates.js");
+import Degrees from "../math/degrees.js";
+import PolarCoordinates from "../math/polarcoordinates.js";
 
 class HSL {
   constructor(h, s, l){

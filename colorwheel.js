@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,11 +70,86 @@
 "use strict";
 
 
+var Wheel = __webpack_require__(5);
+
+document.addEventListener("DOMContentLoaded", function () {
+  var wheelTags = document.getElementsByTagName("colorwheel");
+  for (var i = 0; i < wheelTags.length; ++i) {
+    var wheel = Wheel.addToPage(wheelTags[i]);
+  };
+});
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _degrees = __webpack_require__(2);
+
+var _degrees2 = _interopRequireDefault(_degrees);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Radians = __webpack_require__(3);
+var HSL = __webpack_require__(7);
+var CartesianCoordinates = __webpack_require__(4);
+
+var PolarCoordinates = function () {
+  function PolarCoordinates(angle, distanceFromOrigin) {
+    _classCallCheck(this, PolarCoordinates);
+
+    this.angle = angle;
+    this.distanceFromOrigin = distanceFromOrigin;
+  }
+
+  _createClass(PolarCoordinates, [{
+    key: "toColor",
+    value: function toColor(lightness) {
+      var hue = this.angle.toDegrees().value;
+      var saturation = this.distanceFromOrigin * 100;
+      return new HSL(hue, saturation, lightness);
+    }
+  }, {
+    key: "toCartesianCoordinates",
+    value: function toCartesianCoordinates() {
+      var x = this.angle.cos() * this.distanceFromOrigin;
+      var y = this.angle.sin() * this.distanceFromOrigin;
+      return new CartesianCoordinates(x, y);
+    }
+  }]);
+
+  return PolarCoordinates;
+}();
+
+exports.default = PolarCoordinates;
+// module.exports = PolarCoordinates;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Radians = __webpack_require__(2);
+var Radians = __webpack_require__(3);
 
 var Degrees = function () {
   function Degrees(value) {
@@ -128,10 +203,10 @@ var Degrees = function () {
   return Degrees;
 }();
 
-module.exports = Degrees;
+exports.default = Degrees;
 
 /***/ }),
-/* 1 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -139,53 +214,15 @@ module.exports = Degrees;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _degrees = __webpack_require__(2);
 
-var Degrees = __webpack_require__(0);
-var Radians = __webpack_require__(2);
-var CartesianCoordinates = __webpack_require__(9);
+var _degrees2 = _interopRequireDefault(_degrees);
 
-var PolarCoordinates = function () {
-  function PolarCoordinates(angle, distanceFromOrigin) {
-    _classCallCheck(this, PolarCoordinates);
-
-    this.angle = angle;
-    this.distanceFromOrigin = distanceFromOrigin;
-  }
-
-  _createClass(PolarCoordinates, [{
-    key: "toColor",
-    value: function toColor(lightness) {
-      var hue = this.angle.toDegrees;
-      var saturation = this.distanceFromOrigin;
-      return new Color(hue, saturation, lightness);
-    }
-  }, {
-    key: "toCartesianCoordinates",
-    value: function toCartesianCoordinates() {
-      var x = this.angle.cos() * this.distanceFromOrigin;
-      var y = this.angle.sin() * this.distanceFromOrigin;
-      return new CartesianCoordinates(x, y);
-    }
-  }]);
-
-  return PolarCoordinates;
-}();
-
-module.exports = PolarCoordinates;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Degrees = __webpack_require__(0);
+;
 
 var Radians = function () {
   function Radians(value) {
@@ -197,7 +234,7 @@ var Radians = function () {
   _createClass(Radians, [{
     key: "toDegrees",
     value: function toDegrees() {
-      return new Degrees(this.value * (180 / Math.PI));
+      return new _degrees2.default(this.value * (180 / Math.PI));
     }
   }, {
     key: "cos",
@@ -227,22 +264,6 @@ var Radians = function () {
 module.exports = Radians;
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Wheel = __webpack_require__(4);
-
-document.addEventListener("DOMContentLoaded", function () {
-  var wheelTags = document.getElementsByTagName("colorwheel");
-  for (var i = 0; i < wheelTags.length; ++i) {
-    var wheel = Wheel.addToPage(wheelTags[i]);
-  };
-});
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -251,12 +272,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _polarcoordinates = __webpack_require__(1);
+
+var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PolarCoordinates = __webpack_require__(1);
-var CartesianCoordinates = __webpack_require__(9);
-var inlineBackgroundStyle = __webpack_require__(5);
-var HSL = __webpack_require__(6);
+var Radians = __webpack_require__(3);
+
+var CartesianCoordinates = function () {
+  function CartesianCoordinates(x, y) {
+    _classCallCheck(this, CartesianCoordinates);
+
+    this.x = x;
+    this.y = y;
+  }
+
+  _createClass(CartesianCoordinates, [{
+    key: "toColor",
+    value: function toColor(lightness) {
+      var position = this.toPolarCoordinates();
+      return position.toColor(lightness);
+    }
+  }, {
+    key: "toPolarCoordinates",
+    value: function toPolarCoordinates() {
+      var distanceFromOrigin = this.hypotenuse();
+      var angle = new Radians(Math.atan2(this.y, this.x));
+      return new _polarcoordinates2.default(angle, distanceFromOrigin);
+    }
+  }, {
+    key: "hypotenuse",
+    value: function hypotenuse() {
+      return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+  }]);
+
+  return CartesianCoordinates;
+}();
+
+module.exports = CartesianCoordinates;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _polarcoordinates = __webpack_require__(1);
+
+var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CartesianCoordinates = __webpack_require__(4);
+var inlineBackgroundStyle = __webpack_require__(6);
+var HSL = __webpack_require__(7);
 var Marker = __webpack_require__(8);
 
 var Wheel = function () {
@@ -269,29 +347,47 @@ var Wheel = function () {
   }
 
   _createClass(Wheel, [{
+    key: 'getColor',
+    value: function getColor() {
+      return this.color;
+    }
+  }, {
+    key: 'setColor',
+    value: function setColor(newColor) {
+      this.color = newColor;
+    }
+  }, {
     key: 'watchMouse',
     value: function watchMouse() {
       var _this = this;
 
-      this.tag.addEventListener("click", function () {
+      this.innerWheel.addEventListener("click", function () {
         var radius = event.target.clientWidth / 2;
         var x = event.offsetX;
         var y = event.offsetY;
-        x = radius;
-        y = radius;
-        x = 1;
-        y = 1;
+        x /= radius;
+        y /= radius;
+        x -= 1;
+        y -= 1;
         var position = new CartesianCoordinates(x, y);
         _this.color = position.toColor(_this.color.l);
-        _this.render();
+        _this.updateMarkerPosition();
       });
+    }
+  }, {
+    key: 'updateMarkerPosition',
+    value: function updateMarkerPosition() {
+      var marker = new Marker(this.color, this.scale);
+      this.innerWheel.innerHTML = marker.insert();
     }
   }, {
     key: 'render',
     value: function render() {
       var marker = new Marker(this.color, this.scale);
       this.tag.style = '\n      position: absolute;\n      border-radius: 50%;\n      background: white;\n      width: ' + this.scale + ';\n      padding-top: ' + this.scale + ';';
-      this.tag.innerHTML = '\n          <div\n            style="\n              position: absolute;\n              margin-top: -100%;\n              width: 100%;\n              height: 100%;\n              ' + inlineBackgroundStyle(50) + ';\n              border-radius: 50%;"\n            ></div>\n        ' + marker.insert() + '\n    ';
+      this.tag.innerHTML = '\n      <div>\n          <div\n            id="inner-wheel"\n            style="\n              position: absolute;\n              margin-top: -100%;\n              width: 100%;\n              height: 100%;\n              ' + inlineBackgroundStyle(50) + ';\n              border-radius: 50%;">\n        ' + marker.insert() + '\n        </div>\n      </div>\n        ';
+      this.innerWheel = this.tag.firstElementChild.firstElementChild;
+      this.slider = this.tag.lastChild;
     }
   }], [{
     key: 'addToPage',
@@ -312,20 +408,20 @@ var Wheel = function () {
 module.exports = Wheel;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var inlineBackgroundStyle = function inlineBackgroundStyle(lightness) {
-  return "\n  background:\n    radial-gradient(\n      circle at 50% 50%,\n      hsla(0, 0%, " + lightness + "%, 1),\n      hsla(0, 0%, " + lightness + "%, .8),\n      hsla(0, 0%, " + lightness + "%, .6),\n      hsla(0, 0%, " + lightness + "%, .4),\n      hsla(0, 0%, " + lightness + "%, .2),\n      hsla(0, 0%, " + lightness + "%, 0) 80%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .6),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 75%,\n      hsla(30, 100%, " + lightness + "%, 1),\n      hsla(30, 100%, " + lightness + "%, .7),\n      hsla(30, 100%, " + lightness + "%, .4),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, 1),\n      hsla(60, 100%, " + lightness + "%, .7),\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, 1),\n      hsla(90, 100%, " + lightness + "%, .7),\n      hsla(90, 100%, " + lightness + "%, .4),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 93%,\n      hsla(120, 100%, " + lightness + "%, 1),\n      hsla(120, 100%, " + lightness + "%, .7),\n      hsla(120, 100%, " + lightness + "%, .4),\n      hsla(120, 100%, " + lightness + "%, .2),\n      hsla(120, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 75%,\n      hsla(150, 100%, " + lightness + "%, 1),\n      hsla(150, 100%, " + lightness + "%, .6),\n      hsla(150, 100%, " + lightness + "%, .3),\n      hsla(150, 100%, " + lightness + "%, .2),\n      hsla(150, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, 1),\n      hsla(180, 100%, " + lightness + "%, .8),\n      hsla(180, 100%, " + lightness + "%, .4),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 25%,\n      hsla(210, 100%, " + lightness + "%, 1),\n      hsla(210, 100%, " + lightness + "%, .7),\n      hsla(210, 100%, " + lightness + "%, .4),\n      hsla(210, 100%, " + lightness + "%, .2),\n      hsla(210, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 7%,\n      hsla(240, 100%, " + lightness + "%, 1),\n      hsla(240, 100%, " + lightness + "%, .7),\n      hsla(240, 100%, " + lightness + "%, .4),\n      hsla(240, 100%, " + lightness + "%, .2),\n      hsla(240, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 0%,\n      hsla(270, 100%, " + lightness + "%, 1),\n      hsla(270, 100%, " + lightness + "%, .7),\n      hsla(270, 100%, " + lightness + "%, .4),\n      hsla(270, 100%, " + lightness + "%, .2),\n      hsla(270, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 7%,\n      hsla(300, 100%, " + lightness + "%, 1),\n      hsla(300, 100%, " + lightness + "%, .7),\n      hsla(300, 100%, " + lightness + "%, .4),\n      hsla(300, 100%, " + lightness + "%, .2),\n      hsla(300, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 25%,\n      hsla(330, 100%, " + lightness + "%, 1),\n      hsla(330, 100%, " + lightness + "%, .7),\n      hsla(330, 100%, " + lightness + "%, .4),\n      hsla(330, 100%, " + lightness + "%, .2),\n      hsla(330, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .7),\n      hsla(0, 100%, " + lightness + "%, .4),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%);";
+  return "\n  background:\n    radial-gradient(\n      circle at 50% 50%,\n      hsla(0, 0%, " + lightness + "%, 1),\n      hsla(0, 0%, " + lightness + "%, .8),\n      hsla(0, 0%, " + lightness + "%, .6),\n      hsla(0, 0%, " + lightness + "%, .4),\n      hsla(0, 0%, " + lightness + "%, .2),\n      hsla(0, 0%, " + lightness + "%, 0) 80%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .6),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 75%,\n      hsla(30, 100%, " + lightness + "%, 1),\n      hsla(30, 100%, " + lightness + "%, .7),\n      hsla(30, 100%, " + lightness + "%, .4),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, 1),\n      hsla(60, 100%, " + lightness + "%, .7),\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, 1),\n      hsla(90, 100%, " + lightness + "%, .7),\n      hsla(90, 100%, " + lightness + "%, .4),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 93%,\n      hsla(120, 100%, " + lightness + "%, 1),\n      hsla(120, 100%, " + lightness + "%, .6),\n      hsla(120, 100%, " + lightness + "%, .4),\n      hsla(120, 100%, " + lightness + "%, .2),\n      hsla(120, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 75%,\n      hsla(150, 100%, " + lightness + "%, 1),\n      hsla(150, 100%, " + lightness + "%, .8),\n      hsla(150, 100%, " + lightness + "%, .5),\n      hsla(150, 100%, " + lightness + "%, .3),\n      hsla(150, 100%, " + lightness + "%, .2),\n      hsla(150, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, 1),\n      hsla(180, 100%, " + lightness + "%, .8),\n      hsla(180, 100%, " + lightness + "%, .4),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 25%,\n      hsla(210, 100%, " + lightness + "%, 1),\n      hsla(210, 100%, " + lightness + "%, .7),\n      hsla(210, 100%, " + lightness + "%, .4),\n      hsla(210, 100%, " + lightness + "%, .2),\n      hsla(210, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 7%,\n      hsla(240, 100%, " + lightness + "%, 1),\n      hsla(240, 100%, " + lightness + "%, .8),\n      hsla(240, 100%, " + lightness + "%, .4),\n      hsla(240, 100%, " + lightness + "%, .2),\n      hsla(240, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 0%,\n      hsla(270, 100%, " + lightness + "%, 1),\n      hsla(270, 100%, " + lightness + "%, .7),\n      hsla(270, 100%, " + lightness + "%, .4),\n      hsla(270, 100%, " + lightness + "%, .2),\n      hsla(270, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 7%,\n      hsla(300, 100%, " + lightness + "%, 1),\n      hsla(300, 100%, " + lightness + "%, .7),\n      hsla(300, 100%, " + lightness + "%, .4),\n      hsla(300, 100%, " + lightness + "%, .2),\n      hsla(300, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 25%,\n      hsla(330, 100%, " + lightness + "%, 1),\n      hsla(330, 100%, " + lightness + "%, .7),\n      hsla(330, 100%, " + lightness + "%, .4),\n      hsla(330, 100%, " + lightness + "%, .2),\n      hsla(330, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .7),\n      hsla(0, 100%, " + lightness + "%, .4),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%);";
 };
 
 module.exports = inlineBackgroundStyle;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -333,13 +429,20 @@ module.exports = inlineBackgroundStyle;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
+
+
+var _degrees = __webpack_require__(2);
+
+var _degrees2 = _interopRequireDefault(_degrees);
+
+var _polarcoordinates = __webpack_require__(1);
+
+var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-//TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
-var Degrees = __webpack_require__(0);
-var PolarCoordinates = __webpack_require__(1);
 
 var HSL = function () {
   function HSL(h, s, l) {
@@ -356,9 +459,9 @@ var HSL = function () {
   _createClass(HSL, [{
     key: "toXYCoordinates",
     value: function toXYCoordinates() {
-      var angle = new Degrees(this.h);
+      var angle = new _degrees2.default(this.h);
       var distanceFromOrigin = this.s / 100;
-      var position = new PolarCoordinates(angle, distanceFromOrigin);
+      var position = new _polarcoordinates2.default(angle, distanceFromOrigin);
       return position.toCartesianCoordinates();
     }
   }, {
@@ -387,7 +490,6 @@ var HSL = function () {
 module.exports = HSL;
 
 /***/ }),
-/* 7 */,
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -447,53 +549,6 @@ var Marker = function () {
 }();
 
 module.exports = Marker;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var PolarCoordinates = __webpack_require__(1).default;
-
-var CartesianCoordinates = function () {
-  function CartesianCoordinates(x, y) {
-    _classCallCheck(this, CartesianCoordinates);
-
-    this.x = x;
-    this.y = y;
-  }
-
-  _createClass(CartesianCoordinates, [{
-    key: "toColor",
-    value: function toColor(lightness) {
-      var position = this.toPolarCoordinates();
-      return position.toColor(lightness);
-    }
-  }, {
-    key: "toPolarCoordinates",
-    value: function toPolarCoordinates() {
-      var distanceFromOrigin = this.hypotenuse;
-      var angle = Math.atan(this.y / this.x);
-      debugger;
-      return new PolarCoordinates(angle, distanceFromOrigin);
-    }
-  }, {
-    key: "hypotenuse",
-    value: function hypotenuse() {
-      return Math.sqrt(this.x * this.x + this.y * this.y);
-    }
-  }]);
-
-  return CartesianCoordinates;
-}();
-
-module.exports = CartesianCoordinates;
 
 /***/ })
 /******/ ]);

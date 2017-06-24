@@ -1,4 +1,4 @@
-const PolarCoordinates = require("../scripts/math/polarcoordinates.js");
+import PolarCoordinates from "../scripts/math/polarcoordinates.js";
 const Radians = require("../scripts/math/radians.js");
 
 describe("Polar Coodinates", function() {
