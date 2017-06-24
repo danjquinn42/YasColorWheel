@@ -21,7 +21,7 @@ class Wheel{
 
   static addToPage(wheelTag){
     const colorString = (wheelTag.hasAttribute("defaultColor")) ?
-      wheelTag.getAttribute("defaultColor") : "hsl(215, 50%, 50%)";
+      wheelTag.getAttribute("defaultColor") : "hsl(215, 100%, 50%)";
     const color = HSL.parse(colorString);
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";

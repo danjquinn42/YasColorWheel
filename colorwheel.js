@@ -279,7 +279,7 @@ var Wheel = function () {
   }], [{
     key: 'addToPage',
     value: function addToPage(wheelTag) {
-      var colorString = wheelTag.hasAttribute("defaultColor") ? wheelTag.getAttribute("defaultColor") : "hsl(215, 50%, 50%)";
+      var colorString = wheelTag.hasAttribute("defaultColor") ? wheelTag.getAttribute("defaultColor") : "hsl(215, 100%, 50%)";
       var color = HSL.parse(colorString);
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
       var wheel = new Wheel(wheelTag, color, scale);
