@@ -1,6 +1,6 @@
 import PolarCoordinates from './math/polarcoordinates.js';
 import CartesianCoordinates from './math/cartesiancoordinates.js';
-import inlineBackgroundStyle from './inline_background_style';
+import inlineBackgroundStyle from './background_style';
 import HSL from './color/hsl.js';
 import Marker from './marker.js';
 
@@ -26,12 +26,12 @@ class Wheel{
     this.scrim.addEventListener("mousedown", () => {
       const drag = this.colorFromMousePosition.bind(this);
       this.colorFromMousePosition(event);
-      this.scrim.addEventListener("mousemove",
+      document.addEventListener("mousemove",
         drag,
         false);
       const that = this;
       document.addEventListener("mouseup", () => {
-        this.scrim.removeEventListener("mousemove",
+        document.removeEventListener("mousemove",
         drag,
         false);
       });
@@ -39,47 +39,35 @@ class Wheel{
   }
 
   colorFromMousePosition(event){
-    let x = this.coordinateFromMousePosition(event.offsetX);
-    let y = this.coordinateFromMousePosition(event.offsetY);
-    const position = new CartesianCoordinates(x, y);
+    const origin = this.origin()
+    const mouseLeft = (event.pageX - origin.x) / this.radius();
+    const mouseTop = (event.pageY - origin.y) / this.radius();
+    const position = new CartesianCoordinates(mouseLeft, mouseTop);
     this.color = position.toColor(this.color.l);
     this.updateMarkerPosition();
   }
 
-  // origin() {
-  //   const offset = cumulativeOffset();
-  //   const x = offset.top + radius();
-  //   const y = offset.left + radius();
-  //   return { x: x, y: y };
-  // }
-  //
-  // cumulativeOffset() {
-  //   let top = 0;
-  //   let left = 0;
-  //   let element = this.scrim;
-  //   while (element) {
-  //       top += element.offsetTop  || 0;
-  //       left += element.offsetLeft || 0;
-  //       element = element.offsetParent;
-  //   }
-  //
-  //   return { top: top, left: left };
-  // }
-
-  radius(){
-    return this.innerWheel.clientWidth / 2;
+  origin() {
+    const offset = this.totalOffset();
+    const x = offset.left + this.radius();
+    const y = offset.top - this.radius();
+    return { x: x, y: y };
   }
 
-
-  coordinateFromMousePosition(offset){
-    let coordinate = offset;
-    coordinate = (coordinate / this.radius()) - 1;
-    if (coordinate > 1) {
-      return 1;
-    }else if (coordinate < -1) {
-      return -1;
+  totalOffset() {
+    let top = 0;
+    let left = 0;
+    let element = this.scrim;
+    while (element) {
+        top += element.offsetTop  || 0;
+        left += element.offsetLeft || 0;
+        element = element.offsetParent;
     }
-    return coordinate;
+    return { top: top, left: left };
+  }
+
+  radius(){
+    return this.innerWheel.clientHeight / 2;
   }
 
   updateMarkerPosition(){
@@ -98,6 +86,7 @@ class Wheel{
     this.tag.innerHTML = (`
       <div>
           <div
+            draggable="true;"
             style="
               position: absolute;
               margin-top: -100%;
@@ -109,6 +98,7 @@ class Wheel{
           </div>
 
         <div
+          draggable="false";
           style="
             position: absolute;
             margin-top: -100%;

@@ -13,7 +13,10 @@ class CartesianCoordinates {
   }
 
   toPolarCoordinates(){
-    const distanceFromOrigin = this.hypotenuse();
+    let distanceFromOrigin = this.hypotenuse();
+    if (distanceFromOrigin > 1){
+      distanceFromOrigin = 1;
+    }
     const angle = new Radians(Math.atan2(this.y, this.x));
     return new PolarCoordinates(angle, distanceFromOrigin);
   }

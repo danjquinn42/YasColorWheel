@@ -378,6 +378,9 @@ var CartesianCoordinates = function () {
     key: "toPolarCoordinates",
     value: function toPolarCoordinates() {
       var distanceFromOrigin = this.hypotenuse();
+      if (distanceFromOrigin > 1) {
+        distanceFromOrigin = 1;
+      }
       var angle = new _radians2.default(Math.atan2(this.y, this.x));
       return new _polarcoordinates2.default(angle, distanceFromOrigin);
     }
@@ -503,9 +506,9 @@ var _cartesiancoordinates = __webpack_require__(4);
 
 var _cartesiancoordinates2 = _interopRequireDefault(_cartesiancoordinates);
 
-var _inline_background_style = __webpack_require__(8);
+var _background_style = __webpack_require__(10);
 
-var _inline_background_style2 = _interopRequireDefault(_inline_background_style);
+var _background_style2 = _interopRequireDefault(_background_style);
 
 var _hsl = __webpack_require__(3);
 
@@ -537,59 +540,48 @@ var Wheel = function () {
       this.scrim.addEventListener("mousedown", function () {
         var drag = _this.colorFromMousePosition.bind(_this);
         _this.colorFromMousePosition(event);
-        _this.scrim.addEventListener("mousemove", drag, false);
+        document.addEventListener("mousemove", drag, false);
         var that = _this;
         document.addEventListener("mouseup", function () {
-          _this.scrim.removeEventListener("mousemove", drag, false);
+          document.removeEventListener("mousemove", drag, false);
         });
       });
     }
   }, {
     key: 'colorFromMousePosition',
     value: function colorFromMousePosition(event) {
-      var x = this.coordinateFromMousePosition(event.offsetX);
-      var y = this.coordinateFromMousePosition(event.offsetY);
-      var position = new _cartesiancoordinates2.default(x, y);
+      var origin = this.origin();
+      var mouseLeft = (event.pageX - origin.x) / this.radius();
+      var mouseTop = (event.pageY - origin.y) / this.radius();
+      var position = new _cartesiancoordinates2.default(mouseLeft, mouseTop);
       this.color = position.toColor(this.color.l);
       this.updateMarkerPosition();
     }
-
-    // origin() {
-    //   const offset = cumulativeOffset();
-    //   const x = offset.top + radius();
-    //   const y = offset.left + radius();
-    //   return { x: x, y: y };
-    // }
-    //
-    // cumulativeOffset() {
-    //   let top = 0;
-    //   let left = 0;
-    //   let element = this.scrim;
-    //   while (element) {
-    //       top += element.offsetTop  || 0;
-    //       left += element.offsetLeft || 0;
-    //       element = element.offsetParent;
-    //   }
-    //
-    //   return { top: top, left: left };
-    // }
-
+  }, {
+    key: 'origin',
+    value: function origin() {
+      var offset = this.totalOffset();
+      var x = offset.left + this.radius();
+      var y = offset.top - this.radius();
+      return { x: x, y: y };
+    }
+  }, {
+    key: 'totalOffset',
+    value: function totalOffset() {
+      var top = 0;
+      var left = 0;
+      var element = this.scrim;
+      while (element) {
+        top += element.offsetTop || 0;
+        left += element.offsetLeft || 0;
+        element = element.offsetParent;
+      }
+      return { top: top, left: left };
+    }
   }, {
     key: 'radius',
     value: function radius() {
-      return this.innerWheel.clientWidth / 2;
-    }
-  }, {
-    key: 'coordinateFromMousePosition',
-    value: function coordinateFromMousePosition(offset) {
-      var coordinate = offset;
-      coordinate = coordinate / this.radius() - 1;
-      if (coordinate > 1) {
-        return 1;
-      } else if (coordinate < -1) {
-        return -1;
-      }
-      return coordinate;
+      return this.innerWheel.clientHeight / 2;
     }
   }, {
     key: 'updateMarkerPosition',
@@ -602,7 +594,7 @@ var Wheel = function () {
     value: function render() {
       var marker = new _marker2.default(this.color, this.scale);
       this.tag.style = '\n      position: absolute;\n      border-radius: 50%;\n      background: white;\n      width: ' + this.scale + ';\n      padding-top: ' + this.scale + ';';
-      this.tag.innerHTML = '\n      <div>\n          <div\n            style="\n              position: absolute;\n              margin-top: -100%;\n              width: 100%;\n              height: 100%;\n              ' + (0, _inline_background_style2.default)(50) + ';\n              border-radius: 50%;">\n            ' + marker.insert() + '\n          </div>\n\n        <div\n          style="\n            position: absolute;\n            margin-top: -100%;\n            width: 100%;\n            height: 100%;\n            border-radius: 50%;">\n        </div>\n        ';
+      this.tag.innerHTML = '\n      <div>\n          <div\n            draggable="true;"\n            style="\n              position: absolute;\n              margin-top: -100%;\n              width: 100%;\n              height: 100%;\n              ' + (0, _background_style2.default)(50) + ';\n              border-radius: 50%;">\n            ' + marker.insert() + '\n          </div>\n\n        <div\n          draggable="false";\n          style="\n            position: absolute;\n            margin-top: -100%;\n            width: 100%;\n            height: 100%;\n            border-radius: 50%;">\n        </div>\n        ';
       this.innerWheel = this.tag.firstElementChild.firstElementChild;
       this.scrim = this.tag.lastChild;
     }
@@ -624,22 +616,7 @@ var Wheel = function () {
 exports.default = Wheel;
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var inlineBackgroundStyle = function inlineBackgroundStyle(lightness) {
-  return "\n  background:\n    radial-gradient(\n      circle at 50% 50%,\n      hsla(0, 0%, " + lightness + "%, 1),\n      hsla(0, 0%, " + lightness + "%, .8),\n      hsla(0, 0%, " + lightness + "%, .6),\n      hsla(0, 0%, " + lightness + "%, .4),\n      hsla(0, 0%, " + lightness + "%, .2),\n      hsla(0, 0%, " + lightness + "%, 0) 80%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, .5),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, .6),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .6),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 75%,\n      hsla(30, 100%, " + lightness + "%, 1),\n      hsla(30, 100%, " + lightness + "%, .7),\n      hsla(30, 100%, " + lightness + "%, .4),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, 1),\n      hsla(60, 100%, " + lightness + "%, .7),\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, 1),\n      hsla(90, 100%, " + lightness + "%, .7),\n      hsla(90, 100%, " + lightness + "%, .4),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 93%,\n      hsla(120, 100%, " + lightness + "%, 1),\n      hsla(120, 100%, " + lightness + "%, .6),\n      hsla(120, 100%, " + lightness + "%, .4),\n      hsla(120, 100%, " + lightness + "%, .2),\n      hsla(120, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 75%,\n      hsla(150, 100%, " + lightness + "%, 1),\n      hsla(150, 100%, " + lightness + "%, .8),\n      hsla(150, 100%, " + lightness + "%, .5),\n      hsla(150, 100%, " + lightness + "%, .3),\n      hsla(150, 100%, " + lightness + "%, .2),\n      hsla(150, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, 1),\n      hsla(180, 100%, " + lightness + "%, .8),\n      hsla(180, 100%, " + lightness + "%, .4),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 25%,\n      hsla(210, 100%, " + lightness + "%, 1),\n      hsla(210, 100%, " + lightness + "%, .7),\n      hsla(210, 100%, " + lightness + "%, .4),\n      hsla(210, 100%, " + lightness + "%, .2),\n      hsla(210, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 7%,\n      hsla(240, 100%, " + lightness + "%, 1),\n      hsla(240, 100%, " + lightness + "%, .8),\n      hsla(240, 100%, " + lightness + "%, .4),\n      hsla(240, 100%, " + lightness + "%, .2),\n      hsla(240, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 0%,\n      hsla(270, 100%, " + lightness + "%, 1),\n      hsla(270, 100%, " + lightness + "%, .7),\n      hsla(270, 100%, " + lightness + "%, .4),\n      hsla(270, 100%, " + lightness + "%, .2),\n      hsla(270, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 7%,\n      hsla(300, 100%, " + lightness + "%, 1),\n      hsla(300, 100%, " + lightness + "%, .7),\n      hsla(300, 100%, " + lightness + "%, .4),\n      hsla(300, 100%, " + lightness + "%, .2),\n      hsla(300, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 25%,\n      hsla(330, 100%, " + lightness + "%, 1),\n      hsla(330, 100%, " + lightness + "%, .7),\n      hsla(330, 100%, " + lightness + "%, .4),\n      hsla(330, 100%, " + lightness + "%, .2),\n      hsla(330, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .7),\n      hsla(0, 100%, " + lightness + "%, .4),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%);";
-};
-
-exports.default = inlineBackgroundStyle;
-
-/***/ }),
+/* 8 */,
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -703,6 +680,22 @@ var Marker = function () {
 }();
 
 exports.default = Marker;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var inlineBackgroundStyle = function inlineBackgroundStyle(lightness) {
+  return "\n  background:\n    radial-gradient(\n      circle at 50% 50%,\n      hsla(0, 0%, " + lightness + "%, 1),\n      hsla(0, 0%, " + lightness + "%, .8),\n      hsla(0, 0%, " + lightness + "%, .6),\n      hsla(0, 0%, " + lightness + "%, .4),\n      hsla(0, 0%, " + lightness + "%, .2),\n      hsla(0, 0%, " + lightness + "%, 0) 80%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, .5),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, .6),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .6),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 75%,\n      hsla(30, 100%, " + lightness + "%, 1),\n      hsla(30, 100%, " + lightness + "%, .7),\n      hsla(30, 100%, " + lightness + "%, .4),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, 1),\n      hsla(60, 100%, " + lightness + "%, .7),\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, 1),\n      hsla(90, 100%, " + lightness + "%, .7),\n      hsla(90, 100%, " + lightness + "%, .4),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 93%,\n      hsla(120, 100%, " + lightness + "%, 1),\n      hsla(120, 100%, " + lightness + "%, .6),\n      hsla(120, 100%, " + lightness + "%, .4),\n      hsla(120, 100%, " + lightness + "%, .2),\n      hsla(120, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 75%,\n      hsla(150, 100%, " + lightness + "%, 1),\n      hsla(150, 100%, " + lightness + "%, .8),\n      hsla(150, 100%, " + lightness + "%, .5),\n      hsla(150, 100%, " + lightness + "%, .3),\n      hsla(150, 100%, " + lightness + "%, .2),\n      hsla(150, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, 1),\n      hsla(180, 100%, " + lightness + "%, .8),\n      hsla(180, 100%, " + lightness + "%, .4),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 25%,\n      hsla(210, 100%, " + lightness + "%, 1),\n      hsla(210, 100%, " + lightness + "%, .7),\n      hsla(210, 100%, " + lightness + "%, .4),\n      hsla(210, 100%, " + lightness + "%, .2),\n      hsla(210, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 7%,\n      hsla(240, 100%, " + lightness + "%, 1),\n      hsla(240, 100%, " + lightness + "%, .8),\n      hsla(240, 100%, " + lightness + "%, .4),\n      hsla(240, 100%, " + lightness + "%, .2),\n      hsla(240, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 0%,\n      hsla(270, 100%, " + lightness + "%, 1),\n      hsla(270, 100%, " + lightness + "%, .7),\n      hsla(270, 100%, " + lightness + "%, .4),\n      hsla(270, 100%, " + lightness + "%, .2),\n      hsla(270, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 7%,\n      hsla(300, 100%, " + lightness + "%, 1),\n      hsla(300, 100%, " + lightness + "%, .7),\n      hsla(300, 100%, " + lightness + "%, .4),\n      hsla(300, 100%, " + lightness + "%, .2),\n      hsla(300, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 25%,\n      hsla(330, 100%, " + lightness + "%, 1),\n      hsla(330, 100%, " + lightness + "%, .7),\n      hsla(330, 100%, " + lightness + "%, .4),\n      hsla(330, 100%, " + lightness + "%, .2),\n      hsla(330, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .7),\n      hsla(0, 100%, " + lightness + "%, .4),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%);";
+};
+
+exports.default = inlineBackgroundStyle;
 
 /***/ })
 /******/ ]);
