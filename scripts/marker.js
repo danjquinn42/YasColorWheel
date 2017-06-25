@@ -1,7 +1,8 @@
 class Marker {
-  constructor(tag, color){
+  constructor(tag, color, picker){
     this.tag = tag;
     this.color = color;
+    this.picker = picker;
   }
 
   setPosition(wheelScale){
@@ -14,7 +15,7 @@ class Marker {
     const position = color.toXYCoordinates();
     const x = position.x * 50 + 46;
     const y = position.y * 50 + 46;
-    
+
     this.tag.setAttribute("style",
         `position: absolute;
         left: ${x}%;
@@ -27,7 +28,7 @@ class Marker {
   }
 
   updateColor(){
-    document.addEventListener("colorChange", (event) => {
+    this.picker.addEventListener("colorChange", (event) => {
       this.updateColorAndPosition(event.detail);
     });
   }

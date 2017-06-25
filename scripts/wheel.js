@@ -5,21 +5,23 @@ import InnerWheelStyle from './inner_wheel_style.js';
 import Marker from './marker.js';
 
 class Wheel{
-  constructor(tag, color, scale) {
+  constructor(tag, color, scale, picker) {
     this.tag = tag;
     this.color = color;
     this.scale = scale;
+    this.picker = picker;
   }
 
   static addToPage(wheelTag, color) {
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
-    const wheel = new Wheel(wheelTag, color, scale);
-    wheel.initialize();
+    const picker = wheelTag.parentElement;
+    const wheel = new Wheel(wheelTag, color, scale, picker);
+    wheel.initialize(picker);
     wheel.clickAndDragMarker();
   }
 
-  initialize() {
+  initialize(picker) {
     this.tag.setAttribute("style", ` position: absolute;
       border-radius: 50%; background: white;
       width: ${this.scale}; padding-top: ${this.scale}`);
@@ -30,7 +32,7 @@ class Wheel{
 
     const markerDiv = document.createElement("div");
 
-    this.marker = new Marker(markerDiv, this.color);
+    this.marker = new Marker(markerDiv, this.color, picker);
     this.marker.setPosition(this.scale);
     this.innerWheel.innerHTML = this.marker.tag.outerHTML;
 
@@ -44,7 +46,7 @@ class Wheel{
   clickAndDragMarker() {
     this.scrim.addEventListener("mousedown", (event) => {
       event.preventDefault();
-      const drag = this.colorFromMousePosition.bind(this);
+      const drag = this.drag.bind(this);
       drag(event);
       document.addEventListener("mousemove", drag, false);
       const that = this;
@@ -54,7 +56,7 @@ class Wheel{
     });
   }
 
-  colorFromMousePosition(event) {
+  drag(event) {
     const origin = this.origin()
     const mouseLeft = (event.pageX - origin.x) / this.radius();
     const mouseTop = (event.pageY - origin.y) / this.radius();
@@ -62,7 +64,7 @@ class Wheel{
     this.color = position.toColor(this.color.lightnessPercentage);
     const colorChange = new CustomEvent("colorChange",
       { "detail": this.color });
-    document.dispatchEvent(colorChange);
+    this.picker.dispatchEvent(colorChange);
     this.innerWheel.innerHTML = this.marker.tag.outerHTML;
   }
 

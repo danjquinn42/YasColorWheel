@@ -514,17 +514,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Wheel = function () {
-  function Wheel(tag, color, scale) {
+  function Wheel(tag, color, scale, picker) {
     _classCallCheck(this, Wheel);
 
     this.tag = tag;
     this.color = color;
     this.scale = scale;
+    this.picker = picker;
   }
 
   _createClass(Wheel, [{
     key: 'initialize',
-    value: function initialize() {
+    value: function initialize(picker) {
       this.tag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
 
       this.innerWheel = document.createElement("div");
@@ -533,7 +534,7 @@ var Wheel = function () {
 
       var markerDiv = document.createElement("div");
 
-      this.marker = new _marker2.default(markerDiv, this.color);
+      this.marker = new _marker2.default(markerDiv, this.color, picker);
       this.marker.setPosition(this.scale);
       this.innerWheel.innerHTML = this.marker.tag.outerHTML;
 
@@ -548,7 +549,7 @@ var Wheel = function () {
 
       this.scrim.addEventListener("mousedown", function (event) {
         event.preventDefault();
-        var drag = _this.colorFromMousePosition.bind(_this);
+        var drag = _this.drag.bind(_this);
         drag(event);
         document.addEventListener("mousemove", drag, false);
         var that = _this;
@@ -558,15 +559,15 @@ var Wheel = function () {
       });
     }
   }, {
-    key: 'colorFromMousePosition',
-    value: function colorFromMousePosition(event) {
+    key: 'drag',
+    value: function drag(event) {
       var origin = this.origin();
       var mouseLeft = (event.pageX - origin.x) / this.radius();
       var mouseTop = (event.pageY - origin.y) / this.radius();
       var position = new _cartesiancoordinates2.default(mouseLeft, mouseTop);
       this.color = position.toColor(this.color.lightnessPercentage);
       var colorChange = new CustomEvent("colorChange", { "detail": this.color });
-      document.dispatchEvent(colorChange);
+      this.picker.dispatchEvent(colorChange);
       this.innerWheel.innerHTML = this.marker.tag.outerHTML;
     }
   }, {
@@ -599,8 +600,9 @@ var Wheel = function () {
     key: 'addToPage',
     value: function addToPage(wheelTag, color) {
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
-      var wheel = new Wheel(wheelTag, color, scale);
-      wheel.initialize();
+      var picker = wheelTag.parentElement;
+      var wheel = new Wheel(wheelTag, color, scale, picker);
+      wheel.initialize(picker);
       wheel.clickAndDragMarker();
     }
   }]);
@@ -642,11 +644,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Marker = function () {
-  function Marker(tag, color) {
+  function Marker(tag, color, picker) {
     _classCallCheck(this, Marker);
 
     this.tag = tag;
     this.color = color;
+    this.picker = picker;
   }
 
   _createClass(Marker, [{
@@ -670,7 +673,7 @@ var Marker = function () {
     value: function updateColor() {
       var _this = this;
 
-      document.addEventListener("colorChange", function (event) {
+      this.picker.addEventListener("colorChange", function (event) {
         _this.updateColorAndPosition(event.detail);
       });
     }
