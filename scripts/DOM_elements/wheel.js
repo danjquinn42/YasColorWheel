@@ -1,6 +1,6 @@
-import PolarCoordinates from './math/polarcoordinates.js';
-import CartesianCoordinates from './math/cartesiancoordinates.js';
-import HSL from './color/hsl.js';
+import PolarCoordinates from '../math/polarcoordinates.js';
+import CartesianCoordinates from '../math/cartesiancoordinates.js';
+import HSL from '../color/hsl.js';
 import InnerWheelStyle from './inner_wheel_style.js';
 import Marker from './marker.js';
 

@@ -413,7 +413,7 @@ exports.default = CartesianCoordinates;
 "use strict";
 
 
-var _colorpicker = __webpack_require__(6);
+var _colorpicker = __webpack_require__(10);
 
 var _colorpicker2 = _interopRequireDefault(_colorpicker);
 
@@ -434,7 +434,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /***/ }),
-/* 6 */
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -446,7 +450,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _wheel = __webpack_require__(7);
+var _wheel = __webpack_require__(11);
 
 var _wheel2 = _interopRequireDefault(_wheel);
 
@@ -498,7 +502,7 @@ var colorPicker = function () {
 exports.default = colorPicker;
 
 /***/ }),
-/* 7 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -522,11 +526,11 @@ var _hsl = __webpack_require__(3);
 
 var _hsl2 = _interopRequireDefault(_hsl);
 
-var _inner_wheel_style = __webpack_require__(8);
+var _inner_wheel_style = __webpack_require__(12);
 
 var _inner_wheel_style2 = _interopRequireDefault(_inner_wheel_style);
 
-var _marker = __webpack_require__(9);
+var _marker = __webpack_require__(13);
 
 var _marker2 = _interopRequireDefault(_marker);
 
@@ -633,7 +637,7 @@ var Wheel = function () {
 exports.default = Wheel;
 
 /***/ }),
-/* 8 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -649,7 +653,7 @@ var InnerWheelStyle = function InnerWheelStyle(lightness) {
 exports.default = InnerWheelStyle;
 
 /***/ }),
-/* 9 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

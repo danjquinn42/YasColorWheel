@@ -1,4 +1,4 @@
-import ColorPicker from './colorpicker.js';
+import ColorPicker from './DOM_elements/colorpicker.js';
 import HSL from './color/hsl.js';
 
 document.addEventListener("DOMContentLoaded", () => {
