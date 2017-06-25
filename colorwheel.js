@@ -475,9 +475,7 @@ var colorPicker = function () {
     value: function initialize(color) {
       var wheels = this.fetch("colorwheel");
       this.placeWheels(wheels);
-
       var width = this.tag.style.width;
-
       var lightnessSliders = this.fetch("lightness-slider");
       this.placeLightnessSliders(lightnessSliders, width);
     }
@@ -545,13 +543,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Wheel = function () {
-  function Wheel(tag, scale, picker) {
+  function Wheel(tag, scale, picker, lightness) {
     _classCallCheck(this, Wheel);
 
     this.wheelTag = tag;
     this.scale = scale;
     this.picker = picker;
+    this.lightness = lightness;
     this.drag = this.drag.bind(this);
+    this.subscribeToColorChange = this.subscribeToColorChange.bind(this);
   }
 
   _createClass(Wheel, [{
@@ -560,14 +560,14 @@ var Wheel = function () {
       this.wheelTag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
 
       this.innerWheelTag = document.createElement("div");
-      this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(50));
+      this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(this.lightness));
       this.wheelTag.appendChild(this.innerWheelTag);
 
       var markerDiv = document.createElement("div");
 
       this.marker = new _marker2.default(markerDiv, color, picker);
       this.marker.setPosition(this.scale);
-      this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
+      this.updateWheel(this.lightness);
     }
   }, {
     key: 'clickAndDragMarker',
@@ -583,9 +583,24 @@ var Wheel = function () {
         });
       });
     }
+  }, {
+    key: 'subscribeToColorChange',
+    value: function subscribeToColorChange() {
+      var _this2 = this;
 
-    //TODO make aware of lightness values
-
+      this.picker.addEventListener("colorChange", function () {
+        var lightness = event.detail.lightnessPercentage;
+        _this2.updateWheel(lightness);
+      });
+    }
+  }, {
+    key: 'updateWheel',
+    value: function updateWheel(lightness) {
+      this.lightness = lightness;
+      this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
+      this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(this.lightness));
+      this.wheelTag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: hsl(0, 0%, ' + this.lightness + '%);\n      width: ' + this.scale + '; padding-top: ' + this.scale);
+    }
   }, {
     key: 'drag',
     value: function drag(event) {
@@ -594,9 +609,9 @@ var Wheel = function () {
       var mouseLeft = (event.pageX - origin.x) / this.radius();
       var mouseTop = (event.pageY - origin.y) / this.radius();
       var position = new _cartesiancoordinates2.default(mouseLeft, mouseTop);
-      var color = position.toColor(50);
+      var color = position.toColor(this.lightness);
       color.dispatchUpdate(this.picker);
-      this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
+      this.updateWheel(color.lightnessPercentage);
     }
   }, {
     key: 'origin',
@@ -631,9 +646,10 @@ var Wheel = function () {
     value: function addToPage(wheelTag, color) {
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
       var picker = wheelTag.parentElement;
-      var wheel = new Wheel(wheelTag, scale, picker);
+      var wheel = new Wheel(wheelTag, scale, picker, color.lightnessPercentage);
       wheel.initialize(picker, color);
       wheel.clickAndDragMarker();
+      wheel.subscribeToColorChange();
     }
   }]);
 
@@ -791,9 +807,7 @@ var LightnessSlider = function () {
       var _this = this;
 
       slider.addEventListener("input", function (event) {
-        console.log("calledit");
         var newColor = _this.color;
-        console.log(newColor);
         newColor.lightnessPercentage = slider.value;
         newColor.dispatchUpdate(_this.picker);
       });

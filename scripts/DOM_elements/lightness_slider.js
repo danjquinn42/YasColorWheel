@@ -28,9 +28,7 @@ class LightnessSlider {
 
   adjustLightness(slider){
     slider.addEventListener("input", (event) => {
-      console.log("calledit");
       const newColor = this.color;
-      console.log( newColor);
       newColor.lightnessPercentage = slider.value;
       newColor.dispatchUpdate(this.picker);
     });

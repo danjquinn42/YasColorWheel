@@ -10,9 +10,7 @@ class colorPicker {
   initialize(color) {
     const wheels = this.fetch("colorwheel");
     this.placeWheels(wheels);
-
     const width = this.tag.style.width;
-
     const lightnessSliders = this.fetch("lightness-slider");
       this.placeLightnessSliders(lightnessSliders, width);
   }
