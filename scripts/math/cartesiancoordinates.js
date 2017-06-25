@@ -12,9 +12,9 @@ class CartesianCoordinates {
     return position.toColor(lightness);
   }
 
-  toPolarCoordinates(){
+  toPolarCoordinates() {
     let distanceFromOrigin = this.hypotenuse();
-    if (distanceFromOrigin > 1){
+    if (distanceFromOrigin > 1) {
       distanceFromOrigin = 1;
     }
     const angle = new Radians(Math.atan2(this.y, this.x));

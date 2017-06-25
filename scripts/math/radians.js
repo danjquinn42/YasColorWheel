@@ -1,11 +1,11 @@
 import Degrees from "./degrees.js";;
 
 class Radians {
-  constructor(value){
+  constructor(value) {
     this.value = value;
   }
 
-  static from(x, hypotenuse){
+  static from(x, hypotenuse) {
     return new Radians(Math.acos(x / hypotenuse));
   }
 

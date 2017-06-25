@@ -5,7 +5,7 @@ import CartesianCoordinates from "./cartesiancoordinates.js";
 
 
 class PolarCoordinates {
-  constructor(angle, distanceFromOrigin){
+  constructor(angle, distanceFromOrigin) {
     this.angle = angle;
     this.distanceFromOrigin = distanceFromOrigin;
   }

@@ -33,14 +33,14 @@ describe("Degrees", function() {
     });
 
     describe("negated", function() {
-      it("should be 180˚ differnet from the original value", function(){
+      it("should be 180˚ differnet from the original value", function() {
         expect(degreeEighty.negated())
           .toEqual((new Degrees(360)).minus(degreeEighty));
       });
     });
 
     describe("toString", function() {
-      it("should return a stringified degree with ˚ notation", function(){
+      it("should return a stringified degree with ˚ notation", function() {
         expect(degreeEighty.toString()).toEqual("80˚");
       });
     });

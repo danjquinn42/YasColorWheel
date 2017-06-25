@@ -9,10 +9,9 @@ class Wheel{
     this.tag = tag;
     this.color = color;
     this.scale = scale;
-    this.mousePosition;
   }
 
-  static addToPage(wheelTag, cssColor){
+  static addToPage(wheelTag, cssColor) {
     const color = HSL.parse(cssColor);
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
@@ -22,30 +21,28 @@ class Wheel{
     wheel.clickAndDragMarker();
   }
 
-  clickAndDragMarker(){
+  clickAndDragMarker() {
     this.scrim.addEventListener("mousedown", (event) => {
       event.preventDefault();
       const drag = this.colorFromMousePosition.bind(this);
       this.colorFromMousePosition(event);
       document.addEventListener("mousemove",
-        drag,
-        false);
+        drag, false);
       const that = this;
       document.addEventListener("mouseup", () => {
         document.removeEventListener("mousemove",
-        drag,
-        false);
+        drag, false);
       });
     });
   }
 
-  colorFromMousePosition(event){
+  colorFromMousePosition(event) {
     const origin = this.origin()
     const mouseLeft = (event.pageX - origin.x) / this.radius();
     const mouseTop = (event.pageY - origin.y) / this.radius();
     const position = new CartesianCoordinates(mouseLeft, mouseTop);
     this.color = position.toColor(this.color.lightnessPercentage);
-    this.updateMarkerPosition();
+    this.marker.updateMarkerPosition();
   }
 
   origin() {
@@ -67,24 +64,21 @@ class Wheel{
     return { top: top, left: left };
   }
 
-  radius(){
+  radius() {
     return this.innerWheel.clientHeight / 2;
   }
 
-  updateMarkerPosition(){
-    const marker = new Marker(this.color, this.scale);
-    this.innerWheel.innerHTML = marker.insert();
-  }
-
-  render(){
+  render() {
     this.tag.setAttribute("style", ` position: absolute;
       border-radius: 50%; background: white;
       width: ${this.scale}; padding-top: ${this.scale}`);
 
     this.innerWheel = document.createElement("div");
     this.innerWheel.setAttribute("style", InnerWheelStyle(50));
-    const marker = new Marker(this.color, this.scale);
-    this.innerWheel.innerHTML = marker.insert();
+    const markerDiv = document.createElement("div");
+    this.marker = new Marker(markerDiv);
+    this.marker.setColorAndPosition(this.color, this.scale);
+    this.innerWheel.innerHTML = this.marker.tag;
     this.tag.appendChild(this.innerWheel);
 
     this.scrim = document.createElement("div");

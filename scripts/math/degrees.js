@@ -1,7 +1,7 @@
 import Radians from "./radians.js";
 
 class Degrees {
-  constructor(value){
+  constructor(value) {
     this.value = (value + 360) % 360;
   }
 
@@ -9,19 +9,19 @@ class Degrees {
     return new Radians (this.value * Math.PI / 180);
   }
 
-  cos(){
+  cos() {
     return this.toRadians().cos();
   }
 
-  sin(){
+  sin() {
     return this.toRadians().sin();
   }
 
-  plus(degree){
+  plus(degree) {
     return new Degrees(this.value + degree.value);
   }
 
-  minus(degree){
+  minus(degree) {
     return new Degrees(this.value - degree.value);
   }
 
