@@ -5,18 +5,17 @@ class Marker {
   }
 
   setColor(){
-    
-  }
 
+  }
 
   insert(){
     const position = this.color.toXYCoordinates();
+
     position.x = (position.x * 50 + 46);
     position.y = (position.y * 50 + 46);
 
-
     return(`
-      <div id="marker"
+      <marker id="marker"
         style="
         position: absolute;
         left: ${position.x}%;
@@ -30,7 +29,7 @@ class Marker {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;">
-      </div>
+      </marker>
       `);
   }
 

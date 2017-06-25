@@ -3,29 +3,33 @@ import Degrees from "../math/degrees.js";
 import PolarCoordinates from "../math/polarcoordinates.js";
 
 class HSL {
-  constructor(h, s, l){
-    this.h = h;
-    this.s = s;
-    this.l = l;
+  constructor(hue, saturationPercentage, lightnessPercentage){
+    this.hue = hue;
+    this.saturationPercentage = saturationPercentage;
+    this.lightnessPercentage = lightnessPercentage;
   }
 
   // TODO should throw an exception if string isn't properly formed.
   static parse(string){
-    const [h, s, l] = string.match(/\d+/g).map((number) => {
+    const [hue, saturationPercentage, lightnessPercentage] = string.match(/\d+/g).map((number) => {
       return parseInt(number)
     });
-    return new HSL(h, s, l);
+    return new HSL(hue, saturationPercentage, lightnessPercentage);
   };
 
+  // TODO create Percentages class to handle s and l values
   toXYCoordinates(){
-    const angle = new Degrees(this.h)
-    const distanceFromOrigin = this.s / 100;
+    const angle = new Degrees(this.hue)
+    const distanceFromOrigin = this.saturationPercentage / 100;
     const position = new PolarCoordinates(angle, distanceFromOrigin);
     return position.toCartesianCoordinates();
   }
 
   toString(){
-    return `hsl(${this.h},${this.s}%,${this.l}%)`;
+    console.log[this.hue, ", ", this.saturationPercentage, " ", this.lightnessPercentage, " "];
+    return `hsl(${this.hue},${
+        this.saturationPercentage}%,${
+        this.lightnessPercentage}%)`;
   }
 }
 

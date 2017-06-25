@@ -291,12 +291,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var HSL = function () {
-  function HSL(h, s, l) {
+  function HSL(hue, saturationPercentage, lightnessPercentage) {
     _classCallCheck(this, HSL);
 
-    this.h = h;
-    this.s = s;
-    this.l = l;
+    this.hue = hue;
+    this.saturationPercentage = saturationPercentage;
+    this.lightnessPercentage = lightnessPercentage;
   }
 
   // TODO should throw an exception if string isn't properly formed.
@@ -304,16 +304,20 @@ var HSL = function () {
 
   _createClass(HSL, [{
     key: "toXYCoordinates",
+
+
+    // TODO create Percentages class to handle s and l values
     value: function toXYCoordinates() {
-      var angle = new _degrees2.default(this.h);
-      var distanceFromOrigin = this.s / 100;
+      var angle = new _degrees2.default(this.hue);
+      var distanceFromOrigin = this.saturationPercentage / 100;
       var position = new _polarcoordinates2.default(angle, distanceFromOrigin);
       return position.toCartesianCoordinates();
     }
   }, {
     key: "toString",
     value: function toString() {
-      return "hsl(" + this.h + "," + this.s + "%," + this.l + "%)";
+      console.log[(this.hue, ", ", this.saturationPercentage, " ", this.lightnessPercentage, " ")];
+      return "hsl(" + this.hue + "," + this.saturationPercentage + "%," + this.lightnessPercentage + "%)";
     }
   }], [{
     key: "parse",
@@ -322,11 +326,11 @@ var HSL = function () {
         return parseInt(number);
       }),
           _string$match$map2 = _slicedToArray(_string$match$map, 3),
-          h = _string$match$map2[0],
-          s = _string$match$map2[1],
-          l = _string$match$map2[2];
+          hue = _string$match$map2[0],
+          saturationPercentage = _string$match$map2[1],
+          lightnessPercentage = _string$match$map2[2];
 
-      return new HSL(h, s, l);
+      return new HSL(hue, saturationPercentage, lightnessPercentage);
     }
   }]);
 
@@ -556,7 +560,7 @@ var Wheel = function () {
       var mouseLeft = (event.pageX - origin.x) / this.radius();
       var mouseTop = (event.pageY - origin.y) / this.radius();
       var position = new _cartesiancoordinates2.default(mouseLeft, mouseTop);
-      this.color = position.toColor(this.color.l);
+      this.color = position.toColor(this.color.lightnessPercentage);
       this.updateMarkerPosition();
     }
   }, {
@@ -654,10 +658,11 @@ var Marker = function () {
     key: 'insert',
     value: function insert() {
       var position = this.color.toXYCoordinates();
+
       position.x = position.x * 50 + 46;
       position.y = position.y * 50 + 46;
 
-      return '\n      <div id="marker"\n        style="\n        position: absolute;\n        left: ' + position.x + '%;\n        top: ' + position.y + '%;\n        width: ' + this.scale() + this.scaleType() + ';\n        padding-top: ' + this.scale() + this.scaleType() + ';\n        background: ' + this.color.toString() + ';\n        border: 1px solid black;\n        border-radius: 50%;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none;">\n      </div>\n      ';
+      return '\n      <marker id="marker"\n        style="\n        position: absolute;\n        left: ' + position.x + '%;\n        top: ' + position.y + '%;\n        width: ' + this.scale() + this.scaleType() + ';\n        padding-top: ' + this.scale() + this.scaleType() + ';\n        background: ' + this.color.toString() + ';\n        border: 1px solid black;\n        border-radius: 50%;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none;">\n      </marker>\n      ';
     }
   }, {
     key: 'percentSize',

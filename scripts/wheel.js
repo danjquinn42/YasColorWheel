@@ -44,7 +44,7 @@ class Wheel{
     const mouseLeft = (event.pageX - origin.x) / this.radius();
     const mouseTop = (event.pageY - origin.y) / this.radius();
     const position = new CartesianCoordinates(mouseLeft, mouseTop);
-    this.color = position.toColor(this.color.l);
+    this.color = position.toColor(this.color.lightnessPercentage);
     this.updateMarkerPosition();
   }
 
