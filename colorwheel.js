@@ -426,7 +426,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener("DOMContentLoaded", function () {
   var colorPickers = document.getElementsByTagName("color-picker");
   for (var i = 0; i < colorPickers.length; ++i) {
-    var color = colorPickers[i].hasAttribute("default-color") ? _hsl2.default.parse(colorPickers[i].getAttribute("default-color")) : new _hsl2.default(20, 40, 50);
+    var color = colorPickers[i].hasAttribute("default-color") ? _hsl2.default.parse(colorPickers[i].getAttribute("default-color")) : new _hsl2.default(20, 30, 25);
 
     var picker = new _colorpicker2.default(colorPickers[i], color);
     picker.initialize(color);
@@ -454,6 +454,10 @@ var _wheel = __webpack_require__(11);
 
 var _wheel2 = _interopRequireDefault(_wheel);
 
+var _lightness_slider = __webpack_require__(14);
+
+var _lightness_slider2 = _interopRequireDefault(_lightness_slider);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -472,8 +476,10 @@ var colorPicker = function () {
       var wheels = this.fetch("colorwheel");
       this.placeWheels(wheels);
 
+      var width = this.tag.style.width;
+
       var lightnessSliders = this.fetch("lightness-slider");
-      this.placeLightnessSliders(lightnessSliders);
+      this.placeLightnessSliders(lightnessSliders, width);
     }
   }, {
     key: "fetch",
@@ -489,9 +495,9 @@ var colorPicker = function () {
     }
   }, {
     key: "placeLightnessSliders",
-    value: function placeLightnessSliders(sliders) {
+    value: function placeLightnessSliders(sliders, width) {
       for (var i = 0; i < sliders.length; ++i) {
-        // Slider.addToPage(sliders[i], this.color, this.tag);
+        _lightness_slider2.default.addToPage(sliders[i], this.color, width, this.tag);
       }
     }
   }]);
@@ -689,8 +695,12 @@ var Marker = function () {
       var position = color.toXYCoordinates();
       var x = position.x * 50 + 46;
       var y = position.y * 50 + 46;
-
-      this.tag.setAttribute("style", "position: absolute;\n        left: " + x + "%;\n        top: " + y + "%;\n        width: " + this.scale() + this.scaleType() + ";\n        padding-top: " + this.scale() + this.scaleType() + ";\n        background: " + color.toString() + ";\n        border: 1px solid black; border-radius: 50%;\n        -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;");
+      this.setStyles(x, y, color);
+    }
+  }, {
+    key: "setStyles",
+    value: function setStyles(x, y, color) {
+      this.tag.setAttribute("style", "position: absolute;\n    left: " + x + "%;\n    top: " + y + "%;\n    width: " + this.scale() + this.scaleType() + ";\n    padding-top: " + this.scale() + this.scaleType() + ";\n    background: " + color.toString() + ";\n    border: 1px solid black; border-radius: 50%;\n    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;");
     }
   }, {
     key: "updateColor",
@@ -733,6 +743,72 @@ var Marker = function () {
 }();
 
 exports.default = Marker;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var LightnessSlider = function () {
+  function LightnessSlider(tag, color, width, picker) {
+    _classCallCheck(this, LightnessSlider);
+
+    this.tag = tag;
+    this.color = color;
+    this.width = width;
+    this.picker = picker;
+  }
+
+  _createClass(LightnessSlider, [{
+    key: "initialize",
+
+
+    //TODO set DEFAULT styles - remove  inline styling which does not support functionality
+    value: function initialize() {
+      var slider = document.createElement("input");
+      slider.setAttribute("type", "range");
+      slider.setAttribute("style", "width: " + this.width + ";\n      margin-top: " + this.width);
+      slider.setAttribute("max", "100");
+      slider.setAttribute("min", "0");
+      slider.setAttribute("value", "" + this.color.lightnessPercentage);
+      this.tag.appendChild(slider);
+      this.adjustLightness(slider);
+    }
+  }, {
+    key: "adjustLightness",
+    value: function adjustLightness(slider) {
+      var _this = this;
+
+      slider.addEventListener("onclick", function (event) {
+        console.log("calledit");
+        var newColor = _this.color;
+        debugger;
+        newColor.lightnessPercentage = slider.value;
+        _this.color.dispatchUpdate(newColor);
+      });
+    }
+  }], [{
+    key: "addToPage",
+    value: function addToPage(tag, color, width, picker) {
+      var lightnessSlider = new LightnessSlider(tag, color, width, picker);
+      lightnessSlider.initialize();
+    }
+  }]);
+
+  return LightnessSlider;
+}();
+
+exports.default = LightnessSlider;
 
 /***/ })
 /******/ ]);

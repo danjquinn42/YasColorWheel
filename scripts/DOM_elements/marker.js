@@ -15,16 +15,19 @@ class Marker {
     const position = color.toXYCoordinates();
     const x = position.x * 50 + 46;
     const y = position.y * 50 + 46;
+    this.setStyles(x, y, color);
+  }
 
+  setStyles(x, y, color){
     this.tag.setAttribute("style",
-        `position: absolute;
-        left: ${x}%;
-        top: ${y}%;
-        width: ${this.scale()}${this.scaleType()};
-        padding-top: ${this.scale()}${this.scaleType()};
-        background: ${color.toString()};
-        border: 1px solid black; border-radius: 50%;
-        -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;`);
+    `position: absolute;
+    left: ${x}%;
+    top: ${y}%;
+    width: ${this.scale()}${this.scaleType()};
+    padding-top: ${this.scale()}${this.scaleType()};
+    background: ${color.toString()};
+    border: 1px solid black; border-radius: 50%;
+    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;`);
   }
 
   updateColor(){

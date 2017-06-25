@@ -1,4 +1,5 @@
-import Wheel from "./wheel.js"
+import Wheel from "./wheel.js";
+import LightnessSlider from "./lightness_slider.js";
 
 class colorPicker {
   constructor(tag, color) {
@@ -10,8 +11,10 @@ class colorPicker {
     const wheels = this.fetch("colorwheel");
     this.placeWheels(wheels);
 
+    const width = this.tag.style.width;
+
     const lightnessSliders = this.fetch("lightness-slider");
-      this.placeLightnessSliders(lightnessSliders);
+      this.placeLightnessSliders(lightnessSliders, width);
   }
 
   fetch(tagName){
@@ -24,9 +27,9 @@ class colorPicker {
     }
   }
 
-    placeLightnessSliders(sliders) {
+  placeLightnessSliders(sliders, width) {
     for (let i = 0; i < sliders.length; ++i ) {
-      // Slider.addToPage(sliders[i], this.color, this.tag);
+      LightnessSlider.addToPage(sliders[i], this.color,  width, this.tag);
     }
   }
 }
