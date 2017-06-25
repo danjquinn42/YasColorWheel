@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const color =
       colorPickers[i].hasAttribute("default-color")
       ? HSL.parse(colorPickers[i].getAttribute("default-color"))
-      : new HSL(20, 30, 25);
+      : new HSL(25, 70, 50);
 
     const picker = new ColorPicker(colorPickers[i], color);
     picker.initialize(color);

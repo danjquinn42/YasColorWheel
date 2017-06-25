@@ -17,21 +17,28 @@ class LightnessSlider {
     const slider = document.createElement("input");
     slider.setAttribute("type", "range");
     slider.setAttribute("style", `width: ${this.width};
-      margin-top: ${this.width}`);
+      margin-top: ${this.width}; background: ${this.color.toString()}`);
     slider.setAttribute("max", "100");
     slider.setAttribute("min", "0");
     slider.setAttribute("value", `${this.color.lightnessPercentage}`);
     this.tag.appendChild(slider);
     this.adjustLightness(slider);
+    this.subscribeToColorChange()
   }
 
   adjustLightness(slider){
-    slider.addEventListener("onclick", (event) => {
+    slider.addEventListener("input", (event) => {
       console.log("calledit");
       const newColor = this.color;
-      debugger;
-      newColor.lightnessPercentage = slider.value
-      this.color.dispatchUpdate(newColor);
+      console.log( newColor);
+      newColor.lightnessPercentage = slider.value;
+      newColor.dispatchUpdate(this.picker);
+    });
+  }
+
+  subscribeToColorChange(){
+    this.picker.addEventListener("colorChange", (event) => {
+      this.color = event.detail;
     });
   }
 }

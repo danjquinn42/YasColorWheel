@@ -426,7 +426,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener("DOMContentLoaded", function () {
   var colorPickers = document.getElementsByTagName("color-picker");
   for (var i = 0; i < colorPickers.length; ++i) {
-    var color = colorPickers[i].hasAttribute("default-color") ? _hsl2.default.parse(colorPickers[i].getAttribute("default-color")) : new _hsl2.default(20, 30, 25);
+    var color = colorPickers[i].hasAttribute("default-color") ? _hsl2.default.parse(colorPickers[i].getAttribute("default-color")) : new _hsl2.default(25, 70, 50);
 
     var picker = new _colorpicker2.default(colorPickers[i], color);
     picker.initialize(color);
@@ -777,24 +777,34 @@ var LightnessSlider = function () {
     value: function initialize() {
       var slider = document.createElement("input");
       slider.setAttribute("type", "range");
-      slider.setAttribute("style", "width: " + this.width + ";\n      margin-top: " + this.width);
+      slider.setAttribute("style", "width: " + this.width + ";\n      margin-top: " + this.width + "; background: " + this.color.toString());
       slider.setAttribute("max", "100");
       slider.setAttribute("min", "0");
       slider.setAttribute("value", "" + this.color.lightnessPercentage);
       this.tag.appendChild(slider);
       this.adjustLightness(slider);
+      this.subscribeToColorChange();
     }
   }, {
     key: "adjustLightness",
     value: function adjustLightness(slider) {
       var _this = this;
 
-      slider.addEventListener("onclick", function (event) {
+      slider.addEventListener("input", function (event) {
         console.log("calledit");
         var newColor = _this.color;
-        debugger;
+        console.log(newColor);
         newColor.lightnessPercentage = slider.value;
-        _this.color.dispatchUpdate(newColor);
+        newColor.dispatchUpdate(_this.picker);
+      });
+    }
+  }, {
+    key: "subscribeToColorChange",
+    value: function subscribeToColorChange() {
+      var _this2 = this;
+
+      this.picker.addEventListener("colorChange", function (event) {
+        _this2.color = event.detail;
       });
     }
   }], [{
