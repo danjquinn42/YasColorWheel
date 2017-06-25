@@ -10,8 +10,8 @@ class HSL {
   }
 
   // TODO should throw an exception if string isn't properly formed.
-  static parse(string) {
-    const [hue, saturationPercentage, lightnessPercentage] = string.match(/\d+/g).map((number) => {
+  static parse(colorString) {
+    const [hue, saturationPercentage, lightnessPercentage] = colorString.match(/\d+/g).map((number) => {
       return parseInt(number)
     });
     return new HSL(hue, saturationPercentage, lightnessPercentage);

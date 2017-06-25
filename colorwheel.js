@@ -321,14 +321,14 @@ var HSL = function () {
     }
   }], [{
     key: "parse",
-    value: function parse(string) {
-      var _string$match$map = string.match(/\d+/g).map(function (number) {
+    value: function parse(colorString) {
+      var _colorString$match$ma = colorString.match(/\d+/g).map(function (number) {
         return parseInt(number);
       }),
-          _string$match$map2 = _slicedToArray(_string$match$map, 3),
-          hue = _string$match$map2[0],
-          saturationPercentage = _string$match$map2[1],
-          lightnessPercentage = _string$match$map2[2];
+          _colorString$match$ma2 = _slicedToArray(_colorString$match$ma, 3),
+          hue = _colorString$match$ma2[0],
+          saturationPercentage = _colorString$match$ma2[1],
+          lightnessPercentage = _colorString$match$ma2[2];
 
       return new HSL(hue, saturationPercentage, lightnessPercentage);
     }
@@ -411,14 +411,20 @@ var _colorpicker = __webpack_require__(6);
 
 var _colorpicker2 = _interopRequireDefault(_colorpicker);
 
+var _hsl = __webpack_require__(3);
+
+var _hsl2 = _interopRequireDefault(_hsl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener("DOMContentLoaded", function () {
   var colorPickers = document.getElementsByTagName("color-picker");
   for (var i = 0; i < colorPickers.length; ++i) {
-    var picker = new _colorpicker2.default(colorPickers[i]);
-    picker.initialize();
-  };
+    var color = colorPickers[i].hasAttribute("default-color") ? _hsl2.default.parse(colorPickers[i].getAttribute("default-color")) : new _hsl2.default(20, 40, 50);
+
+    var picker = new _colorpicker2.default(colorPickers[i], color);
+    picker.initialize(color);
+  }
 });
 
 /***/ }),
@@ -443,9 +449,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var colorPicker = function () {
-  function colorPicker(tag) {
-    var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "hsl(20, 40%, 50%)";
-
+  function colorPicker(tag, color) {
     _classCallCheck(this, colorPicker);
 
     this.tag = tag;
@@ -453,34 +457,16 @@ var colorPicker = function () {
   }
 
   _createClass(colorPicker, [{
-    key: "listenForColorChange",
-    value: function listenForColorChange() {
-      var _this = this;
-
-      this.tag.addEventListener("colorChange", function () {
-        _this.color = color;
-      });
-    }
-  }, {
-    key: "setColor",
-    value: function setColor(newColor) {
-      var colorChange = new CustomEvent("colorChange", { "color": this.color });
-      dispatchEvent(colorChange);
-    }
-  }, {
     key: "initialize",
-    value: function initialize() {
+    value: function initialize(color) {
       var wheels = this.tag.getElementsByTagName("colorwheel");
       this.placeWheels(wheels);
-      this.listenForColorChange();
     }
   }, {
     key: "placeWheels",
     value: function placeWheels(wheels) {
-      if (wheels.length > 0) {
-        for (var i = 0; i < wheels.length; ++i) {
-          var wheel = _wheel2.default.addToPage(wheels[i], this.color);
-        }
+      for (var i = 0; i < wheels.length; ++i) {
+        _wheel2.default.addToPage(wheels[i], this.color, this.tag);
       }
     }
   }]);
@@ -515,7 +501,7 @@ var _hsl = __webpack_require__(3);
 
 var _hsl2 = _interopRequireDefault(_hsl);
 
-var _inner_wheel_style = __webpack_require__(12);
+var _inner_wheel_style = __webpack_require__(8);
 
 var _inner_wheel_style2 = _interopRequireDefault(_inner_wheel_style);
 
@@ -534,10 +520,28 @@ var Wheel = function () {
     this.tag = tag;
     this.color = color;
     this.scale = scale;
-    this.mousePosition;
   }
 
   _createClass(Wheel, [{
+    key: 'initialize',
+    value: function initialize() {
+      this.tag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
+
+      this.innerWheel = document.createElement("div");
+      this.innerWheel.setAttribute("style", (0, _inner_wheel_style2.default)(50));
+      this.tag.appendChild(this.innerWheel);
+
+      var markerDiv = document.createElement("div");
+
+      this.marker = new _marker2.default(markerDiv, this.color);
+      this.marker.setPosition(this.scale);
+      this.innerWheel.innerHTML = this.marker.tag.outerHTML;
+
+      this.scrim = document.createElement("div");
+      this.scrim.setAttribute("style", 'position: absolute;\n      margin-top: -100%; width: 100%;\n      height: 100%; border-radius: 50%;');
+      this.tag.appendChild(this.scrim);
+    }
+  }, {
     key: 'clickAndDragMarker',
     value: function clickAndDragMarker() {
       var _this = this;
@@ -545,7 +549,7 @@ var Wheel = function () {
       this.scrim.addEventListener("mousedown", function (event) {
         event.preventDefault();
         var drag = _this.colorFromMousePosition.bind(_this);
-        _this.colorFromMousePosition(event);
+        drag(event);
         document.addEventListener("mousemove", drag, false);
         var that = _this;
         document.addEventListener("mouseup", function () {
@@ -561,7 +565,9 @@ var Wheel = function () {
       var mouseTop = (event.pageY - origin.y) / this.radius();
       var position = new _cartesiancoordinates2.default(mouseLeft, mouseTop);
       this.color = position.toColor(this.color.lightnessPercentage);
-      this.updateMarkerPosition();
+      var colorChange = new CustomEvent("colorChange", { "detail": this.color });
+      document.dispatchEvent(colorChange);
+      this.innerWheel.innerHTML = this.marker.tag.outerHTML;
     }
   }, {
     key: 'origin',
@@ -589,35 +595,12 @@ var Wheel = function () {
     value: function radius() {
       return this.innerWheel.clientHeight / 2;
     }
-  }, {
-    key: 'updateMarkerPosition',
-    value: function updateMarkerPosition() {
-      var marker = new _marker2.default(this.color, this.scale);
-      this.innerWheel.innerHTML = marker.insert();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      this.tag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
-
-      this.innerWheel = document.createElement("div");
-      this.innerWheel.setAttribute("style", (0, _inner_wheel_style2.default)(50));
-      var marker = new _marker2.default(this.color, this.scale);
-      this.innerWheel.innerHTML = marker.insert();
-      this.tag.appendChild(this.innerWheel);
-
-      this.scrim = document.createElement("div");
-      this.scrim.setAttribute("style", 'position: absolute;\n      margin-top: -100%; width: 100%;\n      height: 100%; border-radius: 50%;');
-      this.tag.appendChild(this.scrim);
-    }
   }], [{
     key: 'addToPage',
-    value: function addToPage(wheelTag, cssColor) {
-      var color = _hsl2.default.parse(cssColor);
+    value: function addToPage(wheelTag, color) {
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
       var wheel = new Wheel(wheelTag, color, scale);
-
-      wheel.render();
+      wheel.initialize();
       wheel.clickAndDragMarker();
     }
   }]);
@@ -628,7 +611,22 @@ var Wheel = function () {
 exports.default = Wheel;
 
 /***/ }),
-/* 8 */,
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var InnerWheelStyle = function InnerWheelStyle(lightness) {
+  return "\n  position: absolute;\n  margin-top: -100%;\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n\n  background:\n    radial-gradient(\n      circle at 50% 50%,\n      hsla(0, 0%, " + lightness + "%, 1),\n      hsla(0, 0%, " + lightness + "%, .8),\n      hsla(0, 0%, " + lightness + "%, .6),\n      hsla(0, 0%, " + lightness + "%, .4),\n      hsla(0, 0%, " + lightness + "%, .2),\n      hsla(0, 0%, " + lightness + "%, 0) 80%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, .5),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, .6),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .6),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 75%,\n      hsla(30, 100%, " + lightness + "%, 1),\n      hsla(30, 100%, " + lightness + "%, .7),\n      hsla(30, 100%, " + lightness + "%, .4),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, 1),\n      hsla(60, 100%, " + lightness + "%, .7),\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, 1),\n      hsla(90, 100%, " + lightness + "%, .7),\n      hsla(90, 100%, " + lightness + "%, .4),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 93%,\n      hsla(120, 100%, " + lightness + "%, 1),\n      hsla(120, 100%, " + lightness + "%, .6),\n      hsla(120, 100%, " + lightness + "%, .4),\n      hsla(120, 100%, " + lightness + "%, .2),\n      hsla(120, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 75%,\n      hsla(150, 100%, " + lightness + "%, 1),\n      hsla(150, 100%, " + lightness + "%, .8),\n      hsla(150, 100%, " + lightness + "%, .5),\n      hsla(150, 100%, " + lightness + "%, .3),\n      hsla(150, 100%, " + lightness + "%, .2),\n      hsla(150, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, 1),\n      hsla(180, 100%, " + lightness + "%, .8),\n      hsla(180, 100%, " + lightness + "%, .8),\n      hsla(180, 100%, " + lightness + "%, .4),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 25%,\n      hsla(210, 100%, " + lightness + "%, 1),\n      hsla(210, 100%, " + lightness + "%, .6),\n      hsla(210, 100%, " + lightness + "%, .4),\n      hsla(210, 100%, " + lightness + "%, .2),\n      hsla(210, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 7%,\n      hsla(240, 100%, " + lightness + "%, .8),\n      hsla(240, 100%, " + lightness + "%, .6),\n      hsla(240, 100%, " + lightness + "%, .4),\n      hsla(240, 100%, " + lightness + "%, .2),\n      hsla(240, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 0%,\n      hsla(270, 100%, " + lightness + "%, 1),\n      hsla(270, 100%, " + lightness + "%, .7),\n      hsla(270, 100%, " + lightness + "%, .4),\n      hsla(270, 100%, " + lightness + "%, .2),\n      hsla(270, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 7%,\n      hsla(300, 100%, " + lightness + "%, 1),\n      hsla(300, 100%, " + lightness + "%, .7),\n      hsla(300, 100%, " + lightness + "%, .4),\n      hsla(300, 100%, " + lightness + "%, .2),\n      hsla(300, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 25%,\n      hsla(330, 100%, " + lightness + "%, 1),\n      hsla(330, 100%, " + lightness + "%, .7),\n      hsla(330, 100%, " + lightness + "%, .4),\n      hsla(330, 100%, " + lightness + "%, .2),\n      hsla(330, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .7),\n      hsla(0, 100%, " + lightness + "%, .4),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%);";
+};
+
+exports.default = InnerWheelStyle;
+
+/***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -644,28 +642,40 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Marker = function () {
-  function Marker(color, wheelScale) {
+  function Marker(tag, color) {
     _classCallCheck(this, Marker);
 
+    this.tag = tag;
     this.color = color;
-    this.wheelScale = wheelScale;
   }
 
   _createClass(Marker, [{
-    key: 'setColor',
-    value: function setColor() {}
-  }, {
-    key: 'insert',
-    value: function insert() {
-      var position = this.color.toXYCoordinates();
-
-      position.x = position.x * 50 + 46;
-      position.y = position.y * 50 + 46;
-
-      return '\n      <marker id="marker"\n        style="\n        position: absolute;\n        left: ' + position.x + '%;\n        top: ' + position.y + '%;\n        width: ' + this.scale() + this.scaleType() + ';\n        padding-top: ' + this.scale() + this.scaleType() + ';\n        background: ' + this.color.toString() + ';\n        border: 1px solid black;\n        border-radius: 50%;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none;">\n      </marker>\n      ';
+    key: "setPosition",
+    value: function setPosition(wheelScale) {
+      this.wheelScale = wheelScale;
+      this.updateColorAndPosition(this.color);
+      this.updateColor();
     }
   }, {
-    key: 'percentSize',
+    key: "updateColorAndPosition",
+    value: function updateColorAndPosition(color) {
+      var position = color.toXYCoordinates();
+      var x = position.x * 50 + 46;
+      var y = position.y * 50 + 46;
+
+      this.tag.setAttribute("style", "position: absolute;\n        left: " + x + "%;\n        top: " + y + "%;\n        width: " + this.scale() + this.scaleType() + ";\n        padding-top: " + this.scale() + this.scaleType() + ";\n        background: " + color.toString() + ";\n        border: 1px solid black; border-radius: 50%;\n        -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;");
+    }
+  }, {
+    key: "updateColor",
+    value: function updateColor() {
+      var _this = this;
+
+      document.addEventListener("colorChange", function (event) {
+        _this.updateColorAndPosition(event.detail);
+      });
+    }
+  }, {
+    key: "percentSize",
     value: function percentSize() {
       if (this.scaleType() === "%") {
         return scale();
@@ -673,7 +683,7 @@ var Marker = function () {
       return parseInt(this.wheelScale.match(/\d+/)) / scale() * 100;
     }
   }, {
-    key: 'scaleType',
+    key: "scaleType",
     value: function scaleType() {
       if (this.wheelScale.slice(-1) === 'x') {
         return 'px';
@@ -681,7 +691,7 @@ var Marker = function () {
       return '%';
     }
   }, {
-    key: 'scale',
+    key: "scale",
     value: function scale() {
       var scaleType = this.wheelScale.slice(-1);
       if (scaleType === "x") {
@@ -696,24 +706,6 @@ var Marker = function () {
 }();
 
 exports.default = Marker;
-
-/***/ }),
-/* 10 */,
-/* 11 */,
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var InnerWheelStyle = function InnerWheelStyle(lightness) {
-  return "\n  position: absolute;\n  margin-top: -100%;\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n\n  background:\n    radial-gradient(\n      circle at 50% 50%,\n      hsla(0, 0%, " + lightness + "%, 1),\n      hsla(0, 0%, " + lightness + "%, .8),\n      hsla(0, 0%, " + lightness + "%, .6),\n      hsla(0, 0%, " + lightness + "%, .4),\n      hsla(0, 0%, " + lightness + "%, .2),\n      hsla(0, 0%, " + lightness + "%, 0) 80%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, .5),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, .6),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 20%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .6),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 75%,\n      hsla(30, 100%, " + lightness + "%, 1),\n      hsla(30, 100%, " + lightness + "%, .7),\n      hsla(30, 100%, " + lightness + "%, .4),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .2),\n      hsla(30, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 93%,\n      hsla(60, 100%, " + lightness + "%, 1),\n      hsla(60, 100%, " + lightness + "%, .7),\n      hsla(60, 100%, " + lightness + "%, .4),\n      hsla(60, 100%, " + lightness + "%, .2),\n      hsla(60, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 100%,\n      hsla(90, 100%, " + lightness + "%, 1),\n      hsla(90, 100%, " + lightness + "%, .7),\n      hsla(90, 100%, " + lightness + "%, .4),\n      hsla(90, 100%, " + lightness + "%, .2),\n      hsla(90, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 93%,\n      hsla(120, 100%, " + lightness + "%, 1),\n      hsla(120, 100%, " + lightness + "%, .6),\n      hsla(120, 100%, " + lightness + "%, .4),\n      hsla(120, 100%, " + lightness + "%, .2),\n      hsla(120, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 75%,\n      hsla(150, 100%, " + lightness + "%, 1),\n      hsla(150, 100%, " + lightness + "%, .8),\n      hsla(150, 100%, " + lightness + "%, .5),\n      hsla(150, 100%, " + lightness + "%, .3),\n      hsla(150, 100%, " + lightness + "%, .2),\n      hsla(150, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 0% 50%,\n      hsla(180, 100%, " + lightness + "%, 1),\n      hsla(180, 100%, " + lightness + "%, .8),\n      hsla(180, 100%, " + lightness + "%, .4),\n      hsla(180, 100%, " + lightness + "%, .2),\n      hsla(180, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 7% 25%,\n      hsla(210, 100%, " + lightness + "%, 1),\n      hsla(210, 100%, " + lightness + "%, .7),\n      hsla(210, 100%, " + lightness + "%, .4),\n      hsla(210, 100%, " + lightness + "%, .2),\n      hsla(210, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 25% 7%,\n      hsla(240, 100%, " + lightness + "%, 1),\n      hsla(240, 100%, " + lightness + "%, .8),\n      hsla(240, 100%, " + lightness + "%, .4),\n      hsla(240, 100%, " + lightness + "%, .2),\n      hsla(240, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 50% 0%,\n      hsla(270, 100%, " + lightness + "%, 1),\n      hsla(270, 100%, " + lightness + "%, .7),\n      hsla(270, 100%, " + lightness + "%, .4),\n      hsla(270, 100%, " + lightness + "%, .2),\n      hsla(270, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 75% 7%,\n      hsla(300, 100%, " + lightness + "%, 1),\n      hsla(300, 100%, " + lightness + "%, .7),\n      hsla(300, 100%, " + lightness + "%, .4),\n      hsla(300, 100%, " + lightness + "%, .2),\n      hsla(300, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 93% 25%,\n      hsla(330, 100%, " + lightness + "%, 1),\n      hsla(330, 100%, " + lightness + "%, .7),\n      hsla(330, 100%, " + lightness + "%, .4),\n      hsla(330, 100%, " + lightness + "%, .2),\n      hsla(330, 100%, " + lightness + "%, .0) 40%),\n    radial-gradient(\n      ellipse at 100% 50%,\n      hsla(0, 100%, " + lightness + "%, 1),\n      hsla(0, 100%, " + lightness + "%, .7),\n      hsla(0, 100%, " + lightness + "%, .4),\n      hsla(0, 100%, " + lightness + "%, .2),\n      hsla(0, 100%, " + lightness + "%, .0) 40%);";
-};
-
-exports.default = InnerWheelStyle;
 
 /***/ })
 /******/ ]);

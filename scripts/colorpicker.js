@@ -6,32 +6,16 @@ class colorPicker {
     this.color = color;
   }
 
-  listenForColorChange() {
-    this.tag.addEventListener("colorChange", () => {
-      this.color = color;
-    })
-  }
-
-  setColor(newColor) {
-    const colorChange =
-      new CustomEvent("colorChange", { "color": this.color });
-    dispatchEvent(colorChange);
-  }
-
   initialize(color) {
     const wheels = this.tag.getElementsByTagName("colorwheel");
-    this.placeWheels(wheels)
-    this.listenForColorChange();
+    this.placeWheels(wheels);
   }
 
   placeWheels(wheels) {
-    if (wheels.length > 0) {
-      for (let i = 0; i < wheels.length; ++i) {
-        const wheel = Wheel.addToPage(wheels[i], this.color);
-      }
+    for (let i = 0; i < wheels.length; ++i ) {
+      Wheel.addToPage(wheels[i], this.color, this.tag);
     }
   }
-
 }
 
 export default colorPicker;

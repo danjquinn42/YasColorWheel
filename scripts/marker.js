@@ -1,23 +1,35 @@
 class Marker {
-  constructor(tag){
+  constructor(tag, color){
     this.tag = tag;
+    this.color = color;
   }
 
-  setColorAndPosition(color, wheelScale) {
-    this.color = color;
-    this.wheelScale = wheelScale
-    const position = this.color.toXYCoordinates();
+  setPosition(wheelScale){
+    this.wheelScale = wheelScale;
+    this.updateColorAndPosition(this.color);
+    this.updateColor();
+  }
 
+  updateColorAndPosition(color) {
+    const position = color.toXYCoordinates();
     const x = position.x * 50 + 46;
     const y = position.y * 50 + 46;
-
-    this.tag.setAttribute("style", `position: absolute;
-        left: ${position.x}%; top: ${position.y}%;
+    
+    this.tag.setAttribute("style",
+        `position: absolute;
+        left: ${x}%;
+        top: ${y}%;
         width: ${this.scale()}${this.scaleType()};
         padding-top: ${this.scale()}${this.scaleType()};
-        background: ${this.color.toString()};
+        background: ${color.toString()};
         border: 1px solid black; border-radius: 50%;
         -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;`);
+  }
+
+  updateColor(){
+    document.addEventListener("colorChange", (event) => {
+      this.updateColorAndPosition(event.detail);
+    });
   }
 
   percentSize() {

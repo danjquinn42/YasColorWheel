@@ -11,27 +11,45 @@ class Wheel{
     this.scale = scale;
   }
 
-  static addToPage(wheelTag, cssColor) {
-    const color = HSL.parse(cssColor);
+  static addToPage(wheelTag, color) {
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
     const wheel = new Wheel(wheelTag, color, scale);
-
-    wheel.render();
+    wheel.initialize();
     wheel.clickAndDragMarker();
+  }
+
+  initialize() {
+    this.tag.setAttribute("style", ` position: absolute;
+      border-radius: 50%; background: white;
+      width: ${this.scale}; padding-top: ${this.scale}`);
+
+    this.innerWheel = document.createElement("div");
+    this.innerWheel.setAttribute("style", InnerWheelStyle(50));
+    this.tag.appendChild(this.innerWheel);
+
+    const markerDiv = document.createElement("div");
+
+    this.marker = new Marker(markerDiv, this.color);
+    this.marker.setPosition(this.scale);
+    this.innerWheel.innerHTML = this.marker.tag.outerHTML;
+
+    this.scrim = document.createElement("div");
+    this.scrim.setAttribute("style", `position: absolute;
+      margin-top: -100%; width: 100%;
+      height: 100%; border-radius: 50%;`);
+    this.tag.appendChild(this.scrim);
   }
 
   clickAndDragMarker() {
     this.scrim.addEventListener("mousedown", (event) => {
       event.preventDefault();
       const drag = this.colorFromMousePosition.bind(this);
-      this.colorFromMousePosition(event);
-      document.addEventListener("mousemove",
-        drag, false);
+      drag(event);
+      document.addEventListener("mousemove", drag, false);
       const that = this;
       document.addEventListener("mouseup", () => {
-        document.removeEventListener("mousemove",
-        drag, false);
+        document.removeEventListener("mousemove", drag, false);
       });
     });
   }
@@ -42,7 +60,10 @@ class Wheel{
     const mouseTop = (event.pageY - origin.y) / this.radius();
     const position = new CartesianCoordinates(mouseLeft, mouseTop);
     this.color = position.toColor(this.color.lightnessPercentage);
-    this.marker.updateMarkerPosition();
+    const colorChange = new CustomEvent("colorChange",
+      { "detail": this.color });
+    document.dispatchEvent(colorChange);
+    this.innerWheel.innerHTML = this.marker.tag.outerHTML;
   }
 
   origin() {
@@ -68,25 +89,6 @@ class Wheel{
     return this.innerWheel.clientHeight / 2;
   }
 
-  render() {
-    this.tag.setAttribute("style", ` position: absolute;
-      border-radius: 50%; background: white;
-      width: ${this.scale}; padding-top: ${this.scale}`);
-
-    this.innerWheel = document.createElement("div");
-    this.innerWheel.setAttribute("style", InnerWheelStyle(50));
-    const markerDiv = document.createElement("div");
-    this.marker = new Marker(markerDiv);
-    this.marker.setColorAndPosition(this.color, this.scale);
-    this.innerWheel.innerHTML = this.marker.tag;
-    this.tag.appendChild(this.innerWheel);
-
-    this.scrim = document.createElement("div");
-    this.scrim.setAttribute("style", `position: absolute;
-      margin-top: -100%; width: 100%;
-      height: 100%; border-radius: 50%;`);
-    this.tag.appendChild(this.scrim);
-  }
 }
 
 export default Wheel;
