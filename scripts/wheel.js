@@ -5,67 +5,59 @@ import InnerWheelStyle from './inner_wheel_style.js';
 import Marker from './marker.js';
 
 class Wheel{
-  constructor(tag, color, scale, picker) {
-    this.tag = tag;
-    this.color = color;
+  constructor(tag, scale, picker) {
+    this.wheelTag = tag;
     this.scale = scale;
     this.picker = picker;
+    this.drag = this.drag.bind(this)
   }
 
   static addToPage(wheelTag, color) {
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
     const picker = wheelTag.parentElement;
-    const wheel = new Wheel(wheelTag, color, scale, picker);
-    wheel.initialize(picker);
+    const wheel = new Wheel(wheelTag, scale, picker);
+    wheel.initialize(picker, color);
     wheel.clickAndDragMarker();
   }
 
-  initialize(picker) {
-    this.tag.setAttribute("style", ` position: absolute;
+  initialize(picker, color) {
+    this.wheelTag.setAttribute("style", ` position: absolute;
       border-radius: 50%; background: white;
       width: ${this.scale}; padding-top: ${this.scale}`);
 
-    this.innerWheel = document.createElement("div");
-    this.innerWheel.setAttribute("style", InnerWheelStyle(50));
-    this.tag.appendChild(this.innerWheel);
+    this.innerWheelTag = document.createElement("div");
+    this.innerWheelTag.setAttribute("style", InnerWheelStyle(50));
+    this.wheelTag.appendChild(this.innerWheelTag);
 
     const markerDiv = document.createElement("div");
 
-    this.marker = new Marker(markerDiv, this.color, picker);
+    this.marker = new Marker(markerDiv, color, picker);
     this.marker.setPosition(this.scale);
-    this.innerWheel.innerHTML = this.marker.tag.outerHTML;
-
-    this.scrim = document.createElement("div");
-    this.scrim.setAttribute("style", `position: absolute;
-      margin-top: -100%; width: 100%;
-      height: 100%; border-radius: 50%;`);
-    this.tag.appendChild(this.scrim);
+    this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
   }
 
   clickAndDragMarker() {
-    this.scrim.addEventListener("mousedown", (event) => {
-      event.preventDefault();
-      const drag = this.drag.bind(this);
-      drag(event);
-      document.addEventListener("mousemove", drag, false);
+    this.innerWheelTag.addEventListener("mousedown", (event) => {
+      this.drag(event);
+      document.addEventListener("mousemove", this.drag, false);
       const that = this;
       document.addEventListener("mouseup", () => {
-        document.removeEventListener("mousemove", drag, false);
+        document.removeEventListener("mousemove", this.drag, false);
       });
     });
   }
 
+  //TODO make aware of lightness values
   drag(event) {
+    event.preventDefault();
     const origin = this.origin()
     const mouseLeft = (event.pageX - origin.x) / this.radius();
     const mouseTop = (event.pageY - origin.y) / this.radius();
     const position = new CartesianCoordinates(mouseLeft, mouseTop);
-    this.color = position.toColor(this.color.lightnessPercentage);
-    const colorChange = new CustomEvent("colorChange",
-      { "detail": this.color });
-    this.picker.dispatchEvent(colorChange);
-    this.innerWheel.innerHTML = this.marker.tag.outerHTML;
+    const color = position.toColor(50);
+    color.dispatchUpdate(this.picker);
+    this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
   }
 
   origin() {
@@ -76,9 +68,7 @@ class Wheel{
   }
 
   totalOffset() {
-    let top = 0;
-    let left = 0;
-    let element = this.scrim;
+    let [top, left, element] = [0, 0, this.innerWheelTag];
     while (element) {
         top += element.offsetTop  || 0;
         left += element.offsetLeft || 0;
@@ -88,7 +78,7 @@ class Wheel{
   }
 
   radius() {
-    return this.innerWheel.clientHeight / 2;
+    return this.innerWheelTag.clientHeight / 2;
   }
 
 }

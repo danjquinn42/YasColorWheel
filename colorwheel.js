@@ -314,6 +314,12 @@ var HSL = function () {
       return position.toCartesianCoordinates();
     }
   }, {
+    key: "dispatchUpdate",
+    value: function dispatchUpdate(domElement) {
+      var colorChange = new CustomEvent("colorChange", { "detail": this });
+      domElement.dispatchEvent(colorChange);
+    }
+  }, {
     key: "toString",
     value: function toString() {
       console.log[(this.hue, ", ", this.saturationPercentage, " ", this.lightnessPercentage, " ")];
@@ -459,14 +465,29 @@ var colorPicker = function () {
   _createClass(colorPicker, [{
     key: "initialize",
     value: function initialize(color) {
-      var wheels = this.tag.getElementsByTagName("colorwheel");
+      var wheels = this.fetch("colorwheel");
       this.placeWheels(wheels);
+
+      var lightnessSliders = this.fetch("lightness-slider");
+      this.placeLightnessSliders(lightnessSliders);
+    }
+  }, {
+    key: "fetch",
+    value: function fetch(tagName) {
+      return this.tag.getElementsByTagName(tagName);
     }
   }, {
     key: "placeWheels",
     value: function placeWheels(wheels) {
       for (var i = 0; i < wheels.length; ++i) {
         _wheel2.default.addToPage(wheels[i], this.color, this.tag);
+      }
+    }
+  }, {
+    key: "placeLightnessSliders",
+    value: function placeLightnessSliders(sliders) {
+      for (var i = 0; i < sliders.length; ++i) {
+        // Slider.addToPage(sliders[i], this.color, this.tag);
       }
     }
   }]);
@@ -514,61 +535,58 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Wheel = function () {
-  function Wheel(tag, color, scale, picker) {
+  function Wheel(tag, scale, picker) {
     _classCallCheck(this, Wheel);
 
-    this.tag = tag;
-    this.color = color;
+    this.wheelTag = tag;
     this.scale = scale;
     this.picker = picker;
+    this.drag = this.drag.bind(this);
   }
 
   _createClass(Wheel, [{
     key: 'initialize',
-    value: function initialize(picker) {
-      this.tag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
+    value: function initialize(picker, color) {
+      this.wheelTag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
 
-      this.innerWheel = document.createElement("div");
-      this.innerWheel.setAttribute("style", (0, _inner_wheel_style2.default)(50));
-      this.tag.appendChild(this.innerWheel);
+      this.innerWheelTag = document.createElement("div");
+      this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(50));
+      this.wheelTag.appendChild(this.innerWheelTag);
 
       var markerDiv = document.createElement("div");
 
-      this.marker = new _marker2.default(markerDiv, this.color, picker);
+      this.marker = new _marker2.default(markerDiv, color, picker);
       this.marker.setPosition(this.scale);
-      this.innerWheel.innerHTML = this.marker.tag.outerHTML;
-
-      this.scrim = document.createElement("div");
-      this.scrim.setAttribute("style", 'position: absolute;\n      margin-top: -100%; width: 100%;\n      height: 100%; border-radius: 50%;');
-      this.tag.appendChild(this.scrim);
+      this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
     }
   }, {
     key: 'clickAndDragMarker',
     value: function clickAndDragMarker() {
       var _this = this;
 
-      this.scrim.addEventListener("mousedown", function (event) {
-        event.preventDefault();
-        var drag = _this.drag.bind(_this);
-        drag(event);
-        document.addEventListener("mousemove", drag, false);
+      this.innerWheelTag.addEventListener("mousedown", function (event) {
+        _this.drag(event);
+        document.addEventListener("mousemove", _this.drag, false);
         var that = _this;
         document.addEventListener("mouseup", function () {
-          document.removeEventListener("mousemove", drag, false);
+          document.removeEventListener("mousemove", _this.drag, false);
         });
       });
     }
+
+    //TODO make aware of lightness values
+
   }, {
     key: 'drag',
     value: function drag(event) {
+      event.preventDefault();
       var origin = this.origin();
       var mouseLeft = (event.pageX - origin.x) / this.radius();
       var mouseTop = (event.pageY - origin.y) / this.radius();
       var position = new _cartesiancoordinates2.default(mouseLeft, mouseTop);
-      this.color = position.toColor(this.color.lightnessPercentage);
-      var colorChange = new CustomEvent("colorChange", { "detail": this.color });
-      this.picker.dispatchEvent(colorChange);
-      this.innerWheel.innerHTML = this.marker.tag.outerHTML;
+      var color = position.toColor(50);
+      color.dispatchUpdate(this.picker);
+      this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
     }
   }, {
     key: 'origin',
@@ -581,9 +599,11 @@ var Wheel = function () {
   }, {
     key: 'totalOffset',
     value: function totalOffset() {
-      var top = 0;
-      var left = 0;
-      var element = this.scrim;
+      var _ref = [0, 0, this.innerWheelTag],
+          top = _ref[0],
+          left = _ref[1],
+          element = _ref[2];
+
       while (element) {
         top += element.offsetTop || 0;
         left += element.offsetLeft || 0;
@@ -594,15 +614,15 @@ var Wheel = function () {
   }, {
     key: 'radius',
     value: function radius() {
-      return this.innerWheel.clientHeight / 2;
+      return this.innerWheelTag.clientHeight / 2;
     }
   }], [{
     key: 'addToPage',
     value: function addToPage(wheelTag, color) {
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
       var picker = wheelTag.parentElement;
-      var wheel = new Wheel(wheelTag, color, scale, picker);
-      wheel.initialize(picker);
+      var wheel = new Wheel(wheelTag, scale, picker);
+      wheel.initialize(picker, color);
       wheel.clickAndDragMarker();
     }
   }]);

@@ -25,6 +25,12 @@ class HSL {
     return position.toCartesianCoordinates();
   }
 
+  dispatchUpdate(domElement) {
+    const colorChange = new CustomEvent("colorChange",
+      { "detail": this });
+    domElement.dispatchEvent(colorChange);
+  }
+
   toString() {
     console.log[this.hue, ", ", this.saturationPercentage, " ", this.lightnessPercentage, " "];
     return `hsl(${this.hue},${
