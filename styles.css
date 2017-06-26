@@ -1,35 +1,62 @@
-body, h1, h2, h3, h4, canvas, a, p,
+/*body, h1, h2, h3, h4, canvas, a, p,
 article, section, main {
   margin: 0;
   padding: 0;
   border: none;
   color: inherit;
   font: inherit;
-
+  letter-spacing: inherit;
   background: transparent;
   text-decoration: none;
-
-  letter-spacing: inherit;
-
   display: block;
-
-}
+}*/
 
 color-picker {
-  display: inline-block;
+  display: block;
   width: 70%;
   height: 100px;
+  position: absolute;
+}
+
+color-wheel {
+  width: 100%;
+}
+
+lightness-slider {
+  margin-top: 50%;
   position: absolute;
 }
 
 /*color-picker > colorwheel > inner-wheel*/
 
 lightness-slider > input {
-
-  margin-top: 60%;
-  width: 50%;
+  -webkit appearance: none;
+  width: 100%;
+  background: transparent;
+  /*margin-top: 60%;*/
 }
 
-input[type=range] {
+lightness-slider > input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
 
+lightness-slider > input:focus {
+  outline: none;
+}
+
+lightness-slider > input::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+lightness-slider > input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid black;
+  height: 30px;
+  width: 30px;
+  border-radus: 3px;
+  cursor: pointer;
 }

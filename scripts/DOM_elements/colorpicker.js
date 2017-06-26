@@ -21,7 +21,7 @@ class colorPicker {
 
   placeWheels(wheels) {
     for (let i = 0; i < wheels.length; ++i ) {
-      Wheel.addToPage(wheels[i], this.color, this.tag);
+      Wheel.addToPage(wheels[i], this.color);
     }
   }
 

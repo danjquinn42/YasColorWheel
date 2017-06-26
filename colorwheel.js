@@ -488,7 +488,7 @@ var colorPicker = function () {
     key: "placeWheels",
     value: function placeWheels(wheels) {
       for (var i = 0; i < wheels.length; ++i) {
-        _wheel2.default.addToPage(wheels[i], this.color, this.tag);
+        _wheel2.default.addToPage(wheels[i], this.color);
       }
     }
   }, {
@@ -542,6 +542,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+//TODO Remove this.scale and repalce scaling with clientWidth;
 var Wheel = function () {
   function Wheel(tag, scale, picker, lightness) {
     _classCallCheck(this, Wheel);
@@ -588,7 +589,7 @@ var Wheel = function () {
     value: function subscribeToColorChange() {
       var _this2 = this;
 
-      this.picker.addEventListener("colorChange", function () {
+      this.picker.addEventListener("colorChange", function (event) {
         var lightness = event.detail.lightnessPercentage;
         _this2.updateWheel(lightness);
       });
@@ -795,6 +796,7 @@ var LightnessSlider = function () {
       slider.setAttribute("max", "100");
       slider.setAttribute("min", "0");
       slider.setAttribute("value", "" + this.color.lightnessPercentage);
+      slider.setAttribute("style", "background: " + this.color.toString() + "; position: relative;");
       this.tag.appendChild(slider);
       this.adjustLightness(slider);
       this.subscribeToColorChange(slider);
@@ -817,6 +819,7 @@ var LightnessSlider = function () {
 
       this.picker.addEventListener("colorChange", function (event) {
         _this2.color = event.detail;
+        slider.setAttribute("style", "background: " + _this2.color.toString());
         slider.setAttribute("value", "" + _this2.color.lightnessPercentage);
       });
     }
