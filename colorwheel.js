@@ -426,7 +426,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener("DOMContentLoaded", function () {
   var colorPickers = document.getElementsByTagName("color-picker");
   for (var i = 0; i < colorPickers.length; ++i) {
-    var color = colorPickers[i].hasAttribute("default-color") ? _hsl2.default.parse(colorPickers[i].getAttribute("default-color")) : new _hsl2.default(25, 70, 50);
+    var color = colorPickers[i].hasAttribute("starting-color") ? _hsl2.default.parse(colorPickers[i].getAttribute("starting-color")) : new _hsl2.default(25, 70, 50);
 
     var picker = new _colorpicker2.default(colorPickers[i], color);
     picker.initialize(color);
