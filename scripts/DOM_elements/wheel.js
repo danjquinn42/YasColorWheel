@@ -4,6 +4,8 @@ import HSL from '../color/hsl.js';
 import InnerWheelStyle from './inner_wheel_style.js';
 import Marker from './marker.js';
 
+
+//TODO Remove this.scale and repalce scaling with clientWidth;
 class Wheel{
   constructor(tag, scale, picker, lightness) {
     this.wheelTag = tag;
@@ -53,7 +55,7 @@ class Wheel{
   }
 
   subscribeToColorChange() {
-    this.picker.addEventListener("colorChange", () => {
+    this.picker.addEventListener("colorChange", (event) => {
       const lightness = event.detail.lightnessPercentage;
       this.updateWheel(lightness);
     });
