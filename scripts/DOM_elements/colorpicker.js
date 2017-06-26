@@ -7,7 +7,7 @@ class colorPicker {
     this.color = color;
   }
 
-  initialize(color) {
+  initialize() {
     const wheels = this.fetch("color-wheel");
     const lightnessSliders = this.fetch("lightness-slider");
     if (wheels.length === 0 && lightnessSliders.length === 0){

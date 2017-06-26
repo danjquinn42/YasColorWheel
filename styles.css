@@ -11,52 +11,16 @@ article, section, main {
   display: block;
 }*/
 
-color-picker {
-  display: block;
-  width: 70%;
+/*color-picker {
+  width: 50%;
   height: 100px;
   position: absolute;
-}
+}*/
 
-color-wheel {
+/*lightness-slider {
   width: 100%;
-}
-
-lightness-slider {
-  margin-top: 50%;
+  margin-top: 105%;
   position: absolute;
-}
+}*/
 
 /*color-picker > colorwheel > inner-wheel*/
-
-lightness-slider > input {
-  -webkit appearance: none;
-  width: 100%;
-  background: transparent;
-  /*margin-top: 60%;*/
-}
-
-lightness-slider > input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-}
-
-lightness-slider > input:focus {
-  outline: none;
-}
-
-lightness-slider > input::-ms-track {
-  width: 100%;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-
-lightness-slider > input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  border: 1px solid black;
-  height: 30px;
-  width: 30px;
-  border-radus: 3px;
-  cursor: pointer;
-}

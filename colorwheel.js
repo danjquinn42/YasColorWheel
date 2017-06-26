@@ -472,7 +472,7 @@ var colorPicker = function () {
 
   _createClass(colorPicker, [{
     key: "initialize",
-    value: function initialize(color) {
+    value: function initialize() {
       var wheels = this.fetch("color-wheel");
       var lightnessSliders = this.fetch("lightness-slider");
       if (wheels.length === 0 && lightnessSliders.length === 0) {
@@ -612,7 +612,7 @@ var Wheel = function () {
       this.lightness = lightness;
       this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
       this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(this.lightness));
-      this.wheelTag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: hsl(0, 0%, ' + this.lightness + '%);\n      width: ' + this.scale + '; padding-top: ' + this.scale);
+      this.wheelTag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: hsl(0, 0%, ' + this.lightness + '%);\n      width: 100%; padding-top: 100%; margin: 0 auto;');
     }
   }, {
     key: 'drag',
@@ -808,7 +808,7 @@ var LightnessSlider = function () {
       slider.setAttribute("max", "100");
       slider.setAttribute("min", "0");
       slider.setAttribute("value", "" + this.color.lightnessPercentage);
-      slider.setAttribute("style", "background: " + this.color.toString() + "; position: relative;");
+      this.setStyle(slider);
       this.tag.appendChild(slider);
       this.adjustLightness(slider);
       this.subscribeToColorChange(slider);
@@ -825,13 +825,23 @@ var LightnessSlider = function () {
       });
     }
   }, {
+    key: "setStyle",
+    value: function setStyle(slider) {
+      var color = this.color;
+      var black = color;
+      black.lightnessPercentage = 0;
+      var white = color;
+      black.lightnessPercentage = 100;
+      slider.setAttribute("style", "position: relative;\n    width: 100%;\n    margin-top: 105%;\n    position: absolute;");
+    }
+  }, {
     key: "subscribeToColorChange",
     value: function subscribeToColorChange(slider) {
       var _this2 = this;
 
       this.picker.addEventListener("colorChange", function (event) {
         _this2.color = event.detail;
-        slider.setAttribute("style", "background: " + _this2.color.toString());
+        _this2.setStyle(slider);
         slider.setAttribute("value", "" + _this2.color.lightnessPercentage);
       });
     }

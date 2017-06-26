@@ -18,7 +18,7 @@ class LightnessSlider {
     slider.setAttribute("max", "100");
     slider.setAttribute("min", "0");
     slider.setAttribute("value", `${this.color.lightnessPercentage}`);
-    slider.setAttribute("style", `background: ${this.color.toString()}; position: relative;`);
+    this.setStyle(slider);
     this.tag.appendChild(slider);
     this.adjustLightness(slider);
     this.subscribeToColorChange(slider);
@@ -32,10 +32,23 @@ class LightnessSlider {
     });
   }
 
+  setStyle(slider){
+    const color = this.color;
+    const black = color;
+    black.lightnessPercentage = 0;
+    const white = color;
+    black.lightnessPercentage = 100;
+    slider.setAttribute("style",
+    `position: relative;
+    width: 100%;
+    margin-top: 105%;
+    position: absolute;`);
+  }
+
   subscribeToColorChange(slider){
     this.picker.addEventListener("colorChange", (event) => {
       this.color = event.detail;
-      slider.setAttribute("style", `background: ${this.color.toString()}`);
+      this.setStyle(slider);
       slider.setAttribute("value", `${this.color.lightnessPercentage}`);
     });
   }

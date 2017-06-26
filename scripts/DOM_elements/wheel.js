@@ -68,7 +68,7 @@ class Wheel{
       InnerWheelStyle(this.lightness));
     this.wheelTag.setAttribute("style", ` position: absolute;
       border-radius: 50%; background: hsl(0, 0%, ${this.lightness}%);
-      width: ${this.scale}; padding-top: ${this.scale}`)
+      width: 100%; padding-top: 100%; margin: 0 auto;`)
   }
 
   drag(event) {
