@@ -18,6 +18,7 @@ class LightnessSlider {
     slider.setAttribute("max", "100");
     slider.setAttribute("min", "0");
     slider.setAttribute("value", `${this.color.lightnessPercentage}`);
+    slider.setAttribute("style", `background: ${this.color.toString()}; position: relative;`);
     this.tag.appendChild(slider);
     this.adjustLightness(slider);
     this.subscribeToColorChange(slider);
@@ -34,6 +35,7 @@ class LightnessSlider {
   subscribeToColorChange(slider){
     this.picker.addEventListener("colorChange", (event) => {
       this.color = event.detail;
+      slider.setAttribute("style", `background: ${this.color.toString()}`);
       slider.setAttribute("value", `${this.color.lightnessPercentage}`);
     });
   }
