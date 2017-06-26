@@ -474,10 +474,22 @@ var colorPicker = function () {
     key: "initialize",
     value: function initialize(color) {
       var wheels = this.fetch("color-wheel");
-      this.placeWheels(wheels);
-
       var lightnessSliders = this.fetch("lightness-slider");
-      this.placeLightnessSliders(lightnessSliders);
+      if (wheels.length === 0 && lightnessSliders.length === 0) {
+        this.applyDefaults();
+      } else {
+        this.placeWheels(wheels);
+        this.placeLightnessSliders(lightnessSliders);
+      }
+    }
+  }, {
+    key: "applyDefaults",
+    value: function applyDefaults() {
+      var colorWheel = document.createElement("color-wheel");
+      var lightnessSlider = document.createElement("lightness-slider");
+      this.tag.appendChild(colorWheel);
+      this.tag.appendChild(lightnessSlider);
+      this.initialize();
     }
   }, {
     key: "fetch",

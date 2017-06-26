@@ -9,10 +9,21 @@ class colorPicker {
 
   initialize(color) {
     const wheels = this.fetch("color-wheel");
-    this.placeWheels(wheels);
-
     const lightnessSliders = this.fetch("lightness-slider");
-    this.placeLightnessSliders(lightnessSliders);
+    if (wheels.length === 0 && lightnessSliders.length === 0){
+      this.applyDefaults();
+    } else {
+      this.placeWheels(wheels);
+      this.placeLightnessSliders(lightnessSliders);
+    }
+  }
+
+  applyDefaults(){
+    const colorWheel = document.createElement("color-wheel");
+    const lightnessSlider = document.createElement("lightness-slider");
+    this.tag.appendChild(colorWheel);
+    this.tag.appendChild(lightnessSlider);
+    this.initialize();
   }
 
   fetch(tagName){
