@@ -570,7 +570,7 @@ var Wheel = function () {
   _createClass(Wheel, [{
     key: 'initialize',
     value: function initialize(picker, color) {
-      this.wheelTag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
+      this.wheelTag.setAttribute("style", '\n      position: absolute; border-radius: 50%;\n      background: hsl(0, 0%, ' + this.lightness + '%);\n      width: 100%; padding-top: 100%; margin: 0 auto;');
 
       this.innerWheelTag = document.createElement("inner-wheel");
       this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(this.lightness));
@@ -611,8 +611,8 @@ var Wheel = function () {
     value: function updateWheel(lightness) {
       this.lightness = lightness;
       this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
-      this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(this.lightness));
-      this.wheelTag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: hsl(0, 0%, ' + this.lightness + '%);\n      width: 100%; padding-top: 100%; margin: 0 auto;');
+      this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(lightness));
+      this.wheelTag.setAttribute("style", 'position: absolute;\n      border-radius: 50%; background: hsl(0, 0%, ' + this.lightness + '%);\n      width: 100%; padding-top: 100%; margin: 0 auto;');
     }
   }, {
     key: 'drag',
@@ -624,7 +624,6 @@ var Wheel = function () {
       var position = new _cartesiancoordinates2.default(mouseLeft, mouseTop);
       var color = position.toColor(this.lightness);
       color.dispatchUpdate(this.picker);
-      this.updateWheel(color.lightnessPercentage);
     }
   }, {
     key: 'origin',

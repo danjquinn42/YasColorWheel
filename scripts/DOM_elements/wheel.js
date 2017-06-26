@@ -27,9 +27,10 @@ class Wheel{
   }
 
   initialize(picker, color) {
-    this.wheelTag.setAttribute("style", ` position: absolute;
-      border-radius: 50%; background: white;
-      width: ${this.scale}; padding-top: ${this.scale}`);
+    this.wheelTag.setAttribute("style", `
+      position: absolute; border-radius: 50%;
+      background: hsl(0, 0%, ${this.lightness}%);
+      width: 100%; padding-top: 100%; margin: 0 auto;`);
 
     this.innerWheelTag = document.createElement("inner-wheel");
     this.innerWheelTag.setAttribute("style",
@@ -65,10 +66,10 @@ class Wheel{
     this.lightness = lightness;
     this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
     this.innerWheelTag.setAttribute("style",
-      InnerWheelStyle(this.lightness));
-    this.wheelTag.setAttribute("style", ` position: absolute;
+      InnerWheelStyle(lightness));
+    this.wheelTag.setAttribute("style", `position: absolute;
       border-radius: 50%; background: hsl(0, 0%, ${this.lightness}%);
-      width: 100%; padding-top: 100%; margin: 0 auto;`)
+      width: 100%; padding-top: 100%; margin: 0 auto;`);
   }
 
   drag(event) {
@@ -79,7 +80,6 @@ class Wheel{
     const position = new CartesianCoordinates(mouseLeft, mouseTop);
     const color = position.toColor(this.lightness);
     color.dispatchUpdate(this.picker);
-    this.updateWheel(color.lightnessPercentage);
   }
 
   origin() {
