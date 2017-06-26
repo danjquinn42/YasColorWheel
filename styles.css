@@ -1,26 +1,4 @@
-/*body, h1, h2, h3, h4, canvas, a, p,
-article, section, main {
-  margin: 0;
-  padding: 0;
-  border: none;
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-  background: transparent;
-  text-decoration: none;
-  display: block;
-}*/
-
-/*color-picker {
+color-picker {
   width: 50%;
-  height: 100px;
   position: absolute;
-}*/
-
-/*lightness-slider {
-  width: 100%;
-  margin-top: 105%;
-  position: absolute;
-}*/
-
-/*color-picker > colorwheel > inner-wheel*/
+}
