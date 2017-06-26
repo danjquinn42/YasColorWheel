@@ -6,8 +6,6 @@ The Yas Color Wheel is a simple-to-use plugin for your webpage. Download colorwh
 
 2) Add the javascript file to your webpage using the <script> tag. If you are using a bundler like webpack you can skip this step.
 
-3) copy the and paste following into your HTML or jsx:
-  <color-picker>
-    <color-wheel></color-wheel>
-    <lightness-slider></lightness-slider>
-  </color-picker>
+3) Add <color-picker></color-picker> tag to your document
+
+Now you should have a color wheel and lightness slider on your page with default styles applied. You can position and arrange the entire element by adding css to the color-picker tag.
