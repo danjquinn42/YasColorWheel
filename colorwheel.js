@@ -473,6 +473,9 @@ var colorPicker = function () {
   _createClass(colorPicker, [{
     key: "initialize",
     value: function initialize() {
+      if (this.tag.styles.position === undefined) {
+        this.tag.setAttribute("style", "position: absolute");
+      }
       var wheels = this.fetch("color-wheel");
       var lightnessSliders = this.fetch("lightness-slider");
       if (wheels.length === 0 && lightnessSliders.length === 0) {
