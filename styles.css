@@ -1,0 +1,35 @@
+body, h1, h2, h3, h4, canvas, a, p,
+article, section, main {
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: inherit;
+  font: inherit;
+
+  background: transparent;
+  text-decoration: none;
+
+  letter-spacing: inherit;
+
+  display: block;
+
+}
+
+color-picker {
+  display: inline-block;
+  width: 70%;
+  height: 100px;
+  position: absolute;
+}
+
+/*color-picker > colorwheel > inner-wheel*/
+
+lightness-slider > input {
+
+  margin-top: 60%;
+  width: 50%;
+}
+
+input[type=range] {
+
+}

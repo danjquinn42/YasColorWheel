@@ -29,7 +29,7 @@ class Wheel{
       border-radius: 50%; background: white;
       width: ${this.scale}; padding-top: ${this.scale}`);
 
-    this.innerWheelTag = document.createElement("div");
+    this.innerWheelTag = document.createElement("inner-wheel");
     this.innerWheelTag.setAttribute("style",
       InnerWheelStyle(this.lightness));
     this.wheelTag.appendChild(this.innerWheelTag);

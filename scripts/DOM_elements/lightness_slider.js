@@ -1,14 +1,13 @@
 class LightnessSlider {
 
-  constructor(tag, color, width, picker) {
+  constructor(tag, color, picker) {
     this.tag = tag;
     this.color = color;
-    this.width = width;
     this.picker = picker;
   }
 
-  static addToPage(tag, color, width, picker){
-    const lightnessSlider = new LightnessSlider(tag, color, width, picker);
+  static addToPage(tag, color, picker){
+    const lightnessSlider = new LightnessSlider(tag, color, picker);
     lightnessSlider.initialize();
   }
 
@@ -16,8 +15,6 @@ class LightnessSlider {
   initialize(){
     const slider = document.createElement("input");
     slider.setAttribute("type", "range");
-    slider.setAttribute("style", `width: ${this.width};
-      margin-top: ${this.width}; background: ${this.color.toString()}`);
     slider.setAttribute("max", "100");
     slider.setAttribute("min", "0");
     slider.setAttribute("value", `${this.color.lightnessPercentage}`);
