@@ -8,9 +8,6 @@ class colorPicker {
   }
 
   initialize() {
-    if (this.tag.styles.position === undefined) {
-      this.tag.setAttribute("style", "position: absolute");
-    }
     const wheels = this.fetch("color-wheel");
     const lightnessSliders = this.fetch("lightness-slider");
     if (wheels.length === 0 && lightnessSliders.length === 0){

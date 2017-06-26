@@ -22,11 +22,6 @@ const InnerWheelStyle = function (lightness) {
       hsla(270, 100%, ${lightness}%, .2),
       hsla(270, 100%, ${lightness}%, .0) 30%),
     radial-gradient(
-      ellipse at 0% 50%,
-      hsla(180, 100%, ${lightness}%, .5),
-      hsla(180, 100%, ${lightness}%, .2),
-      hsla(180, 100%, ${lightness}%, .0) 20%),
-    radial-gradient(
       ellipse at 50% 100%,
       hsla(90, 100%, ${lightness}%, .6),
       hsla(90, 100%, ${lightness}%, .2),
@@ -83,7 +78,6 @@ const InnerWheelStyle = function (lightness) {
       ellipse at 0% 50%,
       hsla(180, 100%, ${lightness}%, 1),
       hsla(180, 100%, ${lightness}%, .8),
-      hsla(180, 100%, ${lightness}%, .8),
       hsla(180, 100%, ${lightness}%, .4),
       hsla(180, 100%, ${lightness}%, .2),
       hsla(180, 100%, ${lightness}%, .0) 40%),
@@ -97,7 +91,6 @@ const InnerWheelStyle = function (lightness) {
     radial-gradient(
       ellipse at 25% 7%,
       hsla(240, 100%, ${lightness}%, 1),
-      hsla(240, 100%, ${lightness}%, .9),
       hsla(240, 100%, ${lightness}%, .8),
       hsla(240, 100%, ${lightness}%, .6),
       hsla(240, 100%, ${lightness}%, .2),
