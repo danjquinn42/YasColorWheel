@@ -8,11 +8,11 @@ class colorPicker {
   }
 
   initialize(color) {
-    const wheels = this.fetch("colorwheel");
+    const wheels = this.fetch("color-wheel");
     this.placeWheels(wheels);
-    const width = this.tag.style.width;
+
     const lightnessSliders = this.fetch("lightness-slider");
-      this.placeLightnessSliders(lightnessSliders, width);
+    this.placeLightnessSliders(lightnessSliders);
   }
 
   fetch(tagName){
@@ -25,9 +25,9 @@ class colorPicker {
     }
   }
 
-  placeLightnessSliders(sliders, width) {
+  placeLightnessSliders(sliders) {
     for (let i = 0; i < sliders.length; ++i ) {
-      LightnessSlider.addToPage(sliders[i], this.color,  width, this.tag);
+      LightnessSlider.addToPage(sliders[i], this.color, this.tag);
     }
   }
 }

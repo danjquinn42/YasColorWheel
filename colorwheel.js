@@ -473,11 +473,11 @@ var colorPicker = function () {
   _createClass(colorPicker, [{
     key: "initialize",
     value: function initialize(color) {
-      var wheels = this.fetch("colorwheel");
+      var wheels = this.fetch("color-wheel");
       this.placeWheels(wheels);
-      var width = this.tag.style.width;
+
       var lightnessSliders = this.fetch("lightness-slider");
-      this.placeLightnessSliders(lightnessSliders, width);
+      this.placeLightnessSliders(lightnessSliders);
     }
   }, {
     key: "fetch",
@@ -493,9 +493,9 @@ var colorPicker = function () {
     }
   }, {
     key: "placeLightnessSliders",
-    value: function placeLightnessSliders(sliders, width) {
+    value: function placeLightnessSliders(sliders) {
       for (var i = 0; i < sliders.length; ++i) {
-        _lightness_slider2.default.addToPage(sliders[i], this.color, width, this.tag);
+        _lightness_slider2.default.addToPage(sliders[i], this.color, this.tag);
       }
     }
   }]);
@@ -559,7 +559,7 @@ var Wheel = function () {
     value: function initialize(picker, color) {
       this.wheelTag.setAttribute("style", ' position: absolute;\n      border-radius: 50%; background: white;\n      width: ' + this.scale + '; padding-top: ' + this.scale);
 
-      this.innerWheelTag = document.createElement("div");
+      this.innerWheelTag = document.createElement("inner-wheel");
       this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(this.lightness));
       this.wheelTag.appendChild(this.innerWheelTag);
 
@@ -776,12 +776,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var LightnessSlider = function () {
-  function LightnessSlider(tag, color, width, picker) {
+  function LightnessSlider(tag, color, picker) {
     _classCallCheck(this, LightnessSlider);
 
     this.tag = tag;
     this.color = color;
-    this.width = width;
     this.picker = picker;
   }
 
@@ -793,7 +792,6 @@ var LightnessSlider = function () {
     value: function initialize() {
       var slider = document.createElement("input");
       slider.setAttribute("type", "range");
-      slider.setAttribute("style", "width: " + this.width + ";\n      margin-top: " + this.width + "; background: " + this.color.toString());
       slider.setAttribute("max", "100");
       slider.setAttribute("min", "0");
       slider.setAttribute("value", "" + this.color.lightnessPercentage);
@@ -824,8 +822,8 @@ var LightnessSlider = function () {
     }
   }], [{
     key: "addToPage",
-    value: function addToPage(tag, color, width, picker) {
-      var lightnessSlider = new LightnessSlider(tag, color, width, picker);
+    value: function addToPage(tag, color, picker) {
+      var lightnessSlider = new LightnessSlider(tag, color, picker);
       lightnessSlider.initialize();
     }
   }]);
