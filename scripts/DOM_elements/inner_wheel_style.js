@@ -14,7 +14,8 @@ const InnerWheelStyle = function (lightness) {
       hsla(0, 0%, ${lightness}%, .6),
       hsla(0, 0%, ${lightness}%, .4),
       hsla(0, 0%, ${lightness}%, .2),
-      hsla(0, 0%, ${lightness}%, 0) 80%),
+      hsla(0, 0%, ${lightness}%, .1),
+      hsla(0, 0%, ${lightness}%, 0) 70%),
     radial-gradient(
       ellipse at 50% 0%,
       hsla(270, 100%, ${lightness}%, .8),
