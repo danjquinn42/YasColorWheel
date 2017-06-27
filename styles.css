@@ -5,7 +5,7 @@ body {
 div {
   width: 40%;
   position: relative;
-  margin: 40px auto;
+  margin: 0 auto;
 }
 
 color-picker {

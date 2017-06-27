@@ -38,10 +38,10 @@ picker.addEventListener("colorChange", () => {
 would print a css styled string for the current HSL color value.
 
 ## HSL Objects
-The following methods are available to you from the HSL class.
+The following methods are available to you from the HSL class. 
 
 ### new HSL(hue, saturationPercentage, lightnessPercentage)
-returns a new HSL object. Takes three numbers: a hue value between 0 and 360, a saturationPercentage value between 0 and 100, and a lightnessPercentage value between 0 and 100.
+returns a new HSL object. Takes three numbers: a hue value between 0 and 360, a saturationPercentage value between 0 and 100, and a lightnessPercentage value between 0 and 100. You will need `./scripts/color/hsl.js` in order to import the class and use this method.
 
 ### HSL.parse(string)
 this is a static method which returns an HSL object given a properly formatted string. The string should be formatted for use in css. For example: `"hsl(22, 84%, 50%)"`.
