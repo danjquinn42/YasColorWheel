@@ -1,22 +1,22 @@
-import PolarCoordinates from '../math/polarcoordinates.js';
 import CartesianCoordinates from '../math/cartesiancoordinates.js';
 import HSL from '../color/hsl.js';
 import InnerWheelStyle from './inner_wheel_style.js';
 import Marker from './marker.js';
 
-
 //TODO Remove this.scale and repalce scaling with clientWidth;
-class Wheel{
+class Wheel {
   constructor(tag, scale, picker, lightness) {
     this.wheelTag = tag;
     this.scale = scale;
     this.picker = picker;
     this.lightness = lightness;
-    this.drag = this.drag.bind(this)
-    this.subscribeToColorChange = this.subscribeToColorChange.bind(this)
+    this.drag = this.drag.bind(this);
+    this.subscribeToColorChange =
+      this.subscribeToColorChange.bind(this);
   }
 
-  static addToPage(wheelTag, color) {
+  // TODO extract into a factory
+  static createWheel(wheelTag, color) {
     const scale = (wheelTag.style.width) ?
       wheelTag.style.width : "20%";
     const picker = wheelTag.parentElement;
@@ -26,6 +26,7 @@ class Wheel{
     wheel.subscribeToColorChange();
   }
 
+  //TODO extract into a factory
   initialize(picker, color) {
     this.wheelTag.setAttribute("style", `
       position: absolute; border-radius: 50%;
@@ -47,10 +48,11 @@ class Wheel{
   clickAndDragMarker() {
     this.innerWheelTag.addEventListener("mousedown", (event) => {
       this.drag(event);
-      document.addEventListener("mousemove", this.drag, false);
-      const that = this;
+      document.addEventListener(
+        "mousemove", this.drag, false);
       document.addEventListener("mouseup", () => {
-        document.removeEventListener("mousemove", this.drag, false);
+        document.removeEventListener(
+          "mousemove", this.drag, false);
       });
     });
   }
@@ -102,7 +104,6 @@ class Wheel{
   radius() {
     return this.innerWheelTag.clientHeight / 2;
   }
-
 }
 
 export default Wheel;

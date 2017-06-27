@@ -429,7 +429,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var color = colorPickers[i].hasAttribute("starting-color") ? _hsl2.default.parse(colorPickers[i].getAttribute("starting-color")) : new _hsl2.default(25, 70, 50);
 
     var picker = new _colorpicker2.default(colorPickers[i], color);
-    picker.initialize(color);
+    picker.applyDefaults();
+    picker.placeChildren(color);
   }
 });
 
@@ -462,34 +463,32 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var colorPicker = function () {
-  function colorPicker(tag, color) {
-    _classCallCheck(this, colorPicker);
+var ColorPicker = function () {
+  function ColorPicker(tag, color) {
+    _classCallCheck(this, ColorPicker);
 
     this.tag = tag;
     this.color = color;
   }
 
-  _createClass(colorPicker, [{
-    key: "initialize",
-    value: function initialize() {
-      var wheels = this.fetch("color-wheel");
-      var lightnessSliders = this.fetch("lightness-slider");
-      if (wheels.length === 0 && lightnessSliders.length === 0) {
-        this.applyDefaults();
-      } else {
-        this.placeWheels(wheels);
-        this.placeLightnessSliders(lightnessSliders);
-      }
+  _createClass(ColorPicker, [{
+    key: "placeChildren",
+    value: function placeChildren() {
+      this.placeWheels(this.fetch("color-wheel"));
+      this.placeLightnessSliders(this.fetch("lightness-slider"));
     }
   }, {
     key: "applyDefaults",
     value: function applyDefaults() {
-      var colorWheel = document.createElement("color-wheel");
-      var lightnessSlider = document.createElement("lightness-slider");
-      this.tag.appendChild(colorWheel);
-      this.tag.appendChild(lightnessSlider);
-      this.initialize();
+      if (this.tagIsEmpty()) {
+        this.tag.appendChild(document.createElement("color-wheel"));
+        this.tag.appendChild(document.createElement("lightness-slider"));
+      }
+    }
+  }, {
+    key: "tagIsEmpty",
+    value: function tagIsEmpty() {
+      return this.fetch("color-wheel").length === 0 && this.fetch("lightness-slider").length === 0;
     }
   }, {
     key: "fetch",
@@ -498,24 +497,24 @@ var colorPicker = function () {
     }
   }, {
     key: "placeWheels",
-    value: function placeWheels(wheels) {
-      for (var i = 0; i < wheels.length; ++i) {
-        _wheel2.default.addToPage(wheels[i], this.color);
+    value: function placeWheels(wheelTags) {
+      for (var i = 0; i < wheelTags.length; ++i) {
+        _wheel2.default.createWheel(wheelTags[i], this.color);
       }
     }
   }, {
     key: "placeLightnessSliders",
-    value: function placeLightnessSliders(sliders) {
-      for (var i = 0; i < sliders.length; ++i) {
-        _lightness_slider2.default.addToPage(sliders[i], this.color, this.tag);
+    value: function placeLightnessSliders(sliderTags) {
+      for (var i = 0; i < sliderTags.length; ++i) {
+        _lightness_slider2.default.createSlider(sliderTags[i], this.color, this.tag);
       }
     }
   }]);
 
-  return colorPicker;
+  return ColorPicker;
 }();
 
-exports.default = colorPicker;
+exports.default = ColorPicker;
 
 /***/ }),
 /* 11 */
@@ -529,10 +528,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _polarcoordinates = __webpack_require__(0);
-
-var _polarcoordinates2 = _interopRequireDefault(_polarcoordinates);
 
 var _cartesiancoordinates = __webpack_require__(4);
 
@@ -567,8 +562,14 @@ var Wheel = function () {
     this.subscribeToColorChange = this.subscribeToColorChange.bind(this);
   }
 
+  // TODO extract into a factory
+
+
   _createClass(Wheel, [{
     key: 'initialize',
+
+
+    //TODO extract into a factory
     value: function initialize(picker, color) {
       this.wheelTag.setAttribute("style", '\n      position: absolute; border-radius: 50%;\n      background: hsl(0, 0%, ' + this.lightness + '%);\n      width: 100%; padding-top: 100%; margin: 0 auto;');
 
@@ -590,7 +591,6 @@ var Wheel = function () {
       this.innerWheelTag.addEventListener("mousedown", function (event) {
         _this.drag(event);
         document.addEventListener("mousemove", _this.drag, false);
-        var that = _this;
         document.addEventListener("mouseup", function () {
           document.removeEventListener("mousemove", _this.drag, false);
         });
@@ -654,8 +654,8 @@ var Wheel = function () {
       return this.innerWheelTag.clientHeight / 2;
     }
   }], [{
-    key: 'addToPage',
-    value: function addToPage(wheelTag, color) {
+    key: 'createWheel',
+    value: function createWheel(wheelTag, color) {
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
       var picker = wheelTag.parentElement;
       var wheel = new Wheel(wheelTag, scale, picker, color.lightnessPercentage);
@@ -796,11 +796,14 @@ var LightnessSlider = function () {
     this.picker = picker;
   }
 
+  //TODO extract into a factory
+
+
   _createClass(LightnessSlider, [{
     key: "initialize",
 
 
-    //TODO set DEFAULT styles - remove  inline styling which does not support functionality
+    //TODO extract into a factory
     value: function initialize() {
       var slider = document.createElement("input");
       slider.setAttribute("type", "range");
@@ -845,8 +848,8 @@ var LightnessSlider = function () {
       });
     }
   }], [{
-    key: "addToPage",
-    value: function addToPage(tag, color, picker) {
+    key: "createSlider",
+    value: function createSlider(tag, color, picker) {
       var lightnessSlider = new LightnessSlider(tag, color, picker);
       lightnessSlider.initialize();
     }

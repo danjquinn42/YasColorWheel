@@ -1,46 +1,44 @@
 import Wheel from "./wheel.js";
 import LightnessSlider from "./lightness_slider.js";
 
-class colorPicker {
+class ColorPicker {
   constructor(tag, color) {
     this.tag = tag;
     this.color = color;
   }
 
-  initialize() {
-    const wheels = this.fetch("color-wheel");
-    const lightnessSliders = this.fetch("lightness-slider");
-    if (wheels.length === 0 && lightnessSliders.length === 0){
-      this.applyDefaults();
-    } else {
-      this.placeWheels(wheels);
-      this.placeLightnessSliders(lightnessSliders);
+  placeChildren() {
+    this.placeWheels(this.fetch("color-wheel"));
+    this.placeLightnessSliders(this.fetch("lightness-slider"));
+  }
+
+  applyDefaults() {
+    if (this.tagIsEmpty()) {
+      this.tag.appendChild(document.createElement("color-wheel"));
+      this.tag.appendChild(document.createElement("lightness-slider"));
     }
   }
 
-  applyDefaults(){
-    const colorWheel = document.createElement("color-wheel");
-    const lightnessSlider = document.createElement("lightness-slider");
-    this.tag.appendChild(colorWheel);
-    this.tag.appendChild(lightnessSlider);
-    this.initialize();
+  tagIsEmpty(){
+    return (this.fetch("color-wheel").length === 0
+      && this.fetch("lightness-slider").length === 0);
   }
 
   fetch(tagName){
     return this.tag.getElementsByTagName(tagName);
   }
 
-  placeWheels(wheels) {
-    for (let i = 0; i < wheels.length; ++i ) {
-      Wheel.addToPage(wheels[i], this.color);
+  placeWheels(wheelTags) {
+    for (let i = 0; i < wheelTags.length; ++i ) {
+      Wheel.createWheel(wheelTags[i], this.color);
     }
   }
 
-  placeLightnessSliders(sliders) {
-    for (let i = 0; i < sliders.length; ++i ) {
-      LightnessSlider.addToPage(sliders[i], this.color, this.tag);
+  placeLightnessSliders(sliderTags) {
+    for (let i = 0; i < sliderTags.length; ++i ) {
+      LightnessSlider.createSlider(sliderTags[i], this.color, this.tag);
     }
   }
 }
 
-export default colorPicker;
+export default ColorPicker;

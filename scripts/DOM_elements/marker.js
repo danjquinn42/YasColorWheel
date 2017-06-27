@@ -1,11 +1,11 @@
 class Marker {
-  constructor(tag, color, picker){
+  constructor(tag, color, picker) {
     this.tag = tag;
     this.color = color;
     this.picker = picker;
   }
 
-  setPosition(wheelScale){
+  setPosition(wheelScale) {
     this.wheelScale = wheelScale;
     this.updateColorAndPosition(this.color);
     this.updateColor();
@@ -18,7 +18,7 @@ class Marker {
     this.setStyles(x, y, color);
   }
 
-  setStyles(x, y, color){
+  setStyles(x, y, color) {
     this.tag.setAttribute("style",
     `position: absolute;
     left: ${x}%;
@@ -30,7 +30,7 @@ class Marker {
     -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;`);
   }
 
-  updateColor(){
+  updateColor() {
     this.picker.addEventListener("colorChange", (event) => {
       this.updateColorAndPosition(event.detail);
     });

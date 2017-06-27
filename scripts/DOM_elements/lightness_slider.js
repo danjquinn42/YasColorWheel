@@ -6,13 +6,14 @@ class LightnessSlider {
     this.picker = picker;
   }
 
-  static addToPage(tag, color, picker){
+  //TODO extract into a factory
+  static createSlider(tag, color, picker) {
     const lightnessSlider = new LightnessSlider(tag, color, picker);
     lightnessSlider.initialize();
   }
 
-  //TODO set DEFAULT styles - remove  inline styling which does not support functionality
-  initialize(){
+  //TODO extract into a factory
+  initialize() {
     const slider = document.createElement("input");
     slider.setAttribute("type", "range");
     slider.setAttribute("max", "100");
@@ -24,7 +25,7 @@ class LightnessSlider {
     this.subscribeToColorChange(slider);
   }
 
-  adjustLightness(slider){
+  adjustLightness(slider) {
     slider.addEventListener("input", (event) => {
       const newColor = this.color;
       newColor.lightnessPercentage = slider.value;
@@ -32,7 +33,7 @@ class LightnessSlider {
     });
   }
 
-  setStyle(slider){
+  setStyle(slider) {
     const color = this.color;
     const black = color;
     black.lightnessPercentage = 0;
@@ -45,7 +46,7 @@ class LightnessSlider {
     position: absolute;`);
   }
 
-  subscribeToColorChange(slider){
+  subscribeToColorChange(slider) {
     this.picker.addEventListener("colorChange", (event) => {
       this.color = event.detail;
       this.setStyle(slider);

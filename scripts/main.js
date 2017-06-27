@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
       : new HSL(25, 70, 50);
 
     const picker = new ColorPicker(colorPickers[i], color);
-    picker.initialize(color);
+    picker.applyDefaults();
+    picker.placeChildren(color);
   }
 });
