@@ -15,3 +15,5 @@ Now you should have a color wheel and lightness slider on your page with default
 ## Styling
 
 The color picker style must include `position: absolute` or it's parent element must be `position: absolute`. This may change in future iterations. Adding a width attribute will adjust both height and width proportionally to avoid the wheel being skewed.
+
+## Defaults
