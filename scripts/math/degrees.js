@@ -17,10 +17,6 @@ class Degrees {
     return this.toRadians().sin();
   }
 
-  equals(degree) {
-    return this.value === degree.value;
-  }
-
   toString() {
     return `${this.value}˚`;
   }
