@@ -23,7 +23,7 @@ Now you should have a color wheel and lightness slider on your page with default
 The color picker style must include `position: absolute` or its parent element must be `position: absolute`. This may change in future iterations. Adding a width attribute will adjust both height and width proportionally to avoid the wheel being skewed.
 
 ### Starting Color
-To set the starting color insert a `starting-color` into the color-picker tag. the starting color should be set equal to an hsl color value: for example, `starting-color="hsl(22, 84%, 50%)"`. If you do not supply a starting color the default is `hsl(25, 70%, 50%)` which is a warm orange.
+To set the starting color insert a `starting-color` attribute into the color-picker tag. The starting color should be set equal to an hsl color value: for example, `starting-color="hsl(22, 84%, 50%)"`. If you do not supply a starting color the default is `hsl(25, 70%, 50%)` which is a warm orange.
 
 ## Getting the Color
 To set the get the current color value add a colorChange event listener to the color picker. Calling `event.details` will return an HSL color object. For example:
