@@ -17,18 +17,6 @@ class Degrees {
     return this.toRadians().sin();
   }
 
-  plus(degree) {
-    return new Degrees(this.value + degree.value);
-  }
-
-  minus(degree) {
-    return new Degrees(this.value - degree.value);
-  }
-
-  negated() {
-    return new Degrees(-this.value);
-  }
-
   equals(degree) {
     return this.value === degree.value;
   }
