@@ -20,10 +20,6 @@ class Radians {
   sin() {
     return Math.sin(this.value);
   }
-
-  equals(rad) {
-    return this.value === rad.value;
-  }
 }
 
 export default Radians;
