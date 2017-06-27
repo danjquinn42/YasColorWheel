@@ -44,13 +44,7 @@ returns a new HSL object. Takes three numbers: a hue value between 0 and 360, a 
 this is a static method which returns an HSL object given a properly formatted string. The string should be formatted for use in css. For example: `"hsl(22, 84%, 50%)"`.
 
 ### .toString()
-returns a new string formatted for use in css. Calling .toString() on following HSL object would return `"hsl(22,84%,50%)"`.
-```
-HSL{hue: 22,
-  saturationPercentage: 84,
-  lightnessPercentage: 50}
-  ```
-
+returns a new string formatted for use in css like the example above.
 ### .hue
 returns a number from 0 to 360 corresponding to the hue of the color.
 
