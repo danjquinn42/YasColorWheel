@@ -1,5 +1,6 @@
 # Yas Color Wheel!
 The Yas Color Wheel is a color-picker for your webpage. Just download colorwheel.js, add it to your project, and insert the <color-picker> tag in your HTML. [See a Demo here.](https://danjquinn42.github.io/YasColorWheel/)
+**Warning: this project is in-progress. The interface below may change as the project develops**
 
 ## The Easiest Way to Get Started
 1) Click on colorwheel.js above.
