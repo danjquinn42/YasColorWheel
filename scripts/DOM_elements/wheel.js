@@ -38,10 +38,10 @@ class Wheel {
       InnerWheelStyle(this.lightness));
     this.wheelTag.appendChild(this.innerWheelTag);
 
-    const markerDiv = document.createElement("div");
+    const markerDiv = document.createElement("marker");
 
     this.marker = new Marker(markerDiv, color, picker);
-    this.marker.setPosition(this.scale);
+    this.marker.setPosition(this.scale, this.totalOffset());
     this.updateWheel(this.lightness);
   }
 

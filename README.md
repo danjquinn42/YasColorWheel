@@ -37,8 +37,8 @@ picker.addEventListener("colorChange", () => {
 ```
 would print a css styled string for the current HSL color value.
 
-### HSL.parse(string)
-this is a static method which returns an HSL object given a properly formatted string. The string should be formatted for use in css. For example: `"hsl(22, 84%, 50%)"`.
+## HSL Objects
+The following methods are available to you from the HSL class.
 
 ### .toString()
 returns a new string formatted for use in css like the example above.

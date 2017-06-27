@@ -169,26 +169,6 @@ var Degrees = function () {
       return this.toRadians().sin();
     }
   }, {
-    key: "plus",
-    value: function plus(degree) {
-      return new Degrees(this.value + degree.value);
-    }
-  }, {
-    key: "minus",
-    value: function minus(degree) {
-      return new Degrees(this.value - degree.value);
-    }
-  }, {
-    key: "negated",
-    value: function negated() {
-      return new Degrees(-this.value);
-    }
-  }, {
-    key: "equals",
-    value: function equals(degree) {
-      return this.value === degree.value;
-    }
-  }, {
     key: "toString",
     value: function toString() {
       return this.value + "\u02DA";
@@ -245,11 +225,6 @@ var Radians = function () {
     value: function sin() {
       return Math.sin(this.value);
     }
-  }, {
-    key: "equals",
-    value: function equals(rad) {
-      return this.value === rad.value;
-    }
   }], [{
     key: "from",
     value: function from(x, hypotenuse) {
@@ -275,8 +250,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
-
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _degrees = __webpack_require__(1);
 
@@ -577,10 +551,10 @@ var Wheel = function () {
       this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(this.lightness));
       this.wheelTag.appendChild(this.innerWheelTag);
 
-      var markerDiv = document.createElement("div");
+      var markerDiv = document.createElement("marker");
 
       this.marker = new _marker2.default(markerDiv, color, picker);
-      this.marker.setPosition(this.scale);
+      this.marker.setPosition(this.scale, this.totalOffset());
       this.updateWheel(this.lightness);
     }
   }, {
@@ -727,8 +701,8 @@ var Marker = function () {
     }
   }, {
     key: "setStyles",
-    value: function setStyles(x, y, color) {
-      this.tag.setAttribute("style", "position: absolute;\n    left: " + x + "%;\n    top: " + y + "%;\n    width: " + this.scale() + this.scaleType() + ";\n    padding-top: " + this.scale() + this.scaleType() + ";\n    background: " + color.toString() + ";\n    border: 1px solid black; border-radius: 50%;\n    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;");
+    value: function setStyles(x, y, color, offset) {
+      this.tag.setAttribute("style", "position: absolute;\n    left: " + x + "%;\n    top: " + y + "%;\n    margin 0;\n    width: " + this.scale() + this.scaleType() + ";\n    padding-top: " + this.scale() + this.scaleType() + ";\n    background: " + color.toString() + ";\n    border: 1px solid black; border-radius: 50%;\n    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;");
     }
   }, {
     key: "updateColor",

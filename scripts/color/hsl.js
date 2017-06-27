@@ -1,4 +1,3 @@
-//TODO create hex and rgb classes which have convertToHSL and add convertToRGB and convertToHex methods to HSL class
 import Degrees from "../math/degrees.js";
 import PolarCoordinates from "../math/polarcoordinates.js";
 

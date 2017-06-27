@@ -18,11 +18,12 @@ class Marker {
     this.setStyles(x, y, color);
   }
 
-  setStyles(x, y, color) {
+  setStyles(x, y, color, offset) {
     this.tag.setAttribute("style",
     `position: absolute;
     left: ${x}%;
     top: ${y}%;
+    margin 0;
     width: ${this.scale()}${this.scaleType()};
     padding-top: ${this.scale()}${this.scaleType()};
     background: ${color.toString()};
