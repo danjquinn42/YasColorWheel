@@ -33,8 +33,8 @@ class HSL {
 
   toString() {
     console.log[this.hue, ", ", this.saturationPercentage, " ", this.lightnessPercentage, " "];
-    return `hsl(${this.hue},${
-        this.saturationPercentage}%,${
+    return `hsl(${this.hue}, ${
+        this.saturationPercentage}%, ${
         this.lightnessPercentage}%)`;
   }
 }
