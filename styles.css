@@ -1,4 +1,14 @@
-color-picker {
+body {
+  background: black;
+}
+
+div {
   width: 40%;
+  position: relative;
+  margin: 40px auto;
+}
+
+color-picker {
+  width: 100%;
   position: absolute;
 }
