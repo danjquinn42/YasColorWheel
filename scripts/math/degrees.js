@@ -1,6 +1,6 @@
 import Radians from "./radians.js";
 
-class Degrees {
+class Degrees{
   constructor(value) {
     this.value = (value + 360) % 360;
   }

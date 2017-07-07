@@ -34,8 +34,8 @@ class Wheel {
       width: 100%; padding-top: 100%; margin: 0 auto;`);
 
     this.innerWheelTag = document.createElement("inner-wheel");
-    this.innerWheelTag.setAttribute("style",
-      InnerWheelStyle(this.lightness));
+    this.innerWheelTag.setAttribute(
+      "style", InnerWheelStyle(this.lightness));
     this.wheelTag.appendChild(this.innerWheelTag);
 
     const markerDiv = document.createElement("marker");
