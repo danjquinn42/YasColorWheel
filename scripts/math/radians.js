@@ -1,4 +1,4 @@
-import Degrees from "./degrees.js";;
+import Degrees from "./degrees.js";
 
 class Radians {
   constructor(value) {

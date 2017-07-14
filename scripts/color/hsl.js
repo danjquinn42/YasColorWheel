@@ -26,15 +26,15 @@ class HSL {
 
   dispatchUpdate(domElement) {
     const colorChange = new CustomEvent("colorChange",
-      { "detail": this });
+      {"detail": this});
     domElement.dispatchEvent(colorChange);
   }
 
   toString() {
     console.log[this.hue, ", ", this.saturationPercentage, " ", this.lightnessPercentage, " "];
     return `hsl(${this.hue}, ${
-        this.saturationPercentage}%, ${
-        this.lightnessPercentage}%)`;
+      this.saturationPercentage}%, ${
+      this.lightnessPercentage}%)`;
   }
 }
 

@@ -40,7 +40,7 @@ class LightnessSlider {
     const white = color;
     black.lightnessPercentage = 100;
     slider.setAttribute("style",
-    `position: relative;
+      `position: relative;
     width: 100%;
     margin-top: 105%;
     position: absolute;`);

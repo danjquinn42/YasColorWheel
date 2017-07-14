@@ -1,5 +1,3 @@
-import Degrees from "./degrees.js";
-import Radians from "./radians.js";
 import HSL from "../color/hsl.js";
 import CartesianCoordinates from "./cartesiancoordinates.js";
 

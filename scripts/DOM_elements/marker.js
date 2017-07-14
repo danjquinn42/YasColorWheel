@@ -20,7 +20,7 @@ class Marker {
 
   setStyles(x, y, color, offset) {
     this.tag.setAttribute("style",
-    `position: absolute;
+      `position: absolute;
     left: ${x}%;
     top: ${y}%;
     margin 0;
@@ -54,7 +54,7 @@ class Marker {
   scale() {
     const scaleType = this.wheelScale.slice(-1)
     if (scaleType === "x") {
-      return parseInt(this.wheelScale.slice(0, -2))/12.5;
+      return parseInt(this.wheelScale.slice(0, -2)) / 12.5;
     } else if (scaleType === "%") {
       return 8;
     }

@@ -1,4 +1,3 @@
-var webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -8,18 +7,20 @@ module.exports = {
     filename: "colorwheel.js"
   },
   module: {
-  loaders: [
-    { test: /\.js$/,
-      exclude: /node_modules/,
-      loader: "babel-loader",
-      query: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        query: {
           presets: ['es2015']
         },
-      include: [
-        path.join(__dirname, 'scripts'),
-        path.join(__dirname, 'test')
-      ]}
-  ]
-},
+        include: [
+          path.join(__dirname, 'scripts'),
+          path.join(__dirname, 'test')
+        ]
+      }
+    ]
+  },
   devtool: "source-map"
 };

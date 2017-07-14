@@ -19,23 +19,23 @@ class ColorPicker {
     }
   }
 
-  tagIsEmpty(){
+  tagIsEmpty() {
     return (this.fetch("color-wheel").length === 0
-      && this.fetch("lightness-slider").length === 0);
+    && this.fetch("lightness-slider").length === 0);
   }
 
-  fetch(tagName){
+  fetch(tagName) {
     return this.tag.getElementsByTagName(tagName);
   }
 
   placeWheels(wheelTags) {
-    for (let i = 0; i < wheelTags.length; ++i ) {
+    for (let i = 0; i < wheelTags.length; ++i) {
       Wheel.createWheel(wheelTags[i], this.color);
     }
   }
 
   placeLightnessSliders(sliderTags) {
-    for (let i = 0; i < sliderTags.length; ++i ) {
+    for (let i = 0; i < sliderTags.length; ++i) {
       LightnessSlider.createSlider(sliderTags[i], this.color, this.tag);
     }
   }

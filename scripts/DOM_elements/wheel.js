@@ -1,7 +1,6 @@
-import CartesianCoordinates from '../math/cartesiancoordinates.js';
-import HSL from '../color/hsl.js';
-import InnerWheelStyle from './inner_wheel_style.js';
-import Marker from './marker.js';
+import CartesianCoordinates from "../math/cartesiancoordinates.js";
+import InnerWheelStyle from "./inner_wheel_style.js";
+import Marker from "./marker.js";
 
 //TODO Remove this.scale and repalce scaling with clientWidth;
 class Wheel {
@@ -88,17 +87,17 @@ class Wheel {
     const offset = this.totalOffset();
     const x = offset.left + this.radius();
     const y = offset.top + this.radius();
-    return { x: x, y: y };
+    return {x: x, y: y};
   }
 
   totalOffset() {
     let [top, left, element] = [0, 0, this.innerWheelTag];
     while (element) {
-        top += element.offsetTop  || 0;
-        left += element.offsetLeft || 0;
-        element = element.offsetParent;
+      top += element.offsetTop || 0;
+      left += element.offsetLeft || 0;
+      element = element.offsetParent;
     }
-    return { top: top, left: left };
+    return {top: top, left: left};
   }
 
   radius() {

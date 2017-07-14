@@ -84,8 +84,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-;
-
 var Radians = function () {
   function Radians(value) {
     _classCallCheck(this, Radians);
@@ -341,14 +339,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _degrees = __webpack_require__(1);
-
-var _degrees2 = _interopRequireDefault(_degrees);
-
-var _radians = __webpack_require__(0);
-
-var _radians2 = _interopRequireDefault(_radians);
-
 var _hsl = __webpack_require__(2);
 
 var _hsl2 = _interopRequireDefault(_hsl);
@@ -513,10 +503,6 @@ var _cartesiancoordinates = __webpack_require__(3);
 
 var _cartesiancoordinates2 = _interopRequireDefault(_cartesiancoordinates);
 
-var _hsl = __webpack_require__(2);
-
-var _hsl2 = _interopRequireDefault(_hsl);
-
 var _inner_wheel_style = __webpack_require__(8);
 
 var _inner_wheel_style2 = _interopRequireDefault(_inner_wheel_style);
@@ -546,12 +532,12 @@ var Wheel = function () {
 
 
   _createClass(Wheel, [{
-    key: 'initialize',
+    key: "initialize",
 
 
     //TODO extract into a factory
     value: function initialize(picker, color) {
-      this.wheelTag.setAttribute("style", '\n      position: absolute; border-radius: 50%;\n      background: hsl(0, 0%, ' + this.lightness + '%);\n      width: 100%; padding-top: 100%; margin: 0 auto;');
+      this.wheelTag.setAttribute("style", "\n      position: absolute; border-radius: 50%;\n      background: hsl(0, 0%, " + this.lightness + "%);\n      width: 100%; padding-top: 100%; margin: 0 auto;");
 
       this.innerWheelTag = document.createElement("inner-wheel");
       this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(this.lightness));
@@ -564,7 +550,7 @@ var Wheel = function () {
       this.updateWheel(this.lightness);
     }
   }, {
-    key: 'clickAndDragMarker',
+    key: "clickAndDragMarker",
     value: function clickAndDragMarker() {
       var _this = this;
 
@@ -577,7 +563,7 @@ var Wheel = function () {
       });
     }
   }, {
-    key: 'subscribeToColorChange',
+    key: "subscribeToColorChange",
     value: function subscribeToColorChange() {
       var _this2 = this;
 
@@ -587,15 +573,15 @@ var Wheel = function () {
       });
     }
   }, {
-    key: 'updateWheel',
+    key: "updateWheel",
     value: function updateWheel(lightness) {
       this.lightness = lightness;
       this.innerWheelTag.innerHTML = this.marker.tag.outerHTML;
       this.innerWheelTag.setAttribute("style", (0, _inner_wheel_style2.default)(lightness));
-      this.wheelTag.setAttribute("style", 'position: absolute;\n      border-radius: 50%; background: hsl(0, 0%, ' + this.lightness + '%);\n      width: 100%; padding-top: 100%; margin: 0 auto;');
+      this.wheelTag.setAttribute("style", "position: absolute;\n      border-radius: 50%; background: hsl(0, 0%, " + this.lightness + "%);\n      width: 100%; padding-top: 100%; margin: 0 auto;");
     }
   }, {
-    key: 'drag',
+    key: "drag",
     value: function drag(event) {
       event.preventDefault();
       var origin = this.origin();
@@ -606,7 +592,7 @@ var Wheel = function () {
       color.dispatchUpdate(this.picker);
     }
   }, {
-    key: 'origin',
+    key: "origin",
     value: function origin() {
       var offset = this.totalOffset();
       var x = offset.left + this.radius();
@@ -614,7 +600,7 @@ var Wheel = function () {
       return { x: x, y: y };
     }
   }, {
-    key: 'totalOffset',
+    key: "totalOffset",
     value: function totalOffset() {
       var _ref = [0, 0, this.innerWheelTag],
           top = _ref[0],
@@ -629,12 +615,12 @@ var Wheel = function () {
       return { top: top, left: left };
     }
   }, {
-    key: 'radius',
+    key: "radius",
     value: function radius() {
       return this.innerWheelTag.clientHeight / 2;
     }
   }], [{
-    key: 'createWheel',
+    key: "createWheel",
     value: function createWheel(wheelTag, color) {
       var scale = wheelTag.style.width ? wheelTag.style.width : "20%";
       var picker = wheelTag.parentElement;

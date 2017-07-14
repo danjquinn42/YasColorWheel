@@ -1,12 +1,12 @@
 import Radians from "./radians.js";
 
-class Degrees{
+class Degrees {
   constructor(value) {
     this.value = (value + 360) % 360;
   }
 
   toRadians() {
-    return new Radians (this.value * Math.PI / 180);
+    return new Radians(this.value * Math.PI / 180);
   }
 
   toDegrees() {
